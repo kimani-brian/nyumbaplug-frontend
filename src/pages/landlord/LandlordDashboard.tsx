@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, RefreshCw, Trash2, Pencil, User, ShieldCheck, X } from 'lucide-react';
+import { Plus, Trash2, Pencil, User, ShieldCheck, X, Building2, Boxes, TrendingUp } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { VerificationBanner } from '../../components/landlord/VerificationBanner';
 import { ProfileForm } from '../../components/landlord/ProfileForm';
@@ -40,6 +40,15 @@ export const LandlordDashboard: React.FC = () => {
 
   const isVerified = landlordProfile?.verification_status === 'verified';
 
+  const totalUnits = properties.reduce(
+    (sum, p) => sum + (p.categories ?? []).reduce((s, c) => s + c.quantity_available, 0),
+    0
+  );
+  const availableUnits = properties.reduce(
+    (sum, p) => sum + (p.categories ?? []).reduce((s, c) => s + c.quantity_available, 0),
+    0
+  );
+
   const handleDeleteProperty = async (propertyId: string) => {
     if (!window.confirm('Delete this property and all its categories? This cannot be undone.')) return;
     setDeleting(propertyId);
@@ -54,83 +63,198 @@ export const LandlordDashboard: React.FC = () => {
   };
 
   if (loading) {
-    return <div className="p-8 text-center text-sm text-slate-400">Loading dashboard...</div>;
+    return (
+      <main className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-12 space-y-4">
+        <div className="h-8 w-56 bg-slate-100 rounded animate-pulse" />
+        <div className="grid grid-cols-3 gap-4">
+          {[1, 2, 3].map(n => <div key={n} className="h-24 bg-slate-100 rounded-2xl animate-pulse" />)}
+        </div>
+        <div className="h-64 bg-slate-100 rounded-2xl animate-pulse" />
+      </main>
+    );
   }
 
   if (!landlordProfile) {
     return (
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-12">
         <ProfileForm onSuccess={profile => { setLandlordProfile?.(profile); loadData(); }} />
       </main>
     );
   }
 
+  const stats = [
+    { label: 'Properties', value: properties.length, icon: <Building2 size={16} className="text-nyumba-emerald" />, tint: 'bg-emerald-50 border-emerald-100' },
+    { label: 'Total units', value: totalUnits, icon: <Boxes size={16} className="text-nyumba-terracotta" />, tint: 'bg-orange-50 border-orange-100' },
+    { label: 'Available now', value: availableUnits, icon: <TrendingUp size={16} className="text-nyumba-navy" />, tint: 'bg-slate-100 border-slate-200' },
+  ];
+
   return (
-    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-bold text-slate-900">Agent Dashboard</h1>
-          <p className="text-xs text-slate-500">Manage your properties and unit categories</p>
+    <main className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 space-y-6">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="flex items-center gap-4">
+          <div className="w-14 h-14 rounded-2xl bg-nyumba-emerald text-white flex items-center justify-center text-xl font-bold shadow-soft">
+            {(landlordProfile.full_name || 'A').charAt(0).toUpperCase()}
+          </div>
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-0.5">
+              Agent Dashboard
+            </p>
+            <h1 className="display font-semibold text-2xl text-nyumba-ink leading-tight">
+              {landlordProfile.full_name || 'Welcome back'}
+            </h1>
+            <p className="text-xs text-slate-500 mt-0.5">
+              {isVerified ? (
+                <span className="inline-flex items-center gap-1 text-nyumba-emerald font-semibold">
+                  <ShieldCheck size={12} /> Verified Agent
+                </span>
+              ) : (
+                'Awaiting verification'
+              )}
+            </p>
+          </div>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            onClick={loadData}
-            className="p-2 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100"
-            title="Refresh"
+            onClick={() => setShowEditProfile(true)}
+            className="btn-outline !py-2.5"
           >
-            <RefreshCw size={16} />
+            <User size={14} />
+            Edit profile
           </button>
           <button
             disabled={!isVerified}
             onClick={() => setIsAddPropertyOpen(true)}
-            className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-semibold transition ${
-              isVerified ? 'bg-nyumba-emerald hover:bg-emerald-700 text-white' : 'bg-slate-200 text-slate-400 cursor-not-allowed'
-            }`}
+            className="btn-primary !py-2.5 disabled:opacity-40"
           >
-            <Plus size={18} />
-            <span>Add Property</span>
+            <Plus size={16} />
+            Add Property
           </button>
         </div>
+      </div>
+
+      {/* Stats */}
+      <div className="grid grid-cols-3 gap-4">
+        {stats.map(s => (
+          <div key={s.label} className={`bg-white rounded-2xl border ${s.tint} p-4 flex items-center gap-3`}>
+            <div className="bg-white rounded-xl p-2.5 shadow-sm shrink-0">{s.icon}</div>
+            <div>
+              <div className="display font-bold text-2xl text-nyumba-ink leading-none">{s.value}</div>
+              <div className="text-[11px] text-slate-500 mt-1">{s.label}</div>
+            </div>
+          </div>
+        ))}
       </div>
 
       <VerificationBanner profile={landlordProfile} />
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-4 mb-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="bg-nyumba-emeraldLight p-2 rounded-lg">
-              <User size={20} className="text-nyumba-emerald" />
-            </div>
-            <div>
-              <p className="text-sm font-bold text-slate-900">{landlordProfile.full_name || 'Agent'}</p>
-              <p className="text-[10px] text-slate-500">
-                {isVerified ? (
-                  <span className="inline-flex items-center gap-1 text-nyumba-emerald font-semibold">
-                    <ShieldCheck size={12} /> Verified Agent
-                  </span>
-                ) : (
-                  'Pending verification'
-                )}
-              </p>
-            </div>
-          </div>
-          <button
-            onClick={() => setShowEditProfile(true)}
-            className="text-xs font-semibold text-nyumba-emerald hover:text-emerald-700 bg-emerald-50 px-3 py-1.5 rounded-lg transition"
-          >
-            Edit Profile
-          </button>
+      {/* Properties */}
+      <div>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="display font-semibold text-xl text-nyumba-ink">
+            Your properties <span className="text-slate-400 font-normal">({properties.length})</span>
+          </h2>
         </div>
+
+        {properties.length === 0 ? (
+          <div className="text-center py-16 bg-white rounded-2xl border border-nyumba-line">
+            <div className="bg-nyumba-sand w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Building2 size={22} className="text-slate-400" />
+            </div>
+            <p className="text-slate-600 font-semibold text-sm">
+              {isVerified ? 'No properties yet' : 'Properties will appear once verified'}
+            </p>
+            <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+              {isVerified
+                ? 'Click "Add Property" to create your first listing.'
+                : 'Your profile is still under review by our team.'}
+            </p>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {properties.map(property => (
+              <div key={property.id} className="bg-white rounded-2xl border border-nyumba-line shadow-soft overflow-hidden">
+                <div className="flex flex-col sm:flex-row">
+                  {/* Image */}
+                  <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-nyumba-sand">
+                    {property.image_url ? (
+                      <img src={property.image_url} alt={property.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center">
+                        <Building2 size={28} className="text-slate-300" />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Body */}
+                  <div className="flex-1 p-5">
+                    <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
+                      <div>
+                        <h3 className="display font-semibold text-lg text-nyumba-ink">{property.name}</h3>
+                        <p className="text-xs text-slate-500 mt-0.5">{property.location}{property.county ? ` · ${property.county}` : ''}</p>
+                      </div>
+                      <div className="flex items-center gap-2 shrink-0">
+                        <button
+                          onClick={() => setEditProperty(property)}
+                          className="p-2 text-slate-400 hover:text-nyumba-emerald hover:bg-nyumba-emeraldLight rounded-lg transition"
+                          title="Edit property"
+                        >
+                          <Pencil size={15} />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteProperty(property.id)}
+                          disabled={deleting === property.id}
+                          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                          title="Delete property"
+                        >
+                          <Trash2 size={15} />
+                        </button>
+                        {isVerified && (
+                          <button
+                            onClick={() => setManageCategoriesFor(property.id)}
+                            className="btn-dark !px-4 !py-2"
+                          >
+                            <Boxes size={14} />
+                            Manage categories
+                          </button>
+                        )}
+                      </div>
+                    </div>
+
+                    {property.categories && property.categories.length > 0 ? (
+                      <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
+                        {property.categories.map(cat => (
+                          <div key={cat.id} className="p-3 bg-nyumba-cream rounded-xl border border-nyumba-line">
+                            <div className="font-bold text-sm text-nyumba-ink">{cat.name}</div>
+                            <div className="text-xs text-nyumba-emerald font-semibold mt-0.5">
+                              KES {Number(cat.rent_amount).toLocaleString()}
+                            </div>
+                            <div className="text-[11px] text-slate-400 mt-0.5">{cat.quantity_available} available</div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className="text-xs text-slate-400 mt-3">
+                        No categories yet.{isVerified ? ' Manage categories to add units and pricing.' : ''}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
+      {/* Edit profile modal */}
       {showEditProfile && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowEditProfile(false)}>
           <div className="w-full max-w-lg" onClick={e => e.stopPropagation()}>
             <div className="relative">
               <button
                 onClick={() => setShowEditProfile(false)}
-                className="absolute -top-2 -right-2 z-10 bg-white border border-slate-200 rounded-full p-1 shadow hover:bg-slate-100"
+                className="absolute -top-2 -right-2 z-10 bg-white border border-nyumba-line rounded-full p-1 shadow hover:bg-slate-100"
               >
                 <X size={16} className="text-slate-500" />
               </button>
@@ -145,68 +269,6 @@ export const LandlordDashboard: React.FC = () => {
           </div>
         </div>
       )}
-
-      <div className="space-y-6">
-        <h2 className="text-lg font-bold text-slate-900">Your Properties ({properties.length})</h2>
-
-        {properties.length === 0 && (
-          <div className="text-center py-12 text-slate-400 text-sm">
-            {isVerified
-              ? 'No properties yet. Click "Add Property" to get started.'
-              : 'Properties will appear here once your profile is verified.'}
-          </div>
-        )}
-
-        {properties.map(property => (
-          <div key={property.id} className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
-            <div className="flex flex-col sm:flex-row justify-between items-start gap-2 mb-4 border-b pb-4">
-              <div>
-                <h3 className="text-lg font-bold text-slate-900">{property.name}</h3>
-                <p className="text-xs text-slate-500">{property.location}{property.county ? ` · ${property.county}` : ''}</p>
-              </div>
-              <div className="flex items-center gap-2">
-                <button
-                  onClick={() => setEditProperty(property)}
-                  className="p-1.5 text-slate-400 hover:text-emerald-600 hover:bg-emerald-50 rounded-lg transition"
-                  title="Edit property"
-                >
-                  <Pencil size={15} />
-                </button>
-                {isVerified && (
-                  <button
-                    onClick={() => setManageCategoriesFor(property.id)}
-                    className="text-xs bg-slate-900 hover:bg-slate-800 text-white px-3 py-1.5 rounded-lg transition"
-                  >
-                    Manage Categories
-                  </button>
-                )}
-                <button
-                  onClick={() => handleDeleteProperty(property.id)}
-                  disabled={deleting === property.id}
-                  className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
-                  title="Delete property"
-                >
-                  <Trash2 size={15} />
-                </button>
-              </div>
-            </div>
-
-            {property.categories && property.categories.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                {property.categories.map(cat => (
-                  <div key={cat.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
-                    <div className="font-bold text-sm text-slate-900">{cat.name}</div>
-                    <div className="text-xs text-slate-500">KES {Number(cat.rent_amount).toLocaleString()}</div>
-                    <div className="text-xs text-slate-400">{cat.quantity_available} available</div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-xs text-slate-400 text-center py-4">No categories yet. Click "Manage Categories" to add some.</p>
-            )}
-          </div>
-        ))}
-      </div>
 
       <AddPropertyModal
         isOpen={isAddPropertyOpen || !!editProperty}

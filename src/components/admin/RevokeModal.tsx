@@ -3,10 +3,12 @@ import { AlertTriangle, X } from 'lucide-react';
 import { LandlordProfile, AgentView } from '../../types';
 import { api } from '../../services/api';
 
+export type RevokeTarget = LandlordProfile | AgentView | { id: string; full_name?: string; national_id_number?: string };
+
 interface Props {
   isOpen: boolean;
   onClose: () => void;
-  landlord: LandlordProfile | AgentView | null;
+  landlord: RevokeTarget | null;
   onSuccess: () => void;
 }
 

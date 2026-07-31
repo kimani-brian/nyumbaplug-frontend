@@ -90,6 +90,8 @@ export interface PropertyReport {
   details?: string;
   resolved: boolean;
   created_at: string;
+  landlord_name?: string;
+  landlord_id?: string;
 }
 
 export interface AdminAuditLog {

@@ -12,6 +12,7 @@ interface Props {
 export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, propertyName }) => {
   const [reason, setReason] = useState('Asked for deposit before viewing');
   const [details, setDetails] = useState('');
+  const [error, setError] = useState('');
   const [submitted, setSubmitted] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -19,15 +20,21 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!details.trim()) {
+      setError('Please write a short message describing the scam.');
+      return;
+    }
     setSubmitting(true);
+    setError('');
     try {
-      await api.createReport(propertyId, `${reason}${details ? ': ' + details : ''}`);
+      await api.createReport(propertyId, reason, details.trim());
       setSubmitted(true);
       setTimeout(() => {
         setSubmitted(false);
         onClose();
       }, 1800);
-    } catch {
+    } catch (err: any) {
+      setError(err.message || 'Failed to submit report. Please try again.');
       setSubmitting(false);
     }
   };
@@ -67,14 +74,16 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Additional Details</label>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">Your Scam Message</label>
               <textarea
-                rows={3}
-                placeholder="Describe what happened..."
+                rows={4}
+                required
+                placeholder="Describe exactly what happened — e.g. the agent asked me to send KSh 5,000 via M-Pesa before showing the house..."
                 value={details}
                 onChange={e => setDetails(e.target.value)}
                 className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
               />
+              {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
             </div>
 
             <button

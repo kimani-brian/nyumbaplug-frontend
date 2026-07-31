@@ -1,9 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { BrowsePage } from './pages/tenant/BrowsePage';
+import { HomePage } from './pages/HomePage';
 import { PropertyDetailPage } from './pages/tenant/PropertyDetailPage';
 import { LandlordDashboard } from './pages/landlord/LandlordDashboard';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
@@ -27,7 +28,8 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRole: 'admin'
 const AppRoutes: React.FC = () => {
   return (
     <Routes>
-      <Route path="/" element={<BrowsePage />} />
+      <Route path="/" element={<HomePage />} />
+      <Route path="/properties" element={<BrowsePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/properties/:id" element={<PropertyDetailPage />} />
@@ -71,17 +73,44 @@ const AppRoutes: React.FC = () => {
   );
 };
 
+const ScrollManager: React.FC = () => {
+  const { pathname, hash } = useLocation();
+
+  useEffect(() => {
+    if (hash) {
+      const el = document.getElementById(hash.slice(1));
+      if (el) {
+        // allow the page to render first, then scroll to the anchor
+        requestAnimationFrame(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        return;
+      }
+    }
+    window.scrollTo(0, 0);
+  }, [pathname, hash]);
+
+  return null;
+};
+
+const Shell: React.FC = () => {
+  const location = useLocation();
+  const isHome = location.pathname === '/';
+  return (
+    <div className={`min-h-screen flex flex-col bg-nyumba-cream ${isHome ? '' : 'pt-[72px]'}`}>
+      <ScrollManager />
+      <Navbar />
+      <div className="flex-1">
+        <AppRoutes />
+      </div>
+      <Footer />
+    </div>
+  );
+};
+
 export const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
-        <div className="min-h-screen flex flex-col bg-nyumba-cream">
-          <Navbar />
-          <div className="flex-1">
-            <AppRoutes />
-          </div>
-          <Footer />
-        </div>
+        <Shell />
       </Router>
     </AuthProvider>
   );

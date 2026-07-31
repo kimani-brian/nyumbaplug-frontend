@@ -230,8 +230,8 @@ class ApiService {
   }
 
   // Reports
-  async createReport(propertyId: string, reason: string): Promise<{ message: string }> {
-    return request<{ message: string }>('POST', `/properties/${propertyId}/report`, { reason });
+  async createReport(propertyId: string, reason: string, details?: string): Promise<{ message: string }> {
+    return request<{ message: string }>('POST', `/properties/${propertyId}/report`, { reason, details });
   }
 }
 
