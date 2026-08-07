@@ -7,22 +7,32 @@ import { BrowsePage } from './pages/tenant/BrowsePage';
 import { HomePage } from './pages/HomePage';
 import { PropertyDetailPage } from './pages/tenant/PropertyDetailPage';
 import { LandlordDashboard } from './pages/landlord/LandlordDashboard';
+import { LandlordAccount } from './pages/landlord/LandlordAccount';
+import { CustomerAccount } from './pages/customer/CustomerAccount';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { AgentPropertiesPage } from './pages/admin/AgentPropertiesPage';
-import { AgentProfilePage } from './pages/admin/AgentProfilePage';
+import { PropertyManagerPropertiesPage } from './pages/admin/PropertyManagerPropertiesPage';
+import { PropertyManagerProfilePage } from './pages/admin/PropertyManagerProfilePage';
+import { CustomerProfilePage } from './pages/admin/CustomerProfilePage';
 import { LoginPage } from './pages/auth/LoginPage';
 import { RegisterPage } from './pages/auth/RegisterPage';
+import { VerifyEmailPage } from './pages/auth/VerifyEmailPage';
 
-const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRole: 'admin' | 'landlord' }> = ({
+const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRole: 'admin' | 'landlord' | 'tenant' | ('admin' | 'landlord' | 'tenant')[] }> = ({
   children,
   allowedRole,
 }) => {
   const { user, loading } = useAuth();
   if (loading) return <div className="p-8 text-center text-sm text-slate-400">Loading...</div>;
-  if (!user || user.role !== allowedRole) {
+  const roles = Array.isArray(allowedRole) ? allowedRole : [allowedRole];
+  if (!user || !roles.includes(user.role)) {
     return <Navigate to="/login" replace />;
   }
   return <>{children}</>;
+};
+
+const AccountPage: React.FC = () => {
+  const { user } = useAuth();
+  return user?.role === 'landlord' ? <LandlordAccount /> : <CustomerAccount />;
 };
 
 const AppRoutes: React.FC = () => {
@@ -32,6 +42,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/properties" element={<BrowsePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
+      <Route path="/verify" element={<VerifyEmailPage />} />
       <Route path="/properties/:id" element={<PropertyDetailPage />} />
 
       <Route
@@ -39,6 +50,15 @@ const AppRoutes: React.FC = () => {
         element={
           <ProtectedRoute allowedRole="landlord">
             <LandlordDashboard />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/account"
+        element={
+          <ProtectedRoute allowedRole={['tenant', 'landlord']}>
+            <AccountPage />
           </ProtectedRoute>
         }
       />
@@ -52,18 +72,26 @@ const AppRoutes: React.FC = () => {
         }
       />
       <Route
-        path="/admin/agents/:landlordId/properties"
+        path="/admin/property-managers/:landlordId/properties"
         element={
           <ProtectedRoute allowedRole="admin">
-            <AgentPropertiesPage />
+            <PropertyManagerPropertiesPage />
           </ProtectedRoute>
         }
       />
       <Route
-        path="/admin/agents/:landlordId/profile"
+        path="/admin/property-managers/:landlordId/profile"
         element={
           <ProtectedRoute allowedRole="admin">
-            <AgentProfilePage />
+            <PropertyManagerProfilePage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/admin/customers/:customerId/profile"
+        element={
+          <ProtectedRoute allowedRole="admin">
+            <CustomerProfilePage />
           </ProtectedRoute>
         }
       />

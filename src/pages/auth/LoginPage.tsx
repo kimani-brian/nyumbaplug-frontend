@@ -118,7 +118,7 @@ export const LoginPage: React.FC = () => {
             Verified Kenya Rentals
           </div>
           <h2 className="display text-white font-semibold text-3xl leading-tight max-w-md">
-            Every rental here is backed by a real, ID-verified agent.
+            Every rental here is backed by a real, ID-verified property manager.
           </h2>
           <p className="text-white/70 text-sm mt-3 max-w-sm leading-relaxed">
             Sign in to browse scam-checked listings, manage your properties, or run the verification console.

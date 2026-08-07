@@ -3,13 +3,14 @@ import { useNavigate, Link } from 'react-router-dom';
 import { Shield, Mail, Lock, User, ArrowRight, Building2, BadgeCheck, Home } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 
-type RegisterRole = 'customer' | 'agent';
+type RegisterRole = 'customer' | 'manager';
 
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
   const [role, setRole] = useState<RegisterRole>('customer');
   const [fullName, setFullName] = useState('');
+  const [pageName, setPageName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
@@ -20,13 +21,9 @@ export const RegisterPage: React.FC = () => {
     setError(null);
     setSubmitting(true);
     try {
-      const mappedRole = role === 'agent' ? 'landlord' : 'tenant';
-      await register(email, password, mappedRole, fullName || undefined);
-      if (mappedRole === 'landlord') {
-        navigate('/landlord');
-      } else {
-        navigate('/');
-      }
+      const mappedRole = role === 'manager' ? 'landlord' : 'tenant';
+      const res = await register(email, password, mappedRole, fullName || undefined, pageName || undefined);
+      navigate('/verify', { state: { email: res.email }, replace: true });
     } catch (err: any) {
       setError(err.message || 'Registration failed');
     } finally {
@@ -42,8 +39,8 @@ export const RegisterPage: React.FC = () => {
       blurb: 'Find your verified rental',
     },
     {
-      key: 'agent' as RegisterRole,
-      label: 'Agent',
+      key: 'manager' as RegisterRole,
+      label: 'Property Manager',
       icon: <Building2 size={18} />,
       blurb: 'List your properties',
     },
@@ -113,6 +110,26 @@ export const RegisterPage: React.FC = () => {
               </div>
             )}
 
+            {role === 'manager' && (
+              <div>
+                <label className="block text-xs font-semibold text-slate-700 mb-1.5">Page Name *</label>
+                <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
+                  <Building2 size={16} className="text-slate-400 shrink-0" />
+                  <input
+                    type="text"
+                    required
+                    placeholder="e.g. Greenleaf Properties"
+                    value={pageName}
+                    onChange={e => setPageName(e.target.value)}
+                    className="w-full bg-transparent text-sm focus:outline-none"
+                  />
+                </div>
+                <p className="text-[11px] text-slate-400 mt-1.5">
+                  This is the public name shown on your listings page.
+                </p>
+              </div>
+            )}
+
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Email *</label>
               <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
@@ -144,7 +161,7 @@ export const RegisterPage: React.FC = () => {
               </div>
             </div>
 
-            {role === 'agent' && (
+            {role === 'manager' && (
               <p className="flex items-start gap-1.5 text-[11px] text-slate-500 bg-nyumba-emeraldLight border border-nyumba-emerald/20 p-2.5 rounded-lg">
                 <BadgeCheck size={14} className="text-nyumba-emerald shrink-0 mt-0.5" />
                 After registering, you'll submit your national ID for verification before you can list properties.
@@ -158,7 +175,7 @@ export const RegisterPage: React.FC = () => {
               disabled={submitting}
               className="w-full btn-primary !rounded-xl !py-3 disabled:opacity-60"
             >
-              {submitting ? 'Creating account…' : 'Create Account'}
+              {submitting ? 'Creating account…' : 'Create account & verify'}
             </button>
           </form>
 
@@ -186,10 +203,10 @@ export const RegisterPage: React.FC = () => {
             Join the verified rental marketplace
           </div>
           <h2 className="display text-white font-semibold text-3xl leading-tight max-w-md">
-            Tenants get safe listings. Agents get serious enquiries.
+            Tenants get safe listings. Property managers get serious enquiries.
           </h2>
           <ul className="mt-4 space-y-2 text-sm text-white/75">
-            <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-nyumba-emerald" /> ID-verified agents only</li>
+            <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-nyumba-emerald" /> ID-verified property managers only</li>
             <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-nyumba-emerald" /> Scam-checked listings</li>
             <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-nyumba-emerald" /> Contact revealed only for vacant, verified units</li>
           </ul>

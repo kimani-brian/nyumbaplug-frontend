@@ -6,10 +6,10 @@ import { EmptyState } from '../common/EmptyState';
 interface Props {
   reports: PropertyReport[];
   onResolve: (reportId: string) => void;
-  onRevokeAgent: (report: PropertyReport) => void;
+  onRevokeManager: (report: PropertyReport) => void;
 }
 
-export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeAgent }) => {
+export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeManager }) => {
   const unresolved = reports.filter(r => !r.resolved);
   const resolved = reports.filter(r => r.resolved);
 
@@ -55,7 +55,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeAgen
                 <div className="flex items-center gap-2 text-xs text-slate-500 min-w-0">
                   <UserX size={13} className="text-slate-400 shrink-0" />
                   <span className="line-clamp-1">
-                    Agent: <strong className="text-nyumba-ink">{rep.landlord_name || 'Unknown'}</strong>
+                    Property Manager: <strong className="text-nyumba-ink">{rep.landlord_name || 'Unknown'}</strong>
                   </span>
                   {rep.tenant_phone && (
                     <span className="hidden sm:inline text-slate-400">
@@ -66,11 +66,11 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeAgen
                 <div className="flex items-center gap-2 shrink-0">
                   {rep.landlord_id && (
                     <button
-                      onClick={() => onRevokeAgent(rep)}
+                      onClick={() => onRevokeManager(rep)}
                       className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
                     >
                       <ShieldAlert size={12} />
-                      Revoke agent's listings
+                      Revoke property manager's listings
                     </button>
                   )}
                   <button

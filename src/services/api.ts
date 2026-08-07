@@ -1,4 +1,4 @@
-import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, AgentView } from '../types';
+import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, CustomerProfile, TenantProfile, PropertyManagerView, PropertyManagerDetail } from '../types';
 
 const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api/v1';
 
@@ -58,16 +58,26 @@ class ApiService {
     return res;
   }
 
-  async register(data: { email: string; password: string; role: string; full_name?: string }): Promise<{ token: string; user: User }> {
+  async register(data: { email: string; password: string; role: string; full_name?: string; page_name?: string }): Promise<{ email: string; message: string }> {
     const body: Record<string, unknown> = {
       email: data.email,
       password: data.password,
       role: data.role,
     };
     if (data.full_name) body.full_name = data.full_name;
-    const res = await request<{ token: string; user: User }>('POST', '/auth/register', body);
+    if (data.page_name) body.page_name = data.page_name;
+    const res = await request<{ email: string; message: string }>('POST', '/auth/register', body);
+    return res;
+  }
+
+  async verifyEmail(email: string, code: string): Promise<{ token: string; user: User }> {
+    const res = await request<{ token: string; user: User }>('POST', '/auth/verify-email', { email, code });
     setAuthToken(res.token);
     return res;
+  }
+
+  async resendOtp(email: string): Promise<void> {
+    await request<{ message: string }>('POST', '/auth/resend-otp', { email });
   }
 
   // Public browse
@@ -104,13 +114,14 @@ class ApiService {
 
   async updateMyProfile(data: {
     full_name?: string;
+    page_name?: string;
     phone?: string;
     id_document_url?: string;
   }): Promise<LandlordProfile> {
     return request<LandlordProfile>('PUT', '/landlord/profile', data);
   }
 
-  async submitVerificationRequest(data: { full_name: string; phone?: string; national_id_number: string; id_document_url?: string }): Promise<LandlordProfile> {
+  async submitVerificationRequest(data: { full_name: string; page_name?: string; phone?: string; national_id_number: string; id_document_url?: string }): Promise<LandlordProfile> {
     return request<LandlordProfile>('POST', '/landlord/profile', data);
   }
 
@@ -215,18 +226,37 @@ class ApiService {
     return res ?? [];
   }
 
-  async getAllAgents(): Promise<AgentView[]> {
-    const res = await request<AgentView[] | null>('GET', '/admin/agents');
+  async getAllPropertyManagers(): Promise<PropertyManagerView[]> {
+    const res = await request<PropertyManagerView[] | null>('GET', '/admin/property-managers');
     return res ?? [];
   }
 
-  async getAgentProperties(landlordProfileId: string): Promise<Property[]> {
-    const res = await request<Property[] | null>('GET', `/admin/agents/${landlordProfileId}/properties`);
+  async getPropertyManagerProperties(landlordProfileId: string): Promise<Property[]> {
+    const res = await request<Property[] | null>('GET', `/admin/property-managers/${landlordProfileId}/properties`);
     return res ?? [];
   }
 
-  async getAgentProfile(landlordProfileId: string): Promise<LandlordProfile> {
-    return request<LandlordProfile>('GET', `/admin/agents/${landlordProfileId}/profile`);
+  async getPropertyManagerProfile(landlordProfileId: string): Promise<PropertyManagerDetail> {
+    return request<PropertyManagerDetail>('GET', `/admin/property-managers/${landlordProfileId}/profile`);
+  }
+
+  async getCustomerProfile(userId: string): Promise<CustomerProfile> {
+    return request<CustomerProfile>('GET', `/admin/customers/${userId}/profile`);
+  }
+
+  // Customer (tenant) profile
+  async getMyCustomerProfile(): Promise<TenantProfile | null> {
+    const res = await request<TenantProfile | { profile: null }>('GET', '/tenant/me');
+    if (res === null || (res as any).profile === null) return null;
+    return res as TenantProfile;
+  }
+
+  async updateMyCustomerProfile(data: {
+    full_name?: string;
+    phone?: string;
+    location?: string;
+  }): Promise<TenantProfile> {
+    return request<TenantProfile>('PUT', '/tenant/profile', data);
   }
 
   // Reports

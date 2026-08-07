@@ -77,7 +77,7 @@ export const PropertyDetailPage: React.FC = () => {
           <div className="flex flex-wrap items-center gap-2 mb-3">
             <span className="inline-flex items-center gap-1 bg-white/95 text-nyumba-emerald text-[11px] font-bold px-2.5 py-1 rounded-full">
               <ShieldCheck size={12} />
-              Verified Agent
+              Verified Property Manager
             </span>
             <span className="bg-white/90 text-nyumba-navy text-[11px] font-bold px-2.5 py-1 rounded-full">
               {totalUnits} {totalUnits === 1 ? 'unit' : 'units'} available
@@ -200,7 +200,7 @@ export const PropertyDetailPage: React.FC = () => {
               className="btn-primary w-full mt-5 disabled:opacity-40"
             >
               <Phone size={16} />
-              Contact agent
+              Contact property manager
             </button>
 
             <button
@@ -220,7 +220,7 @@ export const PropertyDetailPage: React.FC = () => {
               <div>
                 <h4 className="text-sm font-bold text-nyumba-emeraldDark">Verified listing</h4>
                 <p className="text-xs text-slate-600 mt-1 leading-relaxed">
-                  This property is linked to a government ID-verified agent. Contact details are only
+                  This property is linked to a government ID-verified property manager. Contact details are only
                   revealed for vacant, verified units — so you'll never chase a ghost apartment.
                 </p>
               </div>

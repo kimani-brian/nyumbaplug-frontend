@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Building2, ShieldCheck, Clock, AlertOctagon, FileText, ExternalLink, Eye, XCircle } from 'lucide-react';
-import { LandlordProfile } from '../../types';
+import { ArrowLeft, Building2, ShieldCheck, Clock, AlertOctagon, FileText, ExternalLink, Eye, XCircle, Mail, Phone } from 'lucide-react';
+import { PropertyManagerDetail } from '../../types';
 import { api } from '../../services/api';
 import { RevokeModal } from '../../components/admin/RevokeModal';
 
-export const AgentProfilePage: React.FC = () => {
+export const PropertyManagerProfilePage: React.FC = () => {
   const { landlordId } = useParams<{ landlordId: string }>();
   const navigate = useNavigate();
-  const [profile, setProfile] = useState<LandlordProfile | null>(null);
+  const [profile, setProfile] = useState<PropertyManagerDetail | null>(null);
   const [loading, setLoading] = useState(true);
   const [showRevoke, setShowRevoke] = useState(false);
 
   useEffect(() => {
     if (landlordId) {
-      api.getAgentProfile(landlordId)
+      api.getPropertyManagerProfile(landlordId)
         .then(setProfile)
         .catch(() => setProfile(null))
         .finally(() => setLoading(false));
@@ -32,7 +32,7 @@ export const AgentProfilePage: React.FC = () => {
   if (!profile) {
     return (
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <p className="text-sm text-slate-400">Agent not found.</p>
+        <p className="text-sm text-slate-400">Property manager not found.</p>
         <Link to="/admin" className="text-xs text-nyumba-emerald font-semibold">Back to Admin Console</Link>
       </main>
     );
@@ -70,7 +70,7 @@ export const AgentProfilePage: React.FC = () => {
         <div className="p-5 bg-slate-900 text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Building2 size={20} className="text-nyumba-emerald" />
-            <h1 className="text-lg font-bold">{profile.full_name || 'Agent Profile'}</h1>
+            <h1 className="text-lg font-bold">{profile.full_name || 'Property Manager Profile'}</h1>
           </div>
           {statusBadge(profile.verification_status)}
         </div>
@@ -81,17 +81,29 @@ export const AgentProfilePage: React.FC = () => {
               <span className="text-[10px] uppercase font-semibold text-slate-400 block">Full Name</span>
               <span className="text-slate-900 font-medium">{profile.full_name || '—'}</span>
             </div>
+            {profile.page_name && (
+              <div>
+                <span className="text-[10px] uppercase font-semibold text-slate-400 block">Page Name</span>
+                <span className="text-slate-900 font-medium">{profile.page_name}</span>
+              </div>
+            )}
             <div>
               <span className="text-[10px] uppercase font-semibold text-slate-400 block">National ID</span>
               <span className="text-slate-900 font-medium font-mono">{profile.national_id_number}</span>
             </div>
             <div>
               <span className="text-[10px] uppercase font-semibold text-slate-400 block">Email</span>
-              <span className="text-slate-900">—</span>
+              <span className="text-slate-900 flex items-center gap-1">
+                <Mail size={13} className="text-slate-400" />
+                {profile.email || '—'}
+              </span>
             </div>
             <div>
               <span className="text-[10px] uppercase font-semibold text-slate-400 block">Phone</span>
-              <span className="text-slate-900">—</span>
+              <span className="text-slate-900 flex items-center gap-1">
+                <Phone size={13} className="text-slate-400" />
+                {profile.phone || '—'}
+              </span>
             </div>
             <div>
               <span className="text-[10px] uppercase font-semibold text-slate-400 block">Caretaker</span>
@@ -144,7 +156,7 @@ export const AgentProfilePage: React.FC = () => {
 
       <div className="flex items-center gap-3 mt-4">
         <button
-          onClick={() => navigate(`/admin/agents/${landlordId}/properties`)}
+          onClick={() => navigate(`/admin/property-managers/${landlordId}/properties`)}
           className="flex items-center gap-1.5 text-xs font-semibold text-nyumba-emerald bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-lg hover:bg-emerald-100 transition"
         >
           <Eye size={14} />
@@ -153,19 +165,19 @@ export const AgentProfilePage: React.FC = () => {
         {profile.verification_status === 'revoked' && (
           <button
             onClick={async () => {
-              if (!window.confirm('Verify this agent? They will regain access to list properties.')) return;
+              if (!window.confirm('Verify this property manager? They will regain access to list properties.')) return;
               try {
                 await api.approveLandlord(landlordId!);
-                const updated = await api.getAgentProfile(landlordId!);
+                const updated = await api.getPropertyManagerProfile(landlordId!);
                 setProfile(updated);
               } catch (e: any) {
-                alert(e.message || 'Failed to verify agent');
+                alert(e.message || 'Failed to verify property manager');
               }
             }}
             className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-lg hover:bg-emerald-100 transition"
           >
             <ShieldCheck size={14} />
-            Verify Agent
+            Verify Property Manager
           </button>
         )}
         {profile.verification_status !== 'revoked' && (
@@ -174,7 +186,7 @@ export const AgentProfilePage: React.FC = () => {
             className="flex items-center gap-1.5 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-lg hover:bg-red-100 transition"
           >
             <XCircle size={14} />
-            Revoke Agent
+            Revoke Property Manager
           </button>
         )}
       </div>
@@ -185,7 +197,7 @@ export const AgentProfilePage: React.FC = () => {
         landlord={profile}
         onSuccess={() => {
           setShowRevoke(false);
-          api.getAgentProfile(landlordId!).then(setProfile);
+          api.getPropertyManagerProfile(landlordId!).then(setProfile);
         }}
       />
     </main>

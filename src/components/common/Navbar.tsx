@@ -5,7 +5,7 @@ import { useAuth } from '../../context/AuthContext';
 
 const roleLabel = (role: string) => {
   if (role === 'admin') return 'Admin';
-  if (role === 'landlord') return 'Agent';
+  if (role === 'landlord') return 'Property Manager';
   return 'Customer';
 };
 
@@ -75,7 +75,7 @@ export const Navbar: React.FC = () => {
         <nav className="hidden md:flex items-center gap-7">
           {navLink('/properties', 'Browse rentals')}
           {navLink('/#trust', 'How it works')}
-          {navLink('/#agents', 'For agents')}
+          {navLink('/#managers', 'For property managers')}
 
           {loading ? null : user ? (
             <div className="flex items-center gap-2.5">
@@ -100,7 +100,29 @@ export const Navbar: React.FC = () => {
                   className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
                 >
                   <LayoutDashboard size={14} />
-                  {user.role === 'admin' ? 'Admin Panel' : 'Agent Dashboard'}
+                  {user.role === 'admin' ? 'Admin Panel' : 'Dashboard'}
+                </Link>
+              )}
+              {user.role === 'tenant' && (
+                <Link
+                  to="/account"
+                  className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
+                >
+                  <LayoutDashboard size={14} />
+                  My Account
+                </Link>
+              )}
+              {user.role === 'landlord' && (
+                <Link
+                  to="/account"
+                  className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${
+                    overHero
+                      ? 'bg-white/15 text-white hover:bg-white/25'
+                      : 'bg-nyumba-navy text-white hover:bg-nyumba-navy/90'
+                  }`}
+                >
+                  <LayoutDashboard size={14} />
+                  My Account
                 </Link>
               )}
               <button
@@ -145,7 +167,7 @@ export const Navbar: React.FC = () => {
             {[
               { to: '/properties', label: 'Browse rentals' },
               { to: '/#trust', label: 'How it works' },
-              { to: '/#agents', label: 'For agents' },
+              { to: '/#managers', label: 'For property managers' },
             ].map(l => (
               <Link
                 key={l.label}
@@ -173,7 +195,23 @@ export const Navbar: React.FC = () => {
                     to={user.role === 'admin' ? '/admin' : '/landlord'}
                     className="block text-center text-sm font-semibold py-2.5 rounded-full bg-nyumba-emerald text-white"
                   >
-                    {user.role === 'admin' ? 'Admin Panel' : 'Agent Dashboard'}
+                    {user.role === 'admin' ? 'Admin Panel' : 'Dashboard'}
+                  </Link>
+                )}
+                {user.role === 'landlord' && (
+                  <Link
+                    to="/account"
+                    className="block text-center text-sm font-semibold py-2.5 rounded-full bg-nyumba-navy text-white"
+                  >
+                    My Account
+                  </Link>
+                )}
+                {user.role === 'tenant' && (
+                  <Link
+                    to="/account"
+                    className="block text-center text-sm font-semibold py-2.5 rounded-full bg-nyumba-emerald text-white"
+                  >
+                    My Account
                   </Link>
                 )}
                 <button

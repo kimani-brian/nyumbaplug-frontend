@@ -1,14 +1,14 @@
 import React from 'react';
 import { Building2, ShieldCheck, Clock, AlertOctagon, Eye, XCircle, User, CheckCircle } from 'lucide-react';
-import { AgentView } from '../../types';
+import { PropertyManagerView } from '../../types';
 import { EmptyState } from '../common/EmptyState';
 
 interface Props {
-  agents: AgentView[];
-  onViewProperties: (agentId: string) => void;
-  onViewProfile?: (agentId: string) => void;
-  onOpenRevoke?: (agent: AgentView) => void;
-  onVerifyAgent?: (agentId: string) => void;
+  managers: PropertyManagerView[];
+  onViewProperties: (managerId: string) => void;
+  onViewProfile?: (managerId: string) => void;
+  onOpenRevoke?: (manager: PropertyManagerView) => void;
+  onVerifyManager?: (managerId: string) => void;
 }
 
 const statusIcon = (status: string) => {
@@ -34,45 +34,47 @@ const statusBadge = (status: string) => {
   );
 };
 
-export const AgentsList: React.FC<Props> = ({ agents, onViewProperties, onViewProfile, onOpenRevoke, onVerifyAgent }) => {
+export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperties, onViewProfile, onOpenRevoke, onVerifyManager }) => {
   return (
-    <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-      <div className="p-4 bg-slate-900 text-white flex items-center justify-between">
+    <div className="bg-white rounded-2xl border border-nyumba-line shadow-soft overflow-hidden">
+      <div className="p-5 bg-nyumba-navy text-white flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
           <Building2 size={18} className="text-nyumba-emerald" />
-          All Agents
+          All Property Managers
         </h3>
-        <span className="text-xs bg-slate-800 text-slate-300 px-2.5 py-1 rounded-full font-mono">
-          {agents.length} TOTAL
+        <span className="text-xs bg-white/10 text-white/70 px-2.5 py-1 rounded-full font-mono">
+          {managers.length} TOTAL
         </span>
       </div>
 
-      {agents.length === 0 ? (
-        <EmptyState title="No agents registered" description="Agents will appear here once they register." />
+      {managers.length === 0 ? (
+        <EmptyState title="No property managers registered" description="Property managers will appear here once they register." />
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-slate-100 bg-slate-50">
+              <tr className="border-b border-nyumba-line bg-nyumba-cream">
                 <th className="text-left p-3 font-semibold text-slate-600">Name</th>
+                <th className="text-left p-3 font-semibold text-slate-600">Page Name</th>
                 <th className="text-left p-3 font-semibold text-slate-600">National ID</th>
                 <th className="text-left p-3 font-semibold text-slate-600">Email</th>
                 <th className="text-left p-3 font-semibold text-slate-600">Phone</th>
                 <th className="text-left p-3 font-semibold text-slate-600">Status</th>
                 <th className="text-left p-3 font-semibold text-slate-600">Registered</th>
-                {agents.some(a => a.revoke_reason) && <th className="text-left p-3 font-semibold text-slate-600">Reason</th>}
+                {managers.some(a => a.revoke_reason) && <th className="text-left p-3 font-semibold text-slate-600">Reason</th>}
                 <th className="text-left p-3 font-semibold text-slate-600">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
-              {agents.map(a => (
-                <tr key={a.id} className="hover:bg-slate-50">
+            <tbody className="divide-y divide-nyumba-line">
+              {managers.map(a => (
+                <tr key={a.id} className="hover:bg-nyumba-cream/60 transition">
                   <td className="p-3 text-slate-900 font-medium">
                     <span className="flex items-center gap-1.5">
                       <User size={14} className="text-slate-400 shrink-0" />
                       {a.full_name || '—'}
                     </span>
                   </td>
+                  <td className="p-3 text-slate-700">{a.page_name || '—'}</td>
                   <td className="p-3 text-slate-900 font-mono">{a.national_id_number}</td>
                   <td className="p-3 text-slate-600">{a.email || '—'}</td>
                   <td className="p-3 text-slate-600">{a.phone || '—'}</td>
@@ -98,9 +100,9 @@ export const AgentsList: React.FC<Props> = ({ agents, onViewProperties, onViewPr
                           <Eye size={14} />
                           Properties
                         </button>
-                        {onVerifyAgent && a.verification_status === 'revoked' && (
+                        {onVerifyManager && a.verification_status === 'revoked' && (
                           <button
-                            onClick={() => onVerifyAgent(a.id)}
+                            onClick={() => onVerifyManager(a.id)}
                             className="flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition"
                           >
                             <CheckCircle size={14} />

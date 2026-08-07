@@ -20,7 +20,7 @@ import { SectionHeading } from '../components/common/SectionHeading';
 
 const HERO_IMG =
   'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop';
-const AGENT_IMG =
+const MANAGER_IMG =
   'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop';
 const TRUST_IMG =
   'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?q=80&w=1600&auto=format&fit=crop';
@@ -36,8 +36,8 @@ const HOW_IT_WORKS = [
   {
     icon: <BadgeCheck size={22} />,
     step: '01',
-    title: 'Agents are ID-verified',
-    body: 'Every agent submits their national ID and is manually checked by our team before they can list a single property.',
+    title: 'Property managers are ID-verified',
+    body: 'Every property manager submits their national ID and is manually checked by our team before they can list a single property.',
   },
   {
     icon: <ShieldCheck size={22} />,
@@ -49,14 +49,14 @@ const HOW_IT_WORKS = [
     icon: <PhoneCall size={22} />,
     step: '03',
     title: 'Contact is only revealed for real units',
-    body: 'Agent phone numbers are shown only when a unit is vacant and the listing is verified — no ghost apartments.',
+    body: 'Property manager phone numbers are shown only when a unit is vacant and the listing is verified — no ghost apartments.',
   },
 ];
 
 const TESTIMONIALS = [
   {
     quote:
-      'After two scams on another site, NyumbaPlug was the first place where the agent actually showed up to the viewing. The verified badge means something.',
+      'After two scams on another site, NyumbaPlug was the first place where the property manager actually showed up to the viewing. The verified badge means something.',
     name: 'Wanjiku M.',
     role: 'Tenant · Nairobi',
   },
@@ -64,7 +64,7 @@ const TESTIMONIALS = [
     quote:
       'I list my apartments here and the tenants I get are serious. The verification process took two days but it keeps the tire kickers and scammers away.',
     name: 'Dennis K.',
-    role: 'Agent · Kilimani',
+    role: 'Property Manager · Kilimani',
   },
 ];
 
@@ -109,7 +109,7 @@ export const HomePage: React.FC = () => {
           </h1>
 
           <p className="text-white/80 text-sm sm:text-lg mt-5 max-w-xl leading-relaxed animate-fade-up" style={{ animationDelay: '0.1s' }}>
-            Every listing on NyumbaPlug is linked to a government ID-verified agent. Browse
+            Every listing on NyumbaPlug is linked to a government ID-verified property manager. Browse
             thousands of real rentals — and only ever reach out to a genuine landlord.
           </p>
 
@@ -137,7 +137,7 @@ export const HomePage: React.FC = () => {
 
           {/* Trust chips */}
           <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/80 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <span className="flex items-center gap-1.5"><BadgeCheck size={14} className="text-nyumba-emerald" /> ID-verified agents</span>
+            <span className="flex items-center gap-1.5"><BadgeCheck size={14} className="text-nyumba-emerald" /> ID-verified property managers</span>
             <span className="flex items-center gap-1.5"><ShieldCheck size={14} className="text-nyumba-emerald" /> Scam-checked listings</span>
             <span className="flex items-center gap-1.5"><MapPin size={14} className="text-nyumba-emerald" /> Contact only for vacant, verified units</span>
           </div>
@@ -155,7 +155,7 @@ export const HomePage: React.FC = () => {
               to="/register"
               className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/30 text-white hover:bg-white/20 font-semibold text-sm px-7 py-3.5 rounded-full transition"
             >
-              Become an agent
+              Register property
             </Link>
           </div>
         </div>
@@ -190,7 +190,7 @@ export const HomePage: React.FC = () => {
         {/* Stats band */}
         <div className="mt-10 bg-nyumba-navy rounded-2xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
           {[
-            { icon: <ShieldCheck size={18} />, value: '100%', label: 'Agents ID-verified' },
+            { icon: <ShieldCheck size={18} />, value: '100%', label: 'Property managers ID-verified' },
             { icon: <Building2 size={18} />, value: '47', label: 'Counties covered' },
             { icon: <AlertTriangle size={18} />, value: '0', label: 'Ghost apartments' },
             { icon: <Users size={18} />, value: '24h', label: 'Verification turn-around' },
@@ -210,7 +210,7 @@ export const HomePage: React.FC = () => {
           <SectionHeading
             kicker="Featured"
             title="Recently verified rentals"
-            description="Fresh, scam-checked listings from verified agents across Kenya."
+            description="Fresh, scam-checked listings from verified property managers across Kenya."
           />
           <Link to="/properties" className="btn-outline shrink-0 !py-2.5">
             View all rentals
@@ -231,7 +231,7 @@ export const HomePage: React.FC = () => {
           <div className="text-center py-16 bg-white rounded-2xl border border-nyumba-line">
             <ShieldCheck size={32} className="text-nyumba-emerald mx-auto mb-3" />
             <p className="text-slate-600 font-medium text-sm">No verified listings yet.</p>
-            <p className="text-xs text-slate-400 mt-1">New verified rentals appear here as agents get approved.</p>
+            <p className="text-xs text-slate-400 mt-1">New verified rentals appear here as property managers get approved.</p>
           </div>
         )}
       </section>
@@ -264,20 +264,20 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* ============ AGENT CTA ============ */}
-      <section id="agents" className="max-w-7xl mx-auto container-px section-pad scroll-mt-20">
+      <section id="managers" className="max-w-7xl mx-auto container-px section-pad scroll-mt-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-lift border border-nyumba-line">
           <div className="relative min-h-[280px]">
-            <img src={AGENT_IMG} alt="Property agent" className="absolute inset-0 w-full h-full object-cover" />
+            <img src={MANAGER_IMG} alt="Property manager" className="absolute inset-0 w-full h-full object-cover" />
           </div>
           <div className="bg-white p-8 sm:p-12 flex flex-col justify-center">
             <p className="text-xs font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-3">
-              For agents & landlords
+              For property managers & landlords
             </p>
             <h2 className="display text-3xl sm:text-4xl leading-[1.1] text-nyumba-ink">
               List your property. Attract serious tenants.
             </h2>
             <p className="mt-4 text-sm text-slate-500 leading-relaxed">
-              Become a verified NyumbaPlug agent. Get your ID checked once, then list unlimited
+              Become a verified NyumbaPlug property manager. Get your ID checked once, then list unlimited
               properties and receive enquiries from tenants who know they're talking to a real landlord.
             </p>
             <ul className="mt-6 space-y-2.5 text-sm text-slate-600">
@@ -290,7 +290,7 @@ export const HomePage: React.FC = () => {
             </ul>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/register" className="btn-primary">
-                Become an agent
+                Register property
                 <ArrowRight size={16} />
               </Link>
               <Link to="/#trust" className="btn-outline">
@@ -306,7 +306,7 @@ export const HomePage: React.FC = () => {
         <div className="max-w-7xl mx-auto container-px">
           <SectionHeading
             kicker="Real stories"
-            title="Trusted by tenants & agents"
+            title="Trusted by tenants & property managers"
             light
             align="center"
           />
@@ -344,7 +344,7 @@ export const HomePage: React.FC = () => {
               Your next home is verified and waiting.
             </h2>
             <p className="text-white/80 text-sm sm:text-base mt-4 max-w-xl mx-auto">
-              Search thousands of scam-checked rentals from ID-verified agents across Kenya.
+              Search thousands of scam-checked rentals from ID-verified property managers across Kenya.
             </p>
             <div className="mt-8 flex flex-wrap justify-center gap-3">
               <Link

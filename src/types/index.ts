@@ -7,6 +7,7 @@ export interface User {
   role: UserRole;
   email?: string;
   phone?: string;
+  email_verified?: boolean;
   created_at: string;
 }
 
@@ -14,6 +15,7 @@ export interface LandlordProfile {
   id: string;
   user_id: string;
   national_id_number: string;
+  page_name?: string;
   id_document_url?: string;
   is_caretaker: boolean;
   authorized_by_landlord_id?: string;
@@ -32,21 +34,40 @@ export interface CustomerView {
   email?: string;
   phone?: string;
   full_name: string;
+  location?: string;
   created_at: string;
 }
 
-export interface AgentView {
+export interface TenantProfile {
+  id: string;
+  user_id: string;
+  full_name: string;
+  location?: string;
+  created_at: string;
+}
+
+export interface CustomerProfile extends CustomerView {
+  profile: TenantProfile;
+}
+
+export interface PropertyManagerView {
   id: string;
   user_id: string;
   email?: string;
   phone?: string;
   full_name: string;
+  page_name?: string;
   national_id_number: string;
   verification_status: VerificationStatus;
   verified_at?: string;
   revoked_at?: string;
   revoke_reason?: string;
   created_at: string;
+}
+
+export interface PropertyManagerDetail extends LandlordProfile {
+  email?: string;
+  phone?: string;
 }
 
 export interface Property {

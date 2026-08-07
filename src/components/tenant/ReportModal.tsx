@@ -66,7 +66,7 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
                 className="w-full text-sm border border-slate-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-red-500"
               >
                 <option value="Asked for deposit before viewing">Asked for M-Pesa deposit before viewing</option>
-                <option value="Landlord unreachable">Agent unreachable</option>
+                <option value="Landlord unreachable">Property manager unreachable</option>
                 <option value="Property does not exist">Property does not exist / Fake listing</option>
                 <option value="Price mismatch">Price mismatch / Extortionate fees</option>
                 <option value="Other">Other fraud concern</option>
@@ -78,7 +78,7 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
               <textarea
                 rows={4}
                 required
-                placeholder="Describe exactly what happened — e.g. the agent asked me to send KSh 5,000 via M-Pesa before showing the house..."
+                placeholder="Describe exactly what happened — e.g. the property manager asked me to send KSh 5,000 via M-Pesa before showing the house..."
                 value={details}
                 onChange={e => setDetails(e.target.value)}
                 className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"

@@ -15,7 +15,7 @@ export const Footer: React.FC = () => {
               <span className="display font-bold tracking-tightest text-nyumba-ink">Nyumba<span className="text-nyumba-emerald">Plug</span></span>
             </div>
             <p className="text-xs text-slate-500 leading-relaxed max-w-[220px]">
-              Verified Kenya Rentals — every listing is linked to a government ID-verified agent.
+              Verified Kenya Rentals — every listing is linked to a government ID-verified property manager.
             </p>
           </div>
 
@@ -34,7 +34,7 @@ export const Footer: React.FC = () => {
             <ul className="space-y-2">
               <li><Link to="/login" className="text-xs text-slate-500 hover:text-nyumba-emerald transition">Sign In</Link></li>
               <li><Link to="/register" className="text-xs text-slate-500 hover:text-nyumba-emerald transition">Register as Customer</Link></li>
-              <li><Link to="/register" className="text-xs text-slate-500 hover:text-nyumba-emerald transition">Register as Agent</Link></li>
+              <li><Link to="/register" className="text-xs text-slate-500 hover:text-nyumba-emerald transition">Register as Property Manager</Link></li>
             </ul>
           </div>
 

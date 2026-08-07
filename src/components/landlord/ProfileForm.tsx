@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { User, Phone, Link, Loader2 } from 'lucide-react';
+import { User, Phone, Link, Building2, Loader2 } from 'lucide-react';
 import { api } from '../../services/api';
 import { LandlordProfile } from '../../types';
 
 interface Props {
   onSuccess: (profile: LandlordProfile) => void;
   profile?: LandlordProfile | null;
+  initialPhone?: string;
 }
 
-export const ProfileForm: React.FC<Props> = ({ onSuccess, profile }) => {
+export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone }) => {
   const isEdit = !!profile;
   const [fullName, setFullName] = useState(profile?.full_name || '');
-  const [phone, setPhone] = useState('');
+  const [pageName, setPageName] = useState(profile?.page_name || '');
+  const [phone, setPhone] = useState(isEdit ? (initialPhone || '') : '');
   const [idDocURL, setIdDocURL] = useState(profile?.id_document_url || '');
   const [error, setError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -25,6 +27,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile }) => {
       try {
         const updated = await api.updateMyProfile({
           full_name: fullName.trim() || undefined,
+          page_name: pageName.trim() || undefined,
           phone: phone.trim() || undefined,
           id_document_url: idDocURL.trim() || undefined,
         });
@@ -43,6 +46,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile }) => {
     try {
       const profile = await api.submitVerificationRequest({
         full_name: fullName.trim(),
+        page_name: pageName.trim() || undefined,
         phone: phone.trim() || undefined,
         national_id_number: '',
         id_document_url: idDocURL.trim() || undefined,
@@ -61,7 +65,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile }) => {
         <div className="bg-nyumba-emerald p-2 rounded-xl inline-flex text-white mb-3">
           <User size={28} />
         </div>
-        <h2 className="text-xl font-black text-slate-900">{isEdit ? 'Edit Profile' : 'Complete Your Agent Profile'}</h2>
+        <h2 className="text-xl font-black text-slate-900">{isEdit ? 'Edit Profile' : 'Complete Your Property Manager Profile'}</h2>
         <p className="text-xs text-slate-500 mt-1">
           {isEdit ? 'Update your profile information.' : 'Fill in your details and submit for admin verification before you can list properties.'}
         </p>
@@ -80,6 +84,21 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile }) => {
               className="w-full bg-transparent text-sm focus:outline-none"
             />
           </div>
+        </div>
+
+        <div>
+          <label className="block text-xs font-semibold text-slate-700 mb-1">Page Name</label>
+          <div className="flex items-center gap-2 px-3 py-2.5 border border-slate-300 rounded-lg bg-slate-50 focus-within:ring-2 focus-within:ring-emerald-500">
+            <Building2 size={16} className="text-slate-400 shrink-0" />
+            <input
+              type="text"
+              placeholder="e.g. Greenleaf Properties"
+              value={pageName}
+              onChange={e => setPageName(e.target.value)}
+              className="w-full bg-transparent text-sm focus:outline-none"
+            />
+          </div>
+          <p className="text-[11px] text-slate-400 mt-1">Public name shown on your listings page.</p>
         </div>
 
         <div>

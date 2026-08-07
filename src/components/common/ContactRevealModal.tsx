@@ -59,7 +59,7 @@ export const ContactRevealModal: React.FC<Props> = ({
             <div className="p-3.5 bg-nyumba-emeraldLight rounded-lg border border-nyumba-emerald/20">
               <VerifiedBadge size="md" />
               <p className="text-xs text-slate-600 mt-2">
-                This agent's identity has been cross-verified by NyumbaPlug admins.
+                This property manager's identity has been cross-verified by NyumbaPlug admins.
               </p>
             </div>
 
@@ -123,9 +123,9 @@ export const ContactRevealModal: React.FC<Props> = ({
             <div className="flex items-start gap-3">
               <ShieldX className="text-red-600 shrink-0 mt-0.5" size={24} />
               <div>
-                <h4 className="font-semibold text-red-900">Agent Verification Pending</h4>
+                <h4 className="font-semibold text-red-900">Property Manager Verification Pending</h4>
                 <p className="text-sm text-red-800 mt-1">
-                  Contact details are locked because this agent profile is unverified or has been revoked.
+                  Contact details are locked because this property manager profile is unverified or has been revoked.
                 </p>
               </div>
             </div>

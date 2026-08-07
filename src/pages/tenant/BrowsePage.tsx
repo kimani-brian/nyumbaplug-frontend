@@ -83,7 +83,7 @@ export const BrowsePage: React.FC = () => {
           <SectionHeading
             kicker="Search"
             title={heading}
-            description="Every listing below is linked to a government ID-verified agent. Contact is only shown for vacant, verified units."
+            description="Every listing below is linked to a government ID-verified property manager. Contact is only shown for vacant, verified units."
           />
 
           {/* Search row */}

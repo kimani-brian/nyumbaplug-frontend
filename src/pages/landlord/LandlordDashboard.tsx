@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Plus, Trash2, Pencil, User, ShieldCheck, X, Building2, Boxes, TrendingUp } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { VerificationBanner } from '../../components/landlord/VerificationBanner';
 import { ProfileForm } from '../../components/landlord/ProfileForm';
@@ -10,13 +11,13 @@ import { api } from '../../services/api';
 
 export const LandlordDashboard: React.FC = () => {
   const { user, landlordProfile, setLandlordProfile } = useAuth() as any;
+  const navigate = useNavigate();
   const [properties, setProperties] = useState<Property[]>([]);
   const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
   const [editProperty, setEditProperty] = useState<Property | null>(null);
   const [manageCategoriesFor, setManageCategoriesFor] = useState<string | null>(null);
   const [deleting, setDeleting] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showEditProfile, setShowEditProfile] = useState(false);
 
   const loadData = async () => {
     setLoading(true);
@@ -98,15 +99,20 @@ export const LandlordDashboard: React.FC = () => {
           </div>
           <div>
             <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-0.5">
-              Agent Dashboard
+              Dashboard
             </p>
             <h1 className="display font-semibold text-2xl text-nyumba-ink leading-tight">
-              {landlordProfile.full_name || 'Welcome back'}
+              {landlordProfile.full_name || landlordProfile.page_name || 'Welcome back'}
             </h1>
+            {landlordProfile.page_name && landlordProfile.page_name !== landlordProfile.full_name && (
+              <p className="text-xs font-semibold text-slate-500 mt-0.5">
+                {landlordProfile.page_name}
+              </p>
+            )}
             <p className="text-xs text-slate-500 mt-0.5">
               {isVerified ? (
                 <span className="inline-flex items-center gap-1 text-nyumba-emerald font-semibold">
-                  <ShieldCheck size={12} /> Verified Agent
+                  <ShieldCheck size={12} /> Verified Property Manager
                 </span>
               ) : (
                 'Awaiting verification'
@@ -117,7 +123,7 @@ export const LandlordDashboard: React.FC = () => {
 
         <div className="flex items-center gap-2">
           <button
-            onClick={() => setShowEditProfile(true)}
+            onClick={() => navigate('/account')}
             className="btn-outline !py-2.5"
           >
             <User size={14} />
@@ -246,29 +252,6 @@ export const LandlordDashboard: React.FC = () => {
           </div>
         )}
       </div>
-
-      {/* Edit profile modal */}
-      {showEditProfile && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4" onClick={() => setShowEditProfile(false)}>
-          <div className="w-full max-w-lg" onClick={e => e.stopPropagation()}>
-            <div className="relative">
-              <button
-                onClick={() => setShowEditProfile(false)}
-                className="absolute -top-2 -right-2 z-10 bg-white border border-nyumba-line rounded-full p-1 shadow hover:bg-slate-100"
-              >
-                <X size={16} className="text-slate-500" />
-              </button>
-              <ProfileForm
-                profile={landlordProfile}
-                onSuccess={updated => {
-                  setLandlordProfile?.(updated);
-                  setShowEditProfile(false);
-                }}
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       <AddPropertyModal
         isOpen={isAddPropertyOpen || !!editProperty}

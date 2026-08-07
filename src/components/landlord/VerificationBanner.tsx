@@ -15,7 +15,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
             <ShieldCheck size={22} />
           </div>
           <div>
-            <h3 className="font-bold text-nyumba-ink text-sm">Agent profile verified</h3>
+            <h3 className="font-bold text-nyumba-ink text-sm">Property manager profile verified</h3>
             <p className="text-xs text-slate-600">
               Your identity is confirmed. All your properties and vacant units are visible to customers.
             </p>
@@ -23,7 +23,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
         </div>
         {profile.is_caretaker && (
           <span className="text-xs font-medium bg-white text-slate-700 px-3 py-1.5 rounded-full border border-nyumba-line shrink-0">
-            Caretaker for: <strong className="text-nyumba-emerald">{profile.authorizer_name || 'Primary Agent'}</strong>
+            Caretaker for: <strong className="text-nyumba-emerald">{profile.authorizer_name || 'Primary Property Manager'}</strong>
           </span>
         )}
       </div>
@@ -44,7 +44,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
             </p>
             {profile.is_caretaker && (
               <p className="text-xs font-semibold text-amber-900 mt-2 bg-amber-100 inline-block px-2.5 py-1 rounded">
-                Authorizing Agent: {profile.authorizer_name}
+                Authorizing Property Manager: {profile.authorizer_name}
               </p>
             )}
           </div>
@@ -60,7 +60,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
           <AlertOctagon size={22} />
         </div>
         <div>
-          <h3 className="font-bold text-red-900 text-sm">Agent profile revoked</h3>
+          <h3 className="font-bold text-red-900 text-sm">Property manager profile revoked</h3>
           <p className="text-xs text-red-800 mt-1">
             Reason: <strong className="underline">{profile.revoke_reason || 'Safety compliance failure'}</strong>.
             All your listed properties have been automatically hidden from customer search.

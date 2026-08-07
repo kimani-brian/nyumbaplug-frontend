@@ -4,14 +4,14 @@ import { ArrowLeft, MapPin } from 'lucide-react';
 import { Property } from '../../types';
 import { api } from '../../services/api';
 
-export const AgentPropertiesPage: React.FC = () => {
+export const PropertyManagerPropertiesPage: React.FC = () => {
   const { landlordId } = useParams<{ landlordId: string }>();
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     if (landlordId) {
-      api.getAgentProperties(landlordId)
+      api.getPropertyManagerProperties(landlordId)
         .then(setProperties)
         .catch(() => setProperties([]))
         .finally(() => setLoading(false));
@@ -28,13 +28,13 @@ export const AgentPropertiesPage: React.FC = () => {
         Back to Admin Console
       </Link>
 
-      <h1 className="text-2xl font-bold text-slate-900 mb-6">Agent Properties</h1>
+      <h1 className="text-2xl font-bold text-slate-900 mb-6">Property Manager Properties</h1>
 
       {loading ? (
         <div className="text-center py-12 text-sm text-slate-400">Loading...</div>
       ) : properties.length === 0 ? (
         <div className="text-center py-12 text-sm text-slate-400">
-          This agent has no properties listed yet.
+          This property manager has no properties listed yet.
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">

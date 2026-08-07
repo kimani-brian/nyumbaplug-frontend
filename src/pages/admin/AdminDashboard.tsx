@@ -6,13 +6,13 @@ import { RevokeModal } from '../../components/admin/RevokeModal';
 import { AuditLogView } from '../../components/admin/AuditLogView';
 import { ReportsQueue } from '../../components/admin/ReportsQueue';
 import { CustomersList } from '../../components/admin/CustomersList';
-import { AgentsList } from '../../components/admin/AgentsList';
-import { LandlordProfile, AgentView, CustomerView, AdminAuditLog, PropertyReport } from '../../types';
+import { PropertyManagersList } from '../../components/admin/PropertyManagersList';
+import { LandlordProfile, PropertyManagerView, CustomerView, AdminAuditLog, PropertyReport } from '../../types';
 import { api } from '../../services/api';
 
-type Tab = 'verifications' | 'agents' | 'customers' | 'reports' | 'audit';
+type Tab = 'verifications' | 'managers' | 'customers' | 'reports' | 'audit';
 
-type RevokeTarget = LandlordProfile | AgentView | { id: string; full_name?: string; national_id_number?: string };
+type RevokeTarget = LandlordProfile | PropertyManagerView | { id: string; full_name?: string; national_id_number?: string };
 
 export const AdminDashboard: React.FC = () => {
   const [tab, setTab] = useState<Tab>('verifications');
@@ -20,7 +20,7 @@ export const AdminDashboard: React.FC = () => {
   const [reports, setReports] = useState<PropertyReport[]>([]);
   const [logs, setLogs] = useState<AdminAuditLog[]>([]);
   const [customers, setCustomers] = useState<CustomerView[]>([]);
-  const [agents, setAgents] = useState<AgentView[]>([]);
+  const [managers, setManagers] = useState<PropertyManagerView[]>([]);
   const [selectedRevokeLandlord, setSelectedRevokeLandlord] = useState<RevokeTarget | null>(null);
   const navigate = useNavigate();
 
@@ -31,13 +31,13 @@ export const AdminDashboard: React.FC = () => {
         api.getReports(),
         api.getAuditLogs(),
         api.getCustomers(),
-        api.getAllAgents(),
+        api.getAllPropertyManagers(),
       ]);
       setPending(p);
       setReports(r);
       setLogs(l);
       setCustomers(c);
-      setAgents(a);
+      setManagers(a);
     } catch (e) {
       console.error('Failed to load admin data', e);
     }
@@ -50,19 +50,19 @@ export const AdminDashboard: React.FC = () => {
     loadData();
   };
 
-  const handleVerifyAgent = async (agentId: string) => {
-    if (!window.confirm('Verify this agent? They will regain access to list properties.')) return;
+  const handleVerifyManager = async (managerId: string) => {
+    if (!window.confirm('Verify this property manager? They will regain access to list properties.')) return;
     try {
-      await api.approveLandlord(agentId);
+      await api.approveLandlord(managerId);
       loadData();
     } catch (e: any) {
-      alert(e.message || 'Failed to verify agent');
+      alert(e.message || 'Failed to verify property manager');
     }
   };
 
   const tabs: { key: Tab; label: string; icon: React.ReactNode; count?: number; alert?: boolean }[] = [
     { key: 'verifications', label: 'Verifications', icon: <Shield size={15} />, count: pending.length, alert: pending.length > 0 },
-    { key: 'agents', label: 'Agents', icon: <Building2 size={15} />, count: agents.length },
+    { key: 'managers', label: 'Property Managers', icon: <Building2 size={15} />, count: managers.length },
     { key: 'customers', label: 'Customers', icon: <Users size={15} />, count: customers.length },
     { key: 'reports', label: 'Reports', icon: <Flag size={15} />, count: reports.filter(r => !r.resolved).length, alert: reports.some(r => !r.resolved) },
     { key: 'audit', label: 'Audit Log', icon: <History size={15} /> },
@@ -70,7 +70,7 @@ export const AdminDashboard: React.FC = () => {
 
   const stats = [
     { label: 'Pending verifications', value: pending.length, icon: <Clock size={16} className="text-amber-600" />, tint: 'bg-amber-50 border-amber-100' },
-    { label: 'Verified agents', value: agents.filter(a => a.verification_status === 'verified').length, icon: <FileCheck size={16} className="text-nyumba-emerald" />, tint: 'bg-emerald-50 border-emerald-100' },
+    { label: 'Verified property managers', value: managers.filter(m => m.verification_status === 'verified').length, icon: <FileCheck size={16} className="text-nyumba-emerald" />, tint: 'bg-emerald-50 border-emerald-100' },
     { label: 'Open reports', value: reports.filter(r => !r.resolved).length, icon: <AlertTriangle size={16} className="text-red-600" />, tint: 'bg-red-50 border-red-100' },
     { label: 'Total customers', value: customers.length, icon: <Users size={16} className="text-nyumba-navy" />, tint: 'bg-slate-100 border-slate-200' },
   ];
@@ -84,7 +84,7 @@ export const AdminDashboard: React.FC = () => {
         <div>
           <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-1">Admin Console</p>
           <h1 className="display font-semibold text-3xl text-nyumba-ink">Welcome back</h1>
-          <p className="text-sm text-slate-500 mt-1">Manage verifications, agents, customers, reports, and the audit trail.</p>
+          <p className="text-sm text-slate-500 mt-1">Manage verifications, property managers, customers, reports, and the audit trail.</p>
         </div>
         <button
           onClick={loadData}
@@ -149,21 +149,27 @@ export const AdminDashboard: React.FC = () => {
             onOpenRevoke={profile => setSelectedRevokeLandlord(profile)}
           />
         )}
-        {tab === 'agents' && (
-          <AgentsList
-            agents={agents}
-            onViewProperties={id => navigate(`/admin/agents/${id}/properties`)}
-            onViewProfile={id => navigate(`/admin/agents/${id}/profile`)}
-            onOpenRevoke={agent => setSelectedRevokeLandlord(agent)}
-            onVerifyAgent={handleVerifyAgent}
+        {/* managers tab */}
+        {tab === 'managers' && (
+          <PropertyManagersList
+            managers={managers}
+            onViewProperties={id => navigate(`/admin/property-managers/${id}/properties`)}
+            onViewProfile={id => navigate(`/admin/property-managers/${id}/profile`)}
+            onOpenRevoke={manager => setSelectedRevokeLandlord(manager)}
+            onVerifyManager={handleVerifyManager}
           />
         )}
-        {tab === 'customers' && <CustomersList customers={customers} />}
+        {tab === 'customers' && (
+          <CustomersList
+            customers={customers}
+            onViewProfile={id => navigate(`/admin/customers/${id}/profile`)}
+          />
+        )}
         {tab === 'reports' && (
           <ReportsQueue
             reports={reports}
             onResolve={handleResolveReport}
-            onRevokeAgent={rep =>
+            onRevokeManager={rep =>
               setSelectedRevokeLandlord({
                 id: rep.landlord_id!,
                 full_name: rep.landlord_name,
