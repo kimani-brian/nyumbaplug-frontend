@@ -1,0 +1,15 @@
+[
+  {
+    "id": "p1",
+    "landlord_id": "l1",
+    "name": "Cypress Test Property",
+    "location": "Westlands",
+    "county": "Nairobi",
+    "description": "A place for E2E tests",
+    "image_url": "",
+    "created_at": "2024-01-01T00:00:00.000Z",
+    "categories": [],
+    "min_rent": 5000,
+    "total_units": 1
+  }
+]

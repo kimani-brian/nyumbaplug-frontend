@@ -68,8 +68,24 @@ ADMIN
 
 ```bash
 npm install
-npm run dev        # → http://localhost:3000
+npm run dev        # → http://localhost:5173
 ```
+
+## Testing, Build, and E2E
+
+```bash
+npm run typecheck
+npm run build
+npm run test -- --run
+
+# Start the Vite app in one terminal
+npm run dev
+
+# In a second terminal, run Cypress headlessly
+npm run cypress:run
+```
+
+Use `npm run cypress:open` for interactive local debugging.
 
 ### Demo Accounts
 

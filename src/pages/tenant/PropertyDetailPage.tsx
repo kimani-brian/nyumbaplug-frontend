@@ -5,6 +5,7 @@ import { Property, UnitCategory } from '../../types';
 import { api } from '../../services/api';
 import { ContactRevealModal } from '../../components/common/ContactRevealModal';
 import { ReportModal } from '../../components/tenant/ReportModal';
+import { optimizeImageUrl } from '../../utils/image';
 
 export const PropertyDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -69,7 +70,7 @@ export const PropertyDetailPage: React.FC = () => {
       {/* Hero image + title */}
       <div className="relative rounded-3xl overflow-hidden aspect-[21/9] bg-nyumba-sand shadow-soft">
         {property.image_url ? (
-          <img src={property.image_url} alt={property.name} className="w-full h-full object-cover" />
+          <img src={optimizeImageUrl(property.image_url) ?? property.image_url} alt={property.name} className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full bg-nyumba-sand" />
         )}

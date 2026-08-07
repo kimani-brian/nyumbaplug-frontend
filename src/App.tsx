@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { Suspense, lazy, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { Navbar } from './components/common/Navbar';
 import { Footer } from './components/common/Footer';
 import { BrowsePage } from './pages/tenant/BrowsePage';
 import { HomePage } from './pages/HomePage';
-import { PropertyDetailPage } from './pages/tenant/PropertyDetailPage';
+
+const PropertyDetailPage = lazy(() => import('./pages/tenant/PropertyDetailPage').then(module => ({ default: module.PropertyDetailPage })));
 import { LandlordDashboard } from './pages/landlord/LandlordDashboard';
 import { LandlordAccount } from './pages/landlord/LandlordAccount';
 import { CustomerAccount } from './pages/customer/CustomerAccount';
@@ -43,7 +44,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify" element={<VerifyEmailPage />} />
-      <Route path="/properties/:id" element={<PropertyDetailPage />} />
+      <Route path="/properties/:id" element={<Suspense fallback={<div className="p-8 text-center text-sm text-slate-400">Loading property…</div>}><PropertyDetailPage /></Suspense>} />
 
       <Route
         path="/landlord"

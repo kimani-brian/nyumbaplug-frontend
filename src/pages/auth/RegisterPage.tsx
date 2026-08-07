@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Shield, Mail, Lock, User, ArrowRight, Building2, BadgeCheck, Home } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
+import { Input } from '../../components/ui/Input';
 
 type RegisterRole = 'customer' | 'manager';
 
@@ -77,6 +78,7 @@ export const RegisterPage: React.FC = () => {
                     key={r.key}
                     type="button"
                     onClick={() => setRole(r.key)}
+                    aria-pressed={role === r.key}
                     className={`flex flex-col items-start gap-1 text-left p-3.5 rounded-xl border transition ${
                       role === r.key
                         ? 'bg-nyumba-emerald text-white border-nyumba-emerald shadow-soft'
@@ -96,15 +98,16 @@ export const RegisterPage: React.FC = () => {
             {role === 'customer' && (
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">Full Name *</label>
-                <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
+                <div className="flex items-center gap-2">
                   <User size={16} className="text-slate-400 shrink-0" />
-                  <input
+                  <Input
+                    id="fullName"
                     type="text"
                     required
                     placeholder="Jane Doe"
                     value={fullName}
                     onChange={e => setFullName(e.target.value)}
-                    className="w-full bg-transparent text-sm focus:outline-none"
+                    aria-label="Full name"
                   />
                 </div>
               </div>
@@ -113,15 +116,16 @@ export const RegisterPage: React.FC = () => {
             {role === 'manager' && (
               <div>
                 <label className="block text-xs font-semibold text-slate-700 mb-1.5">Page Name *</label>
-                <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
+                <div className="flex items-center gap-2">
                   <Building2 size={16} className="text-slate-400 shrink-0" />
-                  <input
+                  <Input
+                    id="pageName"
                     type="text"
                     required
                     placeholder="e.g. Greenleaf Properties"
                     value={pageName}
                     onChange={e => setPageName(e.target.value)}
-                    className="w-full bg-transparent text-sm focus:outline-none"
+                    aria-label="Page name"
                   />
                 </div>
                 <p className="text-[11px] text-slate-400 mt-1.5">
@@ -132,31 +136,33 @@ export const RegisterPage: React.FC = () => {
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Email *</label>
-              <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
+              <div className="flex items-center gap-2">
                 <Mail size={16} className="text-slate-400 shrink-0" />
-                <input
+                <Input
+                  id="email"
                   type="email"
                   required
                   placeholder="you@example.com"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  className="w-full bg-transparent text-sm focus:outline-none"
+                  aria-label="Email address"
                 />
               </div>
             </div>
 
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">Password *</label>
-              <div className="flex items-center gap-2 px-3.5 py-3 border border-nyumba-line rounded-xl bg-white focus-within:border-nyumba-emerald focus-within:ring-2 focus-within:ring-nyumba-emerald/15 transition">
+              <div className="flex items-center gap-2">
                 <Lock size={16} className="text-slate-400 shrink-0" />
-                <input
+                <Input
+                  id="password"
                   type="password"
                   required
                   minLength={6}
                   placeholder="At least 6 characters"
                   value={password}
                   onChange={e => setPassword(e.target.value)}
-                  className="w-full bg-transparent text-sm focus:outline-none"
+                  aria-label="Password"
                 />
               </div>
             </div>
@@ -168,7 +174,7 @@ export const RegisterPage: React.FC = () => {
               </p>
             )}
 
-            {error && <p className="text-xs text-red-600 bg-red-50 border border-red-100 p-2.5 rounded-lg">{error}</p>}
+            {error && <p role="alert" className="text-xs text-red-600 bg-red-50 border border-red-100 p-2.5 rounded-lg">{error}</p>}
 
             <button
               type="submit"

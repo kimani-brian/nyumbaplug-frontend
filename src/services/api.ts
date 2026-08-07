@@ -22,11 +22,20 @@ async function request<T>(method: string, path: string, body?: unknown): Promise
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
+
   if (!res.ok) {
-    const err = await res.json().catch(() => ({ error: res.statusText }));
-    throw new Error(err.error || 'Request failed');
+    // Try to parse error body, fall back to statusText
+    const errBody = await res.json().catch(() => null) as any;
+    const message = errBody?.error || errBody?.message || res.statusText || 'Request failed';
+    const e: any = new Error(message);
+    e.status = res.status;
+    e.body = errBody;
+    throw e;
   }
-  return res.json();
+
+  // Handle empty responses
+  const text = await res.text();
+  return text ? JSON.parse(text) as T : (undefined as unknown as T);
 }
 
 async function uploadFile(file: File): Promise<string> {
