@@ -13,7 +13,7 @@ interface Props {
 
 const statusIcon = (status: string) => {
   switch (status) {
-    case 'verified': return <ShieldCheck size={14} className="text-nyumba-emerald" />;
+    case 'verified': return <ShieldCheck size={14} className="text-primary" />;
     case 'pending': return <Clock size={14} className="text-amber-600" />;
     case 'revoked': return <AlertOctagon size={14} className="text-red-600" />;
     default: return null;
@@ -22,9 +22,9 @@ const statusIcon = (status: string) => {
 
 const statusBadge = (status: string) => {
   const styles: Record<string, string> = {
-    verified: 'bg-nyumba-emeraldLight text-nyumba-emerald border-emerald-300',
-    pending: 'bg-amber-50 text-amber-800 border-amber-300',
-    revoked: 'bg-red-50 text-red-800 border-red-300',
+    verified: 'bg-primary text-white border-primary/30',
+    pending: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
+    revoked: 'bg-red-500/10 text-red-400 border-red-300',
   };
   return (
     <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border font-semibold ${styles[status] || ''}`}>
@@ -36,13 +36,13 @@ const statusBadge = (status: string) => {
 
 export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperties, onViewProfile, onOpenRevoke, onVerifyManager }) => {
   return (
-    <div className="bg-white rounded-2xl border border-nyumba-line shadow-soft overflow-hidden">
-      <div className="p-5 bg-nyumba-navy text-white flex items-center justify-between">
+    <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
+      <div className="p-5 bg-panel border-b border-line text-fg flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <Building2 size={18} className="text-nyumba-emerald" />
+          <Building2 size={18} className="text-primary" />
           All Property Managers
         </h3>
-        <span className="text-xs bg-white/10 text-white/70 px-2.5 py-1 rounded-full font-mono">
+        <span className="text-xs bg-panel-strong text-fg/70 px-2.5 py-1 rounded-full font-mono">
           {managers.length} TOTAL
         </span>
       </div>
@@ -53,40 +53,40 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
         <div className="overflow-x-auto">
           <table className="w-full text-xs">
             <thead>
-              <tr className="border-b border-nyumba-line bg-nyumba-cream">
-                <th className="text-left p-3 font-semibold text-slate-600">Name</th>
-                <th className="text-left p-3 font-semibold text-slate-600">Page Name</th>
-                <th className="text-left p-3 font-semibold text-slate-600">National ID</th>
-                <th className="text-left p-3 font-semibold text-slate-600">Email</th>
-                <th className="text-left p-3 font-semibold text-slate-600">Phone</th>
-                <th className="text-left p-3 font-semibold text-slate-600">Status</th>
-                <th className="text-left p-3 font-semibold text-slate-600">Registered</th>
-                {managers.some(a => a.revoke_reason) && <th className="text-left p-3 font-semibold text-slate-600">Reason</th>}
-                <th className="text-left p-3 font-semibold text-slate-600">Actions</th>
+              <tr className="border-b border-line bg-panel">
+                <th className="text-left p-3 font-semibold text-fg/60">Name</th>
+                <th className="text-left p-3 font-semibold text-fg/60">Page Name</th>
+                <th className="text-left p-3 font-semibold text-fg/60">National ID</th>
+                <th className="text-left p-3 font-semibold text-fg/60">Email</th>
+                <th className="text-left p-3 font-semibold text-fg/60">Phone</th>
+                <th className="text-left p-3 font-semibold text-fg/60">Status</th>
+                <th className="text-left p-3 font-semibold text-fg/60">Registered</th>
+                {managers.some(a => a.revoke_reason) && <th className="text-left p-3 font-semibold text-fg/60">Reason</th>}
+                <th className="text-left p-3 font-semibold text-fg/60">Actions</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-nyumba-line">
+            <tbody className="divide-y divide-line">
               {managers.map(a => (
-                <tr key={a.id} className="hover:bg-nyumba-cream/60 transition">
-                  <td className="p-3 text-slate-900 font-medium">
+                <tr key={a.id} className="hover:bg-panel-strong transition">
+                  <td className="p-3 text-fg font-medium">
                     <span className="flex items-center gap-1.5">
-                      <User size={14} className="text-slate-400 shrink-0" />
+                      <User size={14} className="text-fg/40 shrink-0" />
                       {a.full_name || '—'}
                     </span>
                   </td>
-                  <td className="p-3 text-slate-700">{a.page_name || '—'}</td>
-                  <td className="p-3 text-slate-900 font-mono">{a.national_id_number}</td>
-                  <td className="p-3 text-slate-600">{a.email || '—'}</td>
-                  <td className="p-3 text-slate-600">{a.phone || '—'}</td>
+                  <td className="p-3 text-fg/80">{a.page_name || '—'}</td>
+                  <td className="p-3 text-fg font-mono">{a.national_id_number}</td>
+                  <td className="p-3 text-fg/60">{a.email || '—'}</td>
+                  <td className="p-3 text-fg/60">{a.phone || '—'}</td>
                   <td className="p-3">{statusBadge(a.verification_status)}</td>
-                  <td className="p-3 text-slate-500">{new Date(a.created_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
+                  <td className="p-3 text-fg/50">{new Date(a.created_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</td>
                   {a.revoke_reason && <td className="p-3 text-red-600 italic max-w-[200px] truncate" title={a.revoke_reason}>{a.revoke_reason}</td>}
                   <td className="p-3">
                     <div className="flex items-center gap-2">
                       {onViewProfile && (
                         <button
                           onClick={() => onViewProfile(a.id)}
-                          className="flex items-center gap-1 text-xs font-semibold text-slate-600 hover:text-slate-900 transition"
+                          className="flex items-center gap-1 text-xs font-semibold text-fg/60 hover:text-fg transition"
                           title="View Profile"
                         >
                           <User size={14} />
@@ -95,7 +95,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                       )}
                       <button
                           onClick={() => onViewProperties(a.id)}
-                          className="flex items-center gap-1 text-xs font-semibold text-nyumba-emerald hover:text-emerald-700 transition"
+                          className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary transition"
                         >
                           <Eye size={14} />
                           Properties
@@ -103,7 +103,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                         {onVerifyManager && a.verification_status === 'revoked' && (
                           <button
                             onClick={() => onVerifyManager(a.id)}
-                            className="flex items-center gap-1 text-xs font-semibold text-emerald-600 hover:text-emerald-800 transition"
+                            className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary transition"
                           >
                             <CheckCircle size={14} />
                             Verify
@@ -112,7 +112,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                         {onOpenRevoke && a.verification_status !== 'revoked' && (
                         <button
                           onClick={() => onOpenRevoke(a)}
-                          className="flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-800 transition"
+                          className="flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-400 transition"
                         >
                           <XCircle size={14} />
                           Revoke

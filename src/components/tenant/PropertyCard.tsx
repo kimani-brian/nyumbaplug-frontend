@@ -18,9 +18,9 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
   return (
     <Link
       to={`/properties/${property.id}`}
-      className="group bg-white rounded-2xl border border-nyumba-line overflow-hidden shadow-soft hover:shadow-lift transition-all duration-300 flex flex-col h-full hover:-translate-y-0.5"
+      className="group bg-panel border border-line rounded-3xl overflow-hidden shadow-soft hover:shadow-lift transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
     >
-      <div className="relative aspect-[16/10] bg-nyumba-sand overflow-hidden">
+      <div className="relative aspect-[16/10] bg-nyumba-ink overflow-hidden">
         {property.image_url ? (
           <img
             src={optimizeImageUrl(property.image_url) ?? property.image_url}
@@ -29,38 +29,39 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full bg-nyumba-sand flex items-center justify-center">
-            <MapPin size={28} className="text-nyumba-terracotta/40" />
+          <div className="w-full h-full bg-nyumba-ink flex items-center justify-center">
+            <MapPin size={28} className="text-white/20" />
           </div>
         )}
-        <div className="absolute top-3 left-3 inline-flex items-center gap-1 bg-white/95 text-nyumba-emerald text-[10px] font-bold px-2.5 py-1 rounded-full shadow">
-          <ShieldCheck size={11} />
+        {property.image_url && <div className="absolute inset-0 bg-gradient-to-t from-page/70 via-page/10 to-transparent" />}
+        <div className="absolute top-3 left-3 inline-flex items-center gap-1 bg-nyumba-ink/80 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow border border-white/10">
+          <ShieldCheck size={11} className="text-primary" />
           Verified Property Manager
         </div>
-        <div className="absolute bottom-3 right-3 bg-nyumba-navy/85 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur">
+        <div className="absolute bottom-3 right-3 bg-nyumba-ink/85 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur">
           {totalUnits} {totalUnits === 1 ? 'UNIT' : 'UNITS'}
         </div>
       </div>
 
       <div className="p-5 flex flex-col flex-1">
-        <h3 className="display font-semibold text-lg text-nyumba-ink leading-snug mb-1">
+        <h3 className="display font-bold text-lg text-fg leading-snug mb-1">
           {property.name}
         </h3>
-        <p className="flex items-center gap-1 text-xs text-slate-500 mb-3">
-          <MapPin size={14} className="text-slate-400 shrink-0" />
+        <p className="flex items-center gap-1 text-xs text-fg/50 mb-3">
+          <MapPin size={14} className="text-fg/40 shrink-0" />
           <span className="line-clamp-1">{property.location}{property.county ? `, ${property.county}` : ''}</span>
         </p>
-        <p className="text-xs text-slate-500 line-clamp-2 mb-4 flex-1">{property.description}</p>
+        <p className="text-xs text-fg/60 line-clamp-2 mb-4 flex-1">{property.description}</p>
 
-        <div className="pt-4 border-t border-nyumba-line flex items-center justify-between mt-auto">
+        <div className="pt-4 border-t border-line flex items-center justify-between mt-auto">
           <div>
-            <span className="text-[10px] uppercase tracking-wider text-slate-400 font-semibold block">Rent from</span>
-            <span className="text-lg font-bold text-nyumba-emerald">
+            <span className="text-[10px] uppercase tracking-wider text-fg/40 font-semibold block">Rent from</span>
+            <span className="text-lg font-bold text-primary">
               KES {Number(minRent).toLocaleString()}
-              <span className="text-xs font-normal text-slate-400">/mo</span>
+              <span className="text-xs font-normal text-fg/40">/mo</span>
             </span>
           </div>
-          <span className="text-xs font-semibold text-nyumba-ink group-hover:text-nyumba-emerald transition">
+          <span className="text-xs font-semibold text-fg/70 group-hover:text-primary transition">
             View units →
           </span>
         </div>

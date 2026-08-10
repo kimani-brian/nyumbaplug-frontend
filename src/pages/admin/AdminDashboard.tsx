@@ -69,10 +69,10 @@ export const AdminDashboard: React.FC = () => {
   ];
 
   const stats = [
-    { label: 'Pending verifications', value: pending.length, icon: <Clock size={16} className="text-amber-600" />, tint: 'bg-amber-50 border-amber-100' },
-    { label: 'Verified property managers', value: managers.filter(m => m.verification_status === 'verified').length, icon: <FileCheck size={16} className="text-nyumba-emerald" />, tint: 'bg-emerald-50 border-emerald-100' },
-    { label: 'Open reports', value: reports.filter(r => !r.resolved).length, icon: <AlertTriangle size={16} className="text-red-600" />, tint: 'bg-red-50 border-red-100' },
-    { label: 'Total customers', value: customers.length, icon: <Users size={16} className="text-nyumba-navy" />, tint: 'bg-slate-100 border-slate-200' },
+    { label: 'Pending verifications', value: pending.length, icon: <Clock size={16} className="text-amber-600" />, tint: 'bg-amber-50 border-amber-200' },
+    { label: 'Verified property managers', value: managers.filter(m => m.verification_status === 'verified').length, icon: <FileCheck size={16} className="text-primary" />, tint: 'bg-primary-light border-primary/20' },
+    { label: 'Open reports', value: reports.filter(r => !r.resolved).length, icon: <AlertTriangle size={16} className="text-red-600" />, tint: 'bg-red-50 border-red-200' },
+    { label: 'Total customers', value: customers.length, icon: <Users size={16} className="text-primary" />, tint: 'bg-slate-100 border-slate-200' },
   ];
 
   const activeTab = tabs.find(t => t.key === tab)!;
@@ -82,9 +82,9 @@ export const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-1">Admin Console</p>
-          <h1 className="display font-semibold text-3xl text-nyumba-ink">Welcome back</h1>
-          <p className="text-sm text-slate-500 mt-1">Manage verifications, property managers, customers, reports, and the audit trail.</p>
+          <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-1">Admin Console</p>
+          <h1 className="display font-semibold text-3xl text-fg">Welcome back</h1>
+          <p className="text-sm text-fg/60 mt-1">Manage verifications, property managers, customers, reports, and the audit trail.</p>
         </div>
         <button
           onClick={loadData}
@@ -98,33 +98,33 @@ export const AdminDashboard: React.FC = () => {
       {/* Stats */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map(s => (
-          <div key={s.label} className={`bg-white rounded-2xl border ${s.tint} p-4 flex items-center gap-3`}>
-            <div className="bg-white rounded-xl p-2.5 shadow-sm shrink-0">{s.icon}</div>
+          <div key={s.label} className={`bg-panel rounded-2xl border border-line p-4 flex items-center gap-3`}>
+            <div className="bg-panel-strong rounded-xl p-2.5 shadow-sm shrink-0">{s.icon}</div>
             <div>
-              <div className="display font-bold text-2xl text-nyumba-ink leading-none">{s.value}</div>
-              <div className="text-[11px] text-slate-500 mt-1">{s.label}</div>
+              <div className="display font-bold text-2xl text-fg leading-none">{s.value}</div>
+              <div className="text-[11px] text-fg/50 mt-1">{s.label}</div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Tabs */}
-      <nav className="flex flex-wrap gap-1 bg-white border border-nyumba-line rounded-2xl p-1.5 shadow-soft">
+      <nav className="flex flex-wrap gap-1 bg-panel border border-line rounded-2xl p-1.5 shadow-soft">
         {tabs.map(t => (
           <button
             key={t.key}
             onClick={() => setTab(t.key)}
             className={`flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold transition ${
               tab === t.key
-                ? 'bg-nyumba-navy text-white shadow'
-                : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
+                ? 'bg-primary text-white shadow'
+                : 'text-fg/60 hover:text-fg hover:bg-panel-strong'
             }`}
           >
             {t.icon}
             {t.label}
             {t.count !== undefined && (
               <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full ${
-                t.alert ? 'bg-red-500 text-white' : tab === t.key ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-500'
+                t.alert ? 'bg-red-500 text-white' : tab === t.key ? 'bg-white/20 text-white' : 'bg-panel-strong text-fg/60'
               }`}>
                 {t.count}
               </span>
@@ -135,10 +135,10 @@ export const AdminDashboard: React.FC = () => {
 
       {/* Section title */}
       <div className="flex items-center justify-between">
-        <h2 className="text-sm font-bold text-slate-600 uppercase tracking-wider">
+        <h2 className="text-sm font-bold text-fg/80 uppercase tracking-wider">
           {activeTab.label}
         </h2>
-        <span className="text-xs text-slate-400">{activeTab.alert ? 'Action needed' : 'All clear'}</span>
+        <span className="text-xs text-fg/40">{activeTab.alert ? 'Action needed' : 'All clear'}</span>
       </div>
 
       <div>

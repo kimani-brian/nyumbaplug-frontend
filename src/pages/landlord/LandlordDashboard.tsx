@@ -66,11 +66,11 @@ export const LandlordDashboard: React.FC = () => {
   if (loading) {
     return (
       <main className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-12 space-y-4">
-        <div className="h-8 w-56 bg-slate-100 rounded animate-pulse" />
+        <div className="h-8 w-56 bg-panel-strong rounded animate-pulse" />
         <div className="grid grid-cols-3 gap-4">
-          {[1, 2, 3].map(n => <div key={n} className="h-24 bg-slate-100 rounded-2xl animate-pulse" />)}
+          {[1, 2, 3].map(n => <div key={n} className="h-24 bg-panel-strong rounded-2xl animate-pulse" />)}
         </div>
-        <div className="h-64 bg-slate-100 rounded-2xl animate-pulse" />
+        <div className="h-64 bg-panel-strong rounded-2xl animate-pulse" />
       </main>
     );
   }
@@ -84,9 +84,9 @@ export const LandlordDashboard: React.FC = () => {
   }
 
   const stats = [
-    { label: 'Properties', value: properties.length, icon: <Building2 size={16} className="text-nyumba-emerald" />, tint: 'bg-emerald-50 border-emerald-100' },
-    { label: 'Total units', value: totalUnits, icon: <Boxes size={16} className="text-nyumba-terracotta" />, tint: 'bg-orange-50 border-orange-100' },
-    { label: 'Available now', value: availableUnits, icon: <TrendingUp size={16} className="text-nyumba-navy" />, tint: 'bg-slate-100 border-slate-200' },
+    { label: 'Properties', value: properties.length, icon: <Building2 size={16} className="text-primary" />, tint: '' },
+    { label: 'Total units', value: totalUnits, icon: <Boxes size={16} className="text-primary" />, tint: '' },
+    { label: 'Available now', value: availableUnits, icon: <TrendingUp size={16} className="text-primary" />, tint: '' },
   ];
 
   return (
@@ -94,24 +94,24 @@ export const LandlordDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <div className="w-14 h-14 rounded-2xl bg-nyumba-emerald text-white flex items-center justify-center text-xl font-bold shadow-soft">
+          <div className="w-14 h-14 rounded-2xl bg-primary text-white flex items-center justify-center text-xl font-bold shadow-glow">
             {(landlordProfile.full_name || 'A').charAt(0).toUpperCase()}
           </div>
           <div>
-            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-nyumba-terracotta mb-0.5">
+            <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-0.5">
               Dashboard
             </p>
-            <h1 className="display font-semibold text-2xl text-nyumba-ink leading-tight">
+            <h1 className="display font-semibold text-2xl text-fg leading-tight">
               {landlordProfile.full_name || landlordProfile.page_name || 'Welcome back'}
             </h1>
             {landlordProfile.page_name && landlordProfile.page_name !== landlordProfile.full_name && (
-              <p className="text-xs font-semibold text-slate-500 mt-0.5">
+              <p className="text-xs font-semibold text-fg/60 mt-0.5">
                 {landlordProfile.page_name}
               </p>
             )}
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-fg/60 mt-0.5">
               {isVerified ? (
-                <span className="inline-flex items-center gap-1 text-nyumba-emerald font-semibold">
+                <span className="inline-flex items-center gap-1 text-primary font-semibold">
                   <ShieldCheck size={12} /> Verified Property Manager
                 </span>
               ) : (
@@ -143,11 +143,11 @@ export const LandlordDashboard: React.FC = () => {
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
         {stats.map(s => (
-          <div key={s.label} className={`bg-white rounded-2xl border ${s.tint} p-4 flex items-center gap-3`}>
-            <div className="bg-white rounded-xl p-2.5 shadow-sm shrink-0">{s.icon}</div>
+          <div key={s.label} className="bg-panel rounded-2xl border border-line p-4 flex items-center gap-3">
+            <div className="bg-panel-strong rounded-xl p-2.5 shadow-sm shrink-0">{s.icon}</div>
             <div>
-              <div className="display font-bold text-2xl text-nyumba-ink leading-none">{s.value}</div>
-              <div className="text-[11px] text-slate-500 mt-1">{s.label}</div>
+              <div className="display font-bold text-2xl text-fg leading-none">{s.value}</div>
+              <div className="text-[11px] text-fg/50 mt-1">{s.label}</div>
             </div>
           </div>
         ))}
@@ -158,20 +158,20 @@ export const LandlordDashboard: React.FC = () => {
       {/* Properties */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="display font-semibold text-xl text-nyumba-ink">
-            Your properties <span className="text-slate-400 font-normal">({properties.length})</span>
+          <h2 className="display font-semibold text-xl text-fg">
+            Your properties <span className="text-fg/40 font-normal">({properties.length})</span>
           </h2>
         </div>
 
         {properties.length === 0 ? (
-          <div className="text-center py-16 bg-white rounded-2xl border border-nyumba-line">
-            <div className="bg-nyumba-sand w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Building2 size={22} className="text-slate-400" />
+          <div className="text-center py-16 bg-panel rounded-2xl border border-line">
+            <div className="bg-panel-strong w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
+              <Building2 size={22} className="text-fg/40" />
             </div>
-            <p className="text-slate-600 font-semibold text-sm">
+            <p className="text-fg/80 font-semibold text-sm">
               {isVerified ? 'No properties yet' : 'Properties will appear once verified'}
             </p>
-            <p className="text-xs text-slate-400 mt-1 max-w-sm mx-auto">
+            <p className="text-xs text-fg/50 mt-1 max-w-sm mx-auto">
               {isVerified
                 ? 'Click "Add Property" to create your first listing.'
                 : 'Your profile is still under review by our team.'}
@@ -180,15 +180,18 @@ export const LandlordDashboard: React.FC = () => {
         ) : (
           <div className="space-y-4">
             {properties.map(property => (
-              <div key={property.id} className="bg-white rounded-2xl border border-nyumba-line shadow-soft overflow-hidden">
+              <div key={property.id} className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
                 <div className="flex flex-col sm:flex-row">
                   {/* Image */}
-                  <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-nyumba-sand">
+                  <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-nyumba-ink">
                     {property.image_url ? (
-                      <img src={property.image_url} alt={property.name} className="w-full h-full object-cover" />
+                      <>
+                        <img src={property.image_url} alt={property.name} className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/70 via-transparent to-transparent" />
+                      </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Building2 size={28} className="text-slate-300" />
+                        <Building2 size={28} className="text-white/30" />
                       </div>
                     )}
                   </div>
@@ -197,13 +200,13 @@ export const LandlordDashboard: React.FC = () => {
                   <div className="flex-1 p-5">
                     <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
                       <div>
-                        <h3 className="display font-semibold text-lg text-nyumba-ink">{property.name}</h3>
-                        <p className="text-xs text-slate-500 mt-0.5">{property.location}{property.county ? ` · ${property.county}` : ''}</p>
+                        <h3 className="display font-semibold text-lg text-fg">{property.name}</h3>
+                        <p className="text-xs text-fg/50 mt-0.5">{property.location}{property.county ? ` · ${property.county}` : ''}</p>
                       </div>
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => setEditProperty(property)}
-                          className="p-2 text-slate-400 hover:text-nyumba-emerald hover:bg-nyumba-emeraldLight rounded-lg transition"
+                          className="p-2 text-fg/40 hover:text-nyumba-emerald hover:bg-panel-strong rounded-lg transition"
                           title="Edit property"
                         >
                           <Pencil size={15} />
@@ -211,7 +214,7 @@ export const LandlordDashboard: React.FC = () => {
                         <button
                           onClick={() => handleDeleteProperty(property.id)}
                           disabled={deleting === property.id}
-                          className="p-2 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                          className="p-2 text-fg/50 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
                           title="Delete property"
                         >
                           <Trash2 size={15} />
@@ -231,17 +234,17 @@ export const LandlordDashboard: React.FC = () => {
                     {property.categories && property.categories.length > 0 ? (
                       <div className="mt-4 grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                         {property.categories.map(cat => (
-                          <div key={cat.id} className="p-3 bg-nyumba-cream rounded-xl border border-nyumba-line">
-                            <div className="font-bold text-sm text-nyumba-ink">{cat.name}</div>
-                            <div className="text-xs text-nyumba-emerald font-semibold mt-0.5">
+                          <div key={cat.id} className="p-3 bg-panel rounded-xl border border-line">
+                            <div className="font-bold text-sm text-fg">{cat.name}</div>
+                            <div className="text-xs text-primary font-semibold mt-0.5">
                               KES {Number(cat.rent_amount).toLocaleString()}
                             </div>
-                            <div className="text-[11px] text-slate-400 mt-0.5">{cat.quantity_available} available</div>
+                            <div className="text-[11px] text-fg/40 mt-0.5">{cat.quantity_available} available</div>
                           </div>
                         ))}
                       </div>
                     ) : (
-                      <p className="text-xs text-slate-400 mt-3">
+                      <p className="text-xs text-fg/40 mt-3">
                         No categories yet.{isVerified ? ' Manage categories to add units and pricing.' : ''}
                       </p>
                     )}

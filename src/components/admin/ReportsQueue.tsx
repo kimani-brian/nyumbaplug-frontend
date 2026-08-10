@@ -14,13 +14,13 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
   const resolved = reports.filter(r => r.resolved);
 
   return (
-    <div className="bg-white rounded-2xl border border-nyumba-line shadow-soft overflow-hidden">
-      <div className="p-5 bg-nyumba-navy text-white flex items-center justify-between">
+    <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
+      <div className="p-5 bg-panel border-b border-line flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
           <Flag size={18} className="text-red-400" />
           Scam Reports Queue
         </h3>
-        <span className="text-xs bg-white/10 text-white/80 px-2.5 py-1 rounded-full font-mono">
+        <span className="text-xs bg-panel-strong text-fg/80 px-2.5 py-1 rounded-full font-mono">
           {unresolved.length} OPEN
         </span>
       </div>
@@ -28,38 +28,38 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
       {unresolved.length === 0 && resolved.length === 0 ? (
         <EmptyState title="No reports" description="All clear — no scam reports have been submitted." />
       ) : (
-        <div className="divide-y divide-nyumba-line">
+        <div className="divide-y divide-line">
           {unresolved.length === 0 && (
-            <div className="p-6 text-center text-xs text-emerald-600 font-medium">All reports resolved.</div>
+            <div className="p-6 text-center text-xs text-primary font-medium">All reports resolved.</div>
           )}
           {unresolved.map(rep => (
-            <div key={rep.id} className="p-5 space-y-3 hover:bg-slate-50/60 transition">
+            <div key={rep.id} className="p-5 space-y-3 hover:bg-panel-strong transition">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-2 min-w-0">
-                  <span className="font-bold text-sm text-nyumba-ink line-clamp-1">{rep.property_name || 'Property'}</span>
-                  <span className="text-[10px] bg-red-100 text-red-800 px-2 py-0.5 rounded-full font-semibold shrink-0">Pending</span>
+                  <span className="font-bold text-sm text-fg line-clamp-1">{rep.property_name || 'Property'}</span>
+                  <span className="text-[10px] bg-red-500/20 text-red-400 px-2 py-0.5 rounded-full font-semibold shrink-0">Pending</span>
                 </div>
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] text-fg/40">
                   {new Date(rep.created_at).toLocaleString()}
                 </span>
               </div>
 
-              <p className="text-xs text-red-700 font-semibold">{rep.reason}</p>
+              <p className="text-xs text-red-400 font-semibold">{rep.reason}</p>
               {rep.details && (
-                <p className="text-xs text-slate-600 leading-relaxed bg-nyumba-cream border border-nyumba-line rounded-xl p-3 italic">
+                <p className="text-xs text-fg/70 leading-relaxed bg-panel border border-line rounded-xl p-3 italic">
                   “{rep.details}”
                 </p>
               )}
 
-              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-nyumba-line">
-                <div className="flex items-center gap-2 text-xs text-slate-500 min-w-0">
-                  <UserX size={13} className="text-slate-400 shrink-0" />
+              <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-line">
+                <div className="flex items-center gap-2 text-xs text-fg/50 min-w-0">
+                  <UserX size={13} className="text-fg/40 shrink-0" />
                   <span className="line-clamp-1">
-                    Property Manager: <strong className="text-nyumba-ink">{rep.landlord_name || 'Unknown'}</strong>
+                    Property Manager: <strong className="text-fg">{rep.landlord_name || 'Unknown'}</strong>
                   </span>
                   {rep.tenant_phone && (
-                    <span className="hidden sm:inline text-slate-400">
-                      · reported by <strong className="text-slate-500">{rep.tenant_phone}</strong>
+                    <span className="hidden sm:inline text-fg/40">
+                      · reported by <strong className="text-fg/50">{rep.tenant_phone}</strong>
                     </span>
                   )}
                 </div>
@@ -75,7 +75,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
                   )}
                   <button
                     onClick={() => onResolve(rep.id)}
-                    className="flex items-center gap-1 bg-slate-900 hover:bg-slate-800 text-white text-xs font-medium px-3 py-1.5 rounded-lg transition"
+                    className="flex items-center gap-1 bg-panel-strong hover:bg-panel-strong text-fg text-xs font-medium px-3 py-1.5 rounded-lg transition"
                   >
                     <CheckCircle size={12} />
                     Resolve
@@ -86,13 +86,13 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
           ))}
           {resolved.length > 0 && (
             <details className="p-4">
-              <summary className="text-xs text-slate-400 cursor-pointer hover:text-slate-600 font-medium">
+              <summary className="text-xs text-fg/40 cursor-pointer hover:text-fg/70 font-medium">
                 Resolved ({resolved.length})
               </summary>
               <div className="mt-2 space-y-2">
                 {resolved.map(rep => (
-                  <div key={rep.id} className="flex items-center gap-2 text-xs text-slate-500">
-                    <CheckCircle size={12} className="text-emerald-500 shrink-0" />
+                  <div key={rep.id} className="flex items-center gap-2 text-xs text-fg/50">
+                    <CheckCircle size={12} className="text-primary shrink-0" />
                     <span className="line-clamp-1">
                       {rep.property_name || 'Property'} — {rep.reason}
                       {rep.landlord_name ? ` (${rep.landlord_name})` : ''}

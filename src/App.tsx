@@ -23,7 +23,7 @@ const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRole: 'admin'
   allowedRole,
 }) => {
   const { user, loading } = useAuth();
-  if (loading) return <div className="p-8 text-center text-sm text-slate-400">Loading...</div>;
+  if (loading) return <div className="p-8 text-center text-sm text-fg/50">Loading…</div>;
   const roles = Array.isArray(allowedRole) ? allowedRole : [allowedRole];
   if (!user || !roles.includes(user.role)) {
     return <Navigate to="/login" replace />;
@@ -44,7 +44,7 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify" element={<VerifyEmailPage />} />
-      <Route path="/properties/:id" element={<Suspense fallback={<div className="p-8 text-center text-sm text-slate-400">Loading property…</div>}><PropertyDetailPage /></Suspense>} />
+      <Route path="/properties/:id" element={<Suspense fallback={<div className="p-8 text-center text-sm text-fg/50">Loading property…</div>}><PropertyDetailPage /></Suspense>} />
 
       <Route
         path="/landlord"
@@ -124,7 +124,7 @@ const Shell: React.FC = () => {
   const location = useLocation();
   const isHome = location.pathname === '/';
   return (
-    <div className={`min-h-screen flex flex-col bg-nyumba-cream ${isHome ? '' : 'pt-[72px]'}`}>
+    <div className={`min-h-screen flex flex-col bg-page text-fg ${isHome ? '' : 'pt-[72px]'}`}>
       <ScrollManager />
       <Navbar />
       <div className="flex-1">

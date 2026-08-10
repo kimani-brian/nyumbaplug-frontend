@@ -143,51 +143,51 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 relative shadow-2xl border border-slate-200">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="bg-panel rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
           <X size={20} />
         </button>
-        <h3 className="text-lg font-bold text-slate-900 mb-4">Manage Categories</h3>
+        <h3 className="text-lg font-bold text-fg mb-4">Manage Categories</h3>
 
         {loading ? (
-          <p className="text-sm text-slate-400 text-center py-8">Loading...</p>
+          <p className="text-sm text-fg/40 text-center py-8">Loading...</p>
         ) : (
           <>
             {categories.length === 0 && !showForm && (
-              <p className="text-sm text-slate-400 text-center py-8">No categories yet.</p>
+              <p className="text-sm text-fg/40 text-center py-8">No categories yet.</p>
             )}
 
             <div className="space-y-3 mb-6">
               {categories.map(cat => (
-                <div key={cat.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
+                <div key={cat.id} className="flex items-center justify-between p-3 bg-panel rounded-lg border border-line">
                   <div className="flex-1">
-                    <div className="font-semibold text-sm text-slate-900">{cat.name}</div>
-                    <div className="text-xs text-slate-500">KES {Number(cat.rent_amount).toLocaleString()}</div>
-                    <div className="text-xs text-slate-400">{cat.description}</div>
+                    <div className="font-semibold text-sm text-fg">{cat.name}</div>
+                    <div className="text-xs text-fg/50">KES {Number(cat.rent_amount).toLocaleString()}</div>
+                    <div className="text-xs text-fg/40">{cat.description}</div>
                     {cat.photos && cat.photos.length > 0 && (
-                      <div className="text-[10px] text-slate-400 mt-1">{cat.photos.length} photo(s)</div>
+                      <div className="text-[10px] text-fg/40 mt-1">{cat.photos.length} photo(s)</div>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
                     <div className="flex items-center gap-1 border rounded-lg px-2 py-1">
                       <button
                         onClick={() => handleAdjust(cat.id, -1)}
-                        className="p-0.5 text-slate-400 hover:text-slate-700"
+                        className="p-0.5 text-fg/40 hover:text-fg/80"
                       >
                         <Minus size={14} />
                       </button>
                       <span className="text-xs font-bold w-6 text-center">{cat.quantity_available}</span>
                       <button
                         onClick={() => handleAdjust(cat.id, 1)}
-                        className="p-0.5 text-slate-400 hover:text-slate-700"
+                        className="p-0.5 text-fg/40 hover:text-fg/80"
                       >
                         <PlusIcon size={14} />
                       </button>
                     </div>
                     <button
                       onClick={() => openEdit(cat)}
-                      className="text-xs text-emerald-600 hover:text-emerald-800 font-medium"
+                      className="text-xs text-primary hover:text-primary-dark font-medium"
                     >
                       Edit
                     </button>
@@ -204,33 +204,33 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
 
             {showForm ? (
               <form onSubmit={handleSubmit} className="border-t pt-4 space-y-3">
-                <h4 className="font-semibold text-sm text-slate-700">
+                <h4 className="font-semibold text-sm text-fg/80">
                   {editingId ? 'Edit Category' : 'New Category'}
                 </h4>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Name *</label>
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">Name *</label>
                   <input
                     type="text"
                     required
                     placeholder="e.g. 1-Bedroom, Studio, 2-Bedroom"
                     value={name}
                     onChange={e => setName(e.target.value)}
-                    className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Description</label>
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">Description</label>
                   <input
                     type="text"
                     placeholder="e.g. Self-contained with balcony"
                     value={description}
                     onChange={e => setDescription(e.target.value)}
-                    className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Monthly Rent (KES) *</label>
+                    <label className="block text-xs font-semibold text-fg/80 mb-1">Monthly Rent (KES) *</label>
                     <input
                       type="number"
                       required
@@ -238,27 +238,27 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       placeholder="25000"
                       value={rentAmount}
                       onChange={e => setRentAmount(e.target.value)}
-                      className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Quantity</label>
+                    <label className="block text-xs font-semibold text-fg/80 mb-1">Quantity</label>
                     <input
                       type="number"
                       min={1}
                       value={quantityAvailable}
                       onChange={e => setQuantityAvailable(Number(e.target.value))}
-                      className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                      className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Photos</label>
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">Photos</label>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {photos.map((url, i) => (
                       <div key={i} className="relative group">
-                        <img src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-slate-200" />
+                        <img src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-line" />
                         <button
                           type="button"
                           onClick={() => handleRemovePhoto(i)}
@@ -275,12 +275,12 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       placeholder="Image URL"
                       value={photoInput}
                       onChange={e => setPhotoInput(e.target.value)}
-                      className="flex-1 text-sm border border-slate-300 rounded-lg p-2 focus:ring-2 focus:ring-emerald-500"
+                      className="flex-1 text-sm border border-line rounded-lg p-2 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                     <button
                       type="button"
                       onClick={handleAddPhotoUrl}
-                      className="px-3 py-2 border border-slate-300 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50"
+                      className="px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong"
                     >
                       Add URL
                     </button>
@@ -293,7 +293,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                     />
                     <label
                       htmlFor="cat-photo-upload"
-                      className={`px-3 py-2 border border-slate-300 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 cursor-pointer ${uploading ? 'opacity-50' : ''}`}
+                      className={`px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploading ? 'opacity-50' : ''}`}
                     >
                       <Upload size={16} />
                     </label>
@@ -301,13 +301,13 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Video Tour URL</label>
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">Video Tour URL</label>
                   <input
                     type="text"
                     placeholder="https://youtube.com/..."
                     value={videoUrl}
                     onChange={e => setVideoUrl(e.target.value)}
-                    className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                    className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
 
@@ -315,14 +315,14 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                   <button
                     type="submit"
                     disabled={submitting || uploading}
-                    className="flex-1 bg-nyumba-emerald hover:bg-emerald-700 disabled:bg-slate-300 text-white font-semibold py-2 rounded-lg text-sm transition"
+                    className="flex-1 btn-primary !py-2 disabled:opacity-60"
                   >
                     {submitting ? 'Saving...' : editingId ? 'Update' : 'Add Category'}
                   </button>
                   <button
                     type="button"
                     onClick={resetForm}
-                    className="px-4 border border-slate-300 rounded-lg text-sm text-slate-600 hover:bg-slate-50 transition"
+                    className="px-4 border border-line rounded-lg text-sm text-fg/60 hover:bg-panel-strong transition"
                   >
                     Cancel
                   </button>
@@ -331,7 +331,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
             ) : (
               <button
                 onClick={() => setShowForm(true)}
-                className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-slate-300 rounded-lg py-3 text-sm text-slate-500 hover:border-emerald-400 hover:text-emerald-600 transition"
+                className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-line rounded-lg py-3 text-sm text-fg/50 hover:border-primary hover:text-primary transition"
               >
                 <Plus size={16} />
                 Add Category

@@ -39,31 +39,33 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
     }
   };
 
+  const inputCls = 'w-full text-sm border border-line rounded-xl p-2.5 bg-panel text-fg focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition';
+
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl max-w-md w-full p-6 relative shadow-2xl border border-slate-200">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="bg-panel rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
           <X size={20} />
         </button>
 
         <div className="flex items-center gap-2 text-red-600 mb-2">
           <AlertTriangle size={22} />
-          <h3 className="text-lg font-bold">Report Property or Scam</h3>
+          <h3 className="text-lg font-bold text-fg">Report Property or Scam</h3>
         </div>
-        <p className="text-xs text-slate-500 mb-4">Property: <span className="font-semibold text-slate-800">{propertyName}</span></p>
+        <p className="text-xs text-fg/50 mb-4">Property: <span className="font-semibold text-fg">{propertyName}</span></p>
 
         {submitted ? (
-          <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-lg text-emerald-800 text-sm font-medium text-center">
+          <div className="p-4 bg-primary border border-primary/20 rounded-xl text-white text-sm font-medium text-center">
             Report submitted to NyumbaPlug Trust & Safety Team for audit.
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Reason for Report</label>
+              <label className="block text-xs font-semibold text-fg/80 mb-1">Reason for Report</label>
               <select
                 value={reason}
                 onChange={e => setReason(e.target.value)}
-                className="w-full text-sm border border-slate-300 rounded-lg p-2.5 bg-white focus:ring-2 focus:ring-red-500"
+                className={inputCls}
               >
                 <option value="Asked for deposit before viewing">Asked for M-Pesa deposit before viewing</option>
                 <option value="Landlord unreachable">Property manager unreachable</option>
@@ -74,14 +76,14 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">Your Scam Message</label>
+              <label className="block text-xs font-semibold text-fg/80 mb-1">Your Scam Message</label>
               <textarea
                 rows={4}
                 required
                 placeholder="Describe exactly what happened — e.g. the property manager asked me to send KSh 5,000 via M-Pesa before showing the house..."
                 value={details}
                 onChange={e => setDetails(e.target.value)}
-                className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                className={inputCls}
               />
               {error && <p className="text-xs text-red-600 mt-1">{error}</p>}
             </div>
@@ -89,7 +91,7 @@ export const ReportModal: React.FC<Props> = ({ isOpen, onClose, propertyId, prop
             <button
               type="submit"
               disabled={submitting}
-              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-slate-300 text-white font-medium py-2.5 rounded-lg text-sm transition"
+              className="w-full bg-red-600 hover:bg-red-700 disabled:bg-slate-300 text-white font-medium py-2.5 rounded-xl text-sm transition"
             >
               {submitting ? 'Submitting...' : 'Submit Scam Report'}
             </button>

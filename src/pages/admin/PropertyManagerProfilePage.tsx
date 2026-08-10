@@ -24,7 +24,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
   if (loading) {
     return (
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <p className="text-sm text-slate-400">Loading...</p>
+        <p className="text-sm text-fg/50">Loading...</p>
       </main>
     );
   }
@@ -32,17 +32,17 @@ export const PropertyManagerProfilePage: React.FC = () => {
   if (!profile) {
     return (
       <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <p className="text-sm text-slate-400">Property manager not found.</p>
-        <Link to="/admin" className="text-xs text-nyumba-emerald font-semibold">Back to Admin Console</Link>
+        <p className="text-sm text-fg/50">Property manager not found.</p>
+        <Link to="/admin" className="text-xs text-primary font-semibold">Back to Admin Console</Link>
       </main>
     );
   }
 
   const statusBadge = (status: string) => {
     const styles: Record<string, string> = {
-      verified: 'bg-emerald-100 text-emerald-800',
-      pending: 'bg-amber-100 text-amber-800',
-      revoked: 'bg-red-100 text-red-800',
+      verified: 'bg-primary text-white',
+      pending: 'bg-amber-500/20 text-amber-400',
+      revoked: 'bg-red-500/20 text-red-400',
     };
     const icons: Record<string, React.ReactNode> = {
       verified: <ShieldCheck size={14} />,
@@ -60,16 +60,16 @@ export const PropertyManagerProfilePage: React.FC = () => {
     <main className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <Link
         to="/admin"
-        className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-slate-900 mb-6"
+        className="inline-flex items-center gap-1.5 text-xs font-semibold text-fg/60 hover:text-fg mb-6"
       >
         <ArrowLeft size={16} />
         Back to Admin Console
       </Link>
 
-      <div className="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
-        <div className="p-5 bg-slate-900 text-white flex items-center justify-between">
+      <div className="bg-panel rounded-3xl border border-line shadow-soft overflow-hidden">
+        <div className="p-5 bg-nyumba-ink text-white flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Building2 size={20} className="text-nyumba-emerald" />
+            <Building2 size={20} className="text-primary" />
             <h1 className="text-lg font-bold">{profile.full_name || 'Property Manager Profile'}</h1>
           </div>
           {statusBadge(profile.verification_status)}
@@ -78,63 +78,63 @@ export const PropertyManagerProfilePage: React.FC = () => {
         <div className="p-5 space-y-4">
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">Full Name</span>
-              <span className="text-slate-900 font-medium">{profile.full_name || '—'}</span>
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">Full Name</span>
+              <span className="text-fg font-medium">{profile.full_name || '—'}</span>
             </div>
             {profile.page_name && (
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">Page Name</span>
-                <span className="text-slate-900 font-medium">{profile.page_name}</span>
+                <span className="text-[10px] uppercase font-semibold text-fg/40 block">Page Name</span>
+                <span className="text-fg font-medium">{profile.page_name}</span>
               </div>
             )}
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">National ID</span>
-              <span className="text-slate-900 font-medium font-mono">{profile.national_id_number}</span>
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">National ID</span>
+              <span className="text-fg font-medium font-mono">{profile.national_id_number}</span>
             </div>
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">Email</span>
-              <span className="text-slate-900 flex items-center gap-1">
-                <Mail size={13} className="text-slate-400" />
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">Email</span>
+              <span className="text-fg flex items-center gap-1">
+                <Mail size={13} className="text-fg/40" />
                 {profile.email || '—'}
               </span>
             </div>
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">Phone</span>
-              <span className="text-slate-900 flex items-center gap-1">
-                <Phone size={13} className="text-slate-400" />
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">Phone</span>
+              <span className="text-fg flex items-center gap-1">
+                <Phone size={13} className="text-fg/40" />
                 {profile.phone || '—'}
               </span>
             </div>
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">Caretaker</span>
-              <span className="text-slate-900">{profile.is_caretaker ? 'Yes' : 'No'}</span>
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">Caretaker</span>
+              <span className="text-fg">{profile.is_caretaker ? 'Yes' : 'No'}</span>
             </div>
             {profile.is_caretaker && profile.authorized_by_landlord_id && (
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">Authorized By</span>
-                <span className="text-slate-900 font-mono text-[11px]">{profile.authorized_by_landlord_id}</span>
+                <span className="text-[10px] uppercase font-semibold text-fg/40 block">Authorized By</span>
+                <span className="text-fg font-mono text-[11px]">{profile.authorized_by_landlord_id}</span>
               </div>
             )}
             <div>
-              <span className="text-[10px] uppercase font-semibold text-slate-400 block">Registered</span>
-              <span className="text-slate-900">{new Date(profile.created_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+              <span className="text-[10px] uppercase font-semibold text-fg/40 block">Registered</span>
+              <span className="text-fg">{new Date(profile.created_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
             </div>
             {profile.verified_at && (
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">Verified At</span>
-                <span className="text-slate-900">{new Date(profile.verified_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                <span className="text-[10px] uppercase font-semibold text-fg/40 block">Verified At</span>
+                <span className="text-fg">{new Date(profile.verified_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
               </div>
             )}
             {profile.revoked_at && (
               <div>
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block">Revoked At</span>
-                <span className="text-slate-900">{new Date(profile.revoked_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
+                <span className="text-[10px] uppercase font-semibold text-fg/40 block">Revoked At</span>
+                <span className="text-fg">{new Date(profile.revoked_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}</span>
               </div>
             )}
           </div>
 
           {profile.revoke_reason && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-800">
+            <div className="p-3 bg-red-500/10 border border-red-200 rounded-lg text-xs text-red-400">
               <strong>Revoke Reason:</strong> {profile.revoke_reason}
             </div>
           )}
@@ -157,7 +157,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
       <div className="flex items-center gap-3 mt-4">
         <button
           onClick={() => navigate(`/admin/property-managers/${landlordId}/properties`)}
-          className="flex items-center gap-1.5 text-xs font-semibold text-nyumba-emerald bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-lg hover:bg-emerald-100 transition"
+          className="flex items-center gap-1.5 text-xs font-semibold text-primary bg-panel-strong border border-primary/20 px-3 py-2 rounded-lg hover:bg-primary/20 transition"
         >
           <Eye size={14} />
           View Properties
@@ -174,7 +174,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
                 alert(e.message || 'Failed to verify property manager');
               }
             }}
-            className="flex items-center gap-1.5 text-xs font-semibold text-emerald-600 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-lg hover:bg-emerald-100 transition"
+            className="flex items-center gap-1.5 text-xs font-semibold text-primary bg-panel-strong border border-primary/20 px-3 py-2 rounded-lg hover:bg-primary/20 transition"
           >
             <ShieldCheck size={14} />
             Verify Property Manager
@@ -183,7 +183,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
         {profile.verification_status !== 'revoked' && (
           <button
             onClick={() => setShowRevoke(true)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-red-600 bg-red-50 border border-red-200 px-3 py-2 rounded-lg hover:bg-red-100 transition"
+            className="flex items-center gap-1.5 text-xs font-semibold text-red-600 bg-red-500/10 border border-red-200 px-3 py-2 rounded-lg hover:bg-red-500/20 transition"
           >
             <XCircle size={14} />
             Revoke Property Manager

@@ -101,44 +101,44 @@ export const AddPropertyModal: React.FC<Props> = ({ isOpen, onClose, onSuccess, 
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl max-w-lg w-full p-6 relative shadow-2xl border border-slate-200">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div className="bg-panel rounded-3xl max-w-lg w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
           <X size={20} />
         </button>
         <div className="flex items-center gap-2 mb-4">
-          {isEdit ? <Pencil className="text-nyumba-emerald" size={22} /> : <Building className="text-nyumba-emerald" size={22} />}
-          <h3 className="text-lg font-bold text-slate-900">{isEdit ? 'Edit Property' : 'Add New Property'}</h3>
+          {isEdit ? <Pencil className="text-primary" size={22} /> : <Building className="text-primary" size={22} />}
+          <h3 className="text-lg font-bold text-fg">{isEdit ? 'Edit Property' : 'Add New Property'}</h3>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Property Name *</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Property Name *</label>
             <input
               type="text"
               required
               placeholder="e.g. Westlands Crest Apartments"
               value={name}
               onChange={e => setName(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+              className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Location *</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Location *</label>
             <input
               type="text"
               required
               placeholder="e.g. Kilimani, Nairobi"
               value={location}
               onChange={e => setLocation(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+              className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">County</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">County</label>
             <select
               value={county}
               onChange={e => setCounty(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500 bg-white"
+              className="w-full text-sm border border-line rounded-lg p-2.5 focus:ring-2 focus:ring-primary/20 focus:border-primary bg-panel text-fg"
             >
               <option value="">Select county</option>
               {KENYA_COUNTIES.map(c => (
@@ -147,44 +147,44 @@ export const AddPropertyModal: React.FC<Props> = ({ isOpen, onClose, onSuccess, 
             </select>
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Address / Landmark</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Address / Landmark</label>
             <input
               type="text"
               placeholder="e.g. Off Ngong Road"
               value={address}
               onChange={e => setAddress(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+              className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Google Maps URL</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Google Maps URL</label>
             <input
               type="text"
               placeholder="https://maps.google.com/..."
               value={mapsUrl}
               onChange={e => setMapsUrl(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+              className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Description</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Description</label>
             <textarea
               rows={3}
               placeholder="Water supply, security, parking..."
               value={description}
               onChange={e => setDescription(e.target.value)}
-              className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+              className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
             />
           </div>
           <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">Main Image</label>
+            <label className="block text-xs font-semibold text-fg/80 mb-1">Main Image</label>
             <div className="flex gap-2">
               <input
                 type="text"
                 placeholder="https://example.com/image.jpg"
                 value={imageUrl}
                 onChange={e => setImageUrl(e.target.value)}
-                className="w-full text-sm border border-slate-300 rounded-lg p-2.5 focus:ring-2 focus:ring-emerald-500"
+                className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
               />
               <input
                 ref={fileInputRef}
@@ -197,19 +197,19 @@ export const AddPropertyModal: React.FC<Props> = ({ isOpen, onClose, onSuccess, 
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
                 disabled={uploading}
-                className="px-3 py-2.5 border border-slate-300 rounded-lg text-xs font-medium text-slate-600 hover:bg-slate-50 transition"
+                className="px-3 py-2.5 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong transition"
               >
                 <Upload size={16} />
               </button>
             </div>
           </div>
           {error && (
-            <div className="p-3 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">{error}</div>
+            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400">{error}</div>
           )}
           <button
             type="submit"
             disabled={submitting || uploading}
-            className="w-full bg-nyumba-emerald hover:bg-emerald-700 disabled:bg-slate-300 text-white font-semibold py-2.5 rounded-lg text-sm transition"
+            className="w-full btn-primary !py-2.5 disabled:opacity-60"
           >
             {submitting ? 'Saving...' : isEdit ? 'Update Property' : 'Save Property'}
           </button>

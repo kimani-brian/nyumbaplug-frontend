@@ -44,45 +44,48 @@ export const ContactRevealModal: React.FC<Props> = ({
   const whatsappUrl = `https://wa.me/${phone.replace(/[^0-9]/g, '')}?text=${whatsappMessage}`;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm p-4">
-      <div className="bg-white rounded-xl max-w-md w-full p-6 relative shadow-2xl border border-slate-200">
-        <button onClick={onClose} className="absolute top-4 right-4 text-slate-400 hover:text-slate-700 p-1 rounded-lg">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
+      <div
+        className="bg-panel rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in"
+        onClick={e => e.stopPropagation()}
+      >
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
           <X size={20} />
         </button>
 
-        <h3 className="text-xl font-bold text-slate-900 mb-1">Contact — Unit {unitLabel}</h3>
-        <p className="text-sm text-slate-500 mb-4">{propertyName}</p>
+        <h3 className="text-xl font-bold text-fg mb-1">Contact — Unit {unitLabel}</h3>
+        <p className="text-sm text-fg/50 mb-4">{propertyName}</p>
 
         {/* STATE A: AVAILABLE */}
         {status === 'available' && (
           <div className="space-y-4">
-            <div className="p-3.5 bg-nyumba-emeraldLight rounded-lg border border-nyumba-emerald/20">
+            <div className="p-3.5 bg-panel rounded-2xl border border-primary/20">
               <VerifiedBadge size="md" />
-              <p className="text-xs text-slate-600 mt-2">
+              <p className="text-xs text-fg/60 mt-2">
                 This property manager's identity has been cross-verified by NyumbaPlug admins.
               </p>
             </div>
 
             {loading ? (
-              <div className="flex items-center justify-center py-6 text-slate-400">
+              <div className="flex items-center justify-center py-6 text-fg/40">
                 <Loader2 size={20} className="animate-spin mr-2" />
                 <span className="text-xs">Loading contact details...</span>
               </div>
             ) : fetchError ? (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-xs text-red-700">
+              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl text-xs text-red-400">
                 {fetchError}
               </div>
             ) : (
               <>
-                <div className="p-4 bg-slate-50 rounded-lg text-center border border-slate-200">
-                  <span className="text-xs uppercase tracking-wider text-slate-400 font-semibold block mb-1">Phone Number</span>
-                  <span className="text-2xl font-mono font-bold text-slate-900">{phone}</span>
+                <div className="p-4 bg-panel rounded-2xl text-center border border-line">
+                  <span className="text-xs uppercase tracking-wider text-fg/40 font-semibold block mb-1">Phone Number</span>
+                  <span className="text-2xl font-mono font-bold text-fg">{phone}</span>
                 </div>
 
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <a
                     href={`tel:${phone}`}
-                    className="flex items-center justify-center gap-2 bg-nyumba-emerald hover:bg-emerald-700 text-white font-medium py-3 rounded-lg transition"
+                    className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-xl transition"
                   >
                     <Phone size={18} />
                     <span>Call Now</span>
@@ -91,7 +94,7 @@ export const ContactRevealModal: React.FC<Props> = ({
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium py-3 rounded-lg transition"
+                    className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE5B] text-white font-medium py-3 rounded-xl transition"
                   >
                     <MessageSquare size={18} />
                     <span>WhatsApp</span>
@@ -104,12 +107,12 @@ export const ContactRevealModal: React.FC<Props> = ({
 
         {/* STATE B: OCCUPIED / RESERVED / MAINTENANCE */}
         {status === 'occupied' && (
-          <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg space-y-3">
+          <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl space-y-3">
             <div className="flex items-start gap-3">
-              <ShieldAlert className="text-amber-600 shrink-0 mt-0.5" size={24} />
+              <ShieldAlert className="text-amber-400 shrink-0 mt-0.5" size={24} />
               <div>
-                <h4 className="font-semibold text-amber-900">Contact Details Gated</h4>
-                <p className="text-sm text-amber-800 mt-1">
+                <h4 className="font-semibold text-amber-400">Contact Details Gated</h4>
+                <p className="text-sm text-amber-400/80 mt-1">
                   This unit is currently occupied, reserved, or undergoing maintenance. Contact info is withheld to prevent fraudulent pre-booking deposits.
                 </p>
               </div>
@@ -119,12 +122,12 @@ export const ContactRevealModal: React.FC<Props> = ({
 
         {/* STATE C: UNVERIFIED LANDLORD */}
         {status === 'unverified' && (
-          <div className="p-4 bg-red-50 border border-red-200 rounded-lg space-y-3">
+          <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl space-y-3">
             <div className="flex items-start gap-3">
-              <ShieldX className="text-red-600 shrink-0 mt-0.5" size={24} />
+              <ShieldX className="text-red-400 shrink-0 mt-0.5" size={24} />
               <div>
-                <h4 className="font-semibold text-red-900">Property Manager Verification Pending</h4>
-                <p className="text-sm text-red-800 mt-1">
+                <h4 className="font-semibold text-red-400">Property Manager Verification Pending</h4>
+                <p className="text-sm text-red-400/80 mt-1">
                   Contact details are locked because this property manager profile is unverified or has been revoked.
                 </p>
               </div>
