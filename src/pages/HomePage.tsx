@@ -2,13 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
-  ShieldCheck,
-  BadgeCheck,
-  AlertTriangle,
-  PhoneCall,
+  Check,
   ArrowRight,
-  Building2,
-  Users,
   Quote,
   Star,
 } from 'lucide-react';
@@ -32,22 +27,19 @@ const COUNTIES = [
 
 const HOW_IT_WORKS = [
   {
-    icon: <BadgeCheck size={22} />,
     step: '01',
-    title: 'Property managers are ID-verified',
-    body: 'Every property manager submits their national ID and is manually checked by our team before they can list a single property.',
+    title: 'Verified property managers',
+    body: 'Property managers are reviewed and verified before their properties are listed on NyumbaPlug.',
   },
   {
-    icon: <ShieldCheck size={22} />,
     step: '02',
-    title: 'Listings are scam-checked',
-    body: 'We cross-check prices and photos against market reality, and flag anything that looks too good to be true.',
+    title: 'Verified property managers',
+    body: 'Property managers are reviewed and verified before their properties are listed on NyumbaPlug.',
   },
   {
-    icon: <PhoneCall size={22} />,
     step: '03',
-    title: 'Contact is only revealed for real units',
-    body: 'Property manager phone numbers are shown only when a unit is vacant and the listing is verified — no ghost apartments.',
+    title: 'Available homes',
+    body: 'Only verified and available properties are promoted, so you can focus on homes that are actually ready to rent.',
   },
 ];
 
@@ -169,24 +161,21 @@ export const HomePage: React.FC = () => {
         <Reveal>
           <SectionHeading
             kicker="Why NyumbaPlug"
-            title="Renting in Kenya shouldn't be a gamble"
-            description="We built verification into the platform itself, so trust isn't a promise — it's the product."
+            title="A better way to rent in Kenya."
+            description="We make it easier to find genuine properties, deal with trusted managers, and avoid common scams."
             light
           />
         </Reveal>
 
-        <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-5">
+        <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
           {HOW_IT_WORKS.map(item => (
             <Reveal key={item.step} delay={0}>
-              <div className="bg-panel border border-line rounded-3xl p-6 shadow-soft hover:shadow-lift transition-all hover:-translate-y-1 relative overflow-hidden group h-full">
+              <div className="bg-panel border border-line rounded-3xl p-7 shadow-soft hover:shadow-lift transition-all hover:-translate-y-1 relative overflow-hidden group h-full">
                 <span className="absolute -top-4 -right-2 display text-8xl text-fg/10 font-bold select-none">
                   {item.step}
                 </span>
-                <div className="bg-primary text-white p-3 rounded-2xl inline-flex mb-4 relative transition-colors group-hover:bg-primary-light group-hover:text-primary-dark">
-                  {item.icon}
-                </div>
-                <h3 className="display font-bold text-lg text-fg mb-2">{item.title}</h3>
-                <p className="text-xs text-fg/60 leading-relaxed">{item.body}</p>
+                <h3 className="display font-bold text-xl text-fg mb-3">{item.title}</h3>
+                <p className="text-sm text-fg/60 leading-relaxed">{item.body}</p>
               </div>
             </Reveal>
           ))}
@@ -196,13 +185,12 @@ export const HomePage: React.FC = () => {
         <Reveal delay={100}>
           <div className="mt-10 bg-panel border border-line rounded-3xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { icon: <ShieldCheck size={18} />, value: '100%', label: 'Property managers ID-verified' },
-              { icon: <Building2 size={18} />, value: '47', label: 'Counties covered' },
-              { icon: <AlertTriangle size={18} />, value: '0', label: 'Ghost apartments' },
-              { icon: <Users size={18} />, value: '24h', label: 'Verification turn-around' },
+              { value: 'Verified managers', label: 'Trusted property managers on the platform' },
+              { value: '47', label: 'Counties covered' },
+              { value: 'Verified listings', label: 'Properties reviewed before publishing' },
+              { value: '24h', label: 'Average verification turnaround' },
             ].map((s, i) => (
               <div key={i} className="text-fg">
-                <div className="text-primary flex justify-center mb-2">{s.icon}</div>
                 <div className="display font-bold text-2xl">{s.value}</div>
                 <div className="text-[11px] text-fg/50 uppercase tracking-wider mt-1">{s.label}</div>
               </div>
@@ -218,13 +206,13 @@ export const HomePage: React.FC = () => {
             <SectionHeading
               kicker="Featured"
               title="Recently verified rentals"
-              description="Fresh, scam-checked listings from verified property managers across Kenya."
+              description="Explore verified rental properties from trusted property managers across Kenya."
               light
             />
           </Reveal>
           <Reveal delay={150}>
             <Link to="/properties" className="btn-outline shrink-0 !py-2.5">
-              View all rentals
+              View all units
               <ArrowRight size={16} />
             </Link>
           </Reveal>
@@ -243,9 +231,9 @@ export const HomePage: React.FC = () => {
         </div>
         {!featuredLoading && featured.length === 0 && (
           <div className="text-center py-16 bg-panel rounded-3xl border border-line">
-            <ShieldCheck size={32} className="text-primary mx-auto mb-3" />
+            
             <p className="text-fg/80 font-medium text-sm">No verified listings yet.</p>
-            <p className="text-xs text-fg/50 mt-1">New verified rentals appear here as property managers get approved.</p>
+            <p className="text-xs text-fg/50 mt-1">New verified units appear here as property managers get approved.</p>
           </div>
         )}
       </section>
@@ -291,27 +279,27 @@ export const HomePage: React.FC = () => {
                 For property managers & landlords
               </p>
               <h2 className="display text-3xl sm:text-4xl leading-[1.1] text-fg font-bold">
-                List your property. Attract serious tenants.
+                List your property. Find the right tenants.
               </h2>
               <p className="mt-4 text-sm text-fg/60 leading-relaxed">
-                Become a verified NyumbaPlug property manager. Get your ID checked once, then list unlimited
-                properties and receive enquiries from tenants who know they're talking to a real landlord.
+                Reach more genuine managers by listing your properties on NyumbaPlug.
+                Create your property profile, showcase your available units, and receive enquiries from interested tenants.
               </p>
               <ul className="mt-6 space-y-2.5 text-sm text-fg/70">
-                {['One-time government ID verification', 'Unlimited listings & unit management', 'Direct tenant enquiries, no middlemen'].map(t => (
+                {['Verified property manager profile', 'List and manage your properties', 'Connect directly with tenants'].map(t => (
                   <li key={t} className="flex items-center gap-2">
-                    <BadgeCheck size={16} className="text-primary shrink-0" />
+                    <Check size={16} strokeWidth={5} className="text-primary shrink-0" />
                     {t}
                   </li>
                 ))}
               </ul>
               <div className="mt-8 flex flex-wrap gap-3">
                 <Link to="/register" className="btn-primary">
-                  Register property
+                  List your property
                   <ArrowRight size={16} />
                 </Link>
                 <Link to="/#trust" className="btn-outline">
-                  How verification works
+                  Learn how it works
                 </Link>
               </div>
             </div>
