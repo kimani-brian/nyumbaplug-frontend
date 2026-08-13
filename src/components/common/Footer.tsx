@@ -31,12 +31,22 @@ export const Footer: React.FC = () => {
                 alt="NyumbaPlug logo"
                 className="w-11 h-11 rounded-lg object-contain shadow-glow"
               />
-              <span className="display font-bold tracking-tightest text-fg">
-                Nyumba<span className="text-primary">Plug</span>
-              </span>
+
+              <div className="flex flex-col">
+                <span className="display font-bold tracking-tightest text-fg">
+                  Nyumba<span className="text-primary">Plug</span>
+                </span>
+
+                <p className="text-xs text-fg/50 leading-relaxed tracking-wider">
+                  Find Verify.Move.
+                </p>
+              </div>
             </div>
+
+        
+            
             <p className="text-xs text-fg/50 leading-relaxed max-w-[220px]">
-              Find. Verify. Move.   Every listing is managed by a verified property manager.
+              Every listing is managed by a verified property manager.
             </p>
             <div className="flex items-center gap-3 mt-4">
               <a

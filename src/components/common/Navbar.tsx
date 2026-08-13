@@ -73,16 +73,16 @@ export const Navbar: React.FC = () => {
               Nyumba<span className="text-primary">Plug</span>
             </span>
             <span className={`block text-[9px] font-bold uppercase tracking-[0.22em] mt-0.5 ${overHero ? 'text-white/70' : 'text-fg/50'}`}>
-              Find. Verify. Move
+              Find.Verify.Move
             </span>
           </div>
         </Link>
 
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7">
-          {navLink('/properties', 'Browse rentals')}
+          {navLink('/properties', 'Units')}
           {navLink('/#trust', 'How it works')}
-          {navLink('/#managers', 'For property managers')}
+          {navLink('/#managers', 'Property Managers')}
 
           {loading ? null : user ? (
             <div className="flex items-center gap-2.5">
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
                   className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
                 >
                   <LayoutDashboard size={14} />
-                  My Account
+                  Account
                 </Link>
               )}
               {user.role === 'landlord' && (
@@ -136,7 +136,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <LayoutDashboard size={14} />
-                  My Account
+                  Account
                 </Link>
               )}
               <button
