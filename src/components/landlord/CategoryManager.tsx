@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Trash2, Minus, Plus as PlusIcon, Upload } from 'lucide-react';
+import { X, Plus, Trash2, Minus, Plus as PlusIcon, Upload, Images, Play } from 'lucide-react';
 import { api, uploadFile } from '../../services/api';
 import { UnitCategory } from '../../types';
+import { resolveMediaUrl } from '../../utils/image';
 
 interface Props {
   propertyId: string;
@@ -23,6 +24,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
   const [videoUrl, setVideoUrl] = useState('');
   const [photoInput, setPhotoInput] = useState('');
   const [uploading, setUploading] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const loadCategories = async () => {
@@ -63,17 +65,35 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
     setShowForm(true);
   };
 
-  const handleAddPhoto = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleAddPhotos = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    e.target.value = '';
+    if (files.length === 0) return;
     setUploading(true);
     try {
-      const url = await uploadFile(file);
-      setPhotos(prev => [...prev, url]);
+      const urls: string[] = [];
+      for (const file of files) {
+        urls.push(await uploadFile(file));
+      }
+      setPhotos(prev => [...prev, ...urls]);
     } catch {
       // handle error
     } finally {
       setUploading(false);
+    }
+  };
+
+  const handleAddVideoFile = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    e.target.value = '';
+    if (!file) return;
+    setUploadingVideo(true);
+    try {
+      setVideoUrl(await uploadFile(file));
+    } catch {
+      // handle error
+    } finally {
+      setUploadingVideo(false);
     }
   };
 
@@ -99,8 +119,10 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
           description: description || undefined,
           rent_amount: Number(rentAmount) || undefined,
           quantity_available: quantityAvailable || undefined,
-          photos: photos.length > 0 ? photos : undefined,
-          video_url: videoUrl || undefined,
+          // Always send media fields on edit so clearing them persists
+          // (the backend treats a missing field as "no change").
+          photos,
+          video_url: videoUrl,
         });
       } else {
         await api.addCategory(propertyId, {
@@ -165,8 +187,21 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                     <div className="font-semibold text-sm text-fg">{cat.name}</div>
                     <div className="text-xs text-fg/50">KES {Number(cat.rent_amount).toLocaleString()}</div>
                     <div className="text-xs text-fg/40">{cat.description}</div>
-                    {cat.photos && cat.photos.length > 0 && (
-                      <div className="text-[10px] text-fg/40 mt-1">{cat.photos.length} photo(s)</div>
+                    {(cat.photos?.length > 0 || cat.video_url) && (
+                      <div className="flex items-center gap-1.5 mt-1.5">
+                        {cat.photos?.length > 0 && (
+                          <span className="inline-flex items-center gap-1 bg-panel-strong text-fg/60 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                            <Images size={10} />
+                            {cat.photos.length} pic{cat.photos.length === 1 ? '' : 's'}
+                          </span>
+                        )}
+                        {cat.video_url && (
+                          <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">
+                            <Play size={10} className="fill-primary" />
+                            Video
+                          </span>
+                        )}
+                      </div>
                     )}
                   </div>
                   <div className="flex items-center gap-2">
@@ -254,11 +289,14 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-fg/80 mb-1">Photos</label>
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">
+                    Pics &amp; Videos
+                    <span className="font-normal text-fg/40 ml-1">(shown to tenants on this unit's card)</span>
+                  </label>
                   <div className="flex flex-wrap gap-2 mb-2">
                     {photos.map((url, i) => (
                       <div key={i} className="relative group">
-                        <img src={url} alt="" className="w-16 h-16 object-cover rounded-lg border border-line" />
+                        <img src={resolveMediaUrl(url) ?? url} alt="" className="w-16 h-16 object-cover rounded-lg border border-line" />
                         <button
                           type="button"
                           onClick={() => handleRemovePhoto(i)}
@@ -269,13 +307,57 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       </div>
                     ))}
                   </div>
-                  <div className="flex gap-2">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleAddPhotos}
+                    className="hidden"
+                    id="cat-photo-upload"
+                    disabled={uploading}
+                  />
+                  <input
+                    type="file"
+                    accept="video/*"
+                    onChange={handleAddVideoFile}
+                    className="hidden"
+                    id="cat-video-upload"
+                    disabled={uploadingVideo}
+                  />
+                  <div className="flex flex-wrap items-center gap-2">
+                    <label
+                      htmlFor="cat-photo-upload"
+                      className={`inline-flex items-center gap-1.5 px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
+                    >
+                      <Images size={14} />
+                      {uploading ? 'Uploading…' : 'Upload pics'}
+                    </label>
+                    <label
+                      htmlFor="cat-video-upload"
+                      className={`inline-flex items-center gap-1.5 px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploadingVideo ? 'opacity-50 pointer-events-none' : ''}`}
+                    >
+                      <Upload size={14} />
+                      {uploadingVideo ? 'Uploading…' : 'Upload video'}
+                    </label>
+                    <span className="text-[10px] text-fg/30">or paste links below · videos max 50MB</span>
+                    {videoUrl && (
+                      <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded-full">
+                        <Play size={10} className="fill-primary" />
+                        Video ready
+                        <button type="button" onClick={() => setVideoUrl('')} className="text-fg/40 hover:text-red-500 ml-0.5">
+                          <X size={11} />
+                        </button>
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="mt-2 flex flex-wrap gap-2">
                     <input
                       type="text"
-                      placeholder="Image URL"
+                      placeholder="Paste image URL"
                       value={photoInput}
                       onChange={e => setPhotoInput(e.target.value)}
-                      className="flex-1 text-sm border border-line rounded-lg p-2 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                      className="flex-1 min-w-[140px] text-sm border border-line rounded-lg p-2 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                     />
                     <button
                       type="button"
@@ -284,30 +366,14 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                     >
                       Add URL
                     </button>
-                    <input
-                      type="file"
-                      accept="image/*"
-                      onChange={handleAddPhoto}
-                      className="hidden"
-                      id="cat-photo-upload"
-                    />
-                    <label
-                      htmlFor="cat-photo-upload"
-                      className={`px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploading ? 'opacity-50' : ''}`}
-                    >
-                      <Upload size={16} />
-                    </label>
                   </div>
-                </div>
 
-                <div>
-                  <label className="block text-xs font-semibold text-fg/80 mb-1">Video Tour URL</label>
                   <input
                     type="text"
-                    placeholder="https://youtube.com/..."
+                    placeholder="Video tour URL (YouTube, Vimeo, or direct link)"
                     value={videoUrl}
                     onChange={e => setVideoUrl(e.target.value)}
-                    className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    className="w-full mt-2 text-sm border border-line rounded-lg p-2 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
                   />
                 </div>
 

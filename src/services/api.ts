@@ -1,4 +1,4 @@
-import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, CustomerProfile, TenantProfile, PropertyManagerView, PropertyManagerDetail } from '../types';
+import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, CustomerProfile, TenantProfile, PropertyManagerView, PropertyManagerDetail, CallRequestView } from '../types';
 
 const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api/v1';
 
@@ -112,6 +112,23 @@ class ApiService {
 
   async getUnitContact(categoryId: string): Promise<ContactInfoResponse> {
     return request<ContactInfoResponse>('GET', `/categories/${categoryId}/contact`);
+  }
+
+  async requestCallBack(propertyId: string, data: { unit_category_id?: string; tenant_name: string; tenant_phone: string }): Promise<{ message: string }> {
+    return request<{ message: string }>('POST', `/properties/${propertyId}/call-requests`, data);
+  }
+
+  async getCallRequests(): Promise<CallRequestView[]> {
+    const res = await request<CallRequestView[] | null>('GET', '/landlord/call-requests');
+    return res ?? [];
+  }
+
+  async markCallRequestContacted(requestId: string): Promise<{ message: string }> {
+    return request<{ message: string }>('POST', `/landlord/call-requests/${requestId}/contacted`, {});
+  }
+
+  async sendMessage(unitId: string, data: { tenant_name: string; tenant_phone: string; message: string }): Promise<{ message: string }> {
+    return request<{ message: string }>(`POST`, `/categories/${unitId}/messages`, data);
   }
 
   // Landlord

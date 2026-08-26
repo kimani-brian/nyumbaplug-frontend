@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, ShieldCheck } from 'lucide-react';
 import { Property } from '../../types';
-import { optimizeImageUrl } from '../../utils/image';
+import { optimizeImageUrl, resolveMediaUrl } from '../../utils/image';
 
 interface Props {
   property: Property;
@@ -23,7 +23,7 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
       <div className="relative aspect-[16/10] bg-nyumba-ink overflow-hidden">
         {property.image_url ? (
           <img
-            src={optimizeImageUrl(property.image_url) ?? property.image_url}
+            src={optimizeImageUrl(resolveMediaUrl(property.image_url)) ?? property.image_url}
             alt={property.name}
             loading="lazy"
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"

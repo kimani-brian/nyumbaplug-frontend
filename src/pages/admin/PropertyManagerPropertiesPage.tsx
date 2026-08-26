@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin } from 'lucide-react';
 import { Property } from '../../types';
+import { resolveMediaUrl } from '../../utils/image';
 import { api } from '../../services/api';
 
 export const PropertyManagerPropertiesPage: React.FC = () => {
@@ -42,7 +43,7 @@ export const PropertyManagerPropertiesPage: React.FC = () => {
             <div key={p.id} className="bg-panel border border-line rounded-3xl overflow-hidden shadow-soft transition-all duration-300 hover:shadow-lift hover:-translate-y-1">
               {p.image_url && (
                 <div className="relative aspect-[16/9] bg-nyumba-ink">
-                  <img src={p.image_url} alt={p.name} className="w-full h-full object-cover" />
+                  <img src={resolveMediaUrl(p.image_url) ?? p.image_url} alt={p.name} className="w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/70 via-transparent to-transparent" />
                 </div>
               )}

@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp } from 'lucide-react';
+import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp, PhoneIncoming, Check, Phone } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { VerificationBanner } from '../../components/landlord/VerificationBanner';
 import { ProfileForm } from '../../components/landlord/ProfileForm';
 import { AddPropertyModal } from '../../components/landlord/AddPropertyModal';
 import { CategoryManager } from '../../components/landlord/CategoryManager';
-import { Property } from '../../types';
+import { Property, CallRequestView } from '../../types';
 import { api } from '../../services/api';
+import { resolveMediaUrl } from '../../utils/image';
 
 export const LandlordDashboard: React.FC = () => {
   const { user, landlordProfile, setLandlordProfile } = useAuth() as any;
   const navigate = useNavigate();
   const [properties, setProperties] = useState<Property[]>([]);
+  const [callRequests, setCallRequests] = useState<CallRequestView[]>([]);
   const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
   const [editProperty, setEditProperty] = useState<Property | null>(null);
   const [manageCategoriesFor, setManageCategoriesFor] = useState<string | null>(null);
@@ -28,6 +30,7 @@ export const LandlordDashboard: React.FC = () => {
         if (profile) {
           const props = await api.getLandlordProperties();
           setProperties(props);
+          api.getCallRequests().then(setCallRequests).catch(() => {});
         }
       }
     } catch {
@@ -60,6 +63,17 @@ export const LandlordDashboard: React.FC = () => {
       // handle error
     } finally {
       setDeleting(null);
+    }
+  };
+
+  const newCallRequests = callRequests.filter(r => r.status === 'new');
+
+  const handleMarkContacted = async (requestId: string) => {
+    try {
+      await api.markCallRequestContacted(requestId);
+      setCallRequests(prev => prev.map(r => (r.id === requestId ? { ...r, status: 'contacted' as const } : r)));
+    } catch {
+      // handle error
     }
   };
 
@@ -155,6 +169,66 @@ export const LandlordDashboard: React.FC = () => {
 
       <VerificationBanner profile={landlordProfile} />
 
+      {/* Callback request notifications */}
+      {callRequests.length > 0 && (
+        <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
+            <div className="flex items-center gap-2">
+              <PhoneIncoming size={16} className="text-primary" />
+              <h2 className="font-bold text-sm text-fg">Callback requests</h2>
+              {newCallRequests.length > 0 && (
+                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                  {newCallRequests.length}
+                </span>
+              )}
+            </div>
+          </div>
+          <div className="divide-y divide-line">
+            {callRequests.map(req => (
+              <div key={req.id} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-5 py-3.5">
+                <div
+                  className={`w-2 h-2 rounded-full shrink-0 ${req.status === 'new' ? 'bg-blue-500' : 'bg-emerald-400'}`}
+                  title={req.status === 'new' ? 'New' : 'Contacted'}
+                />
+                <div className="min-w-0 flex-1">
+                  <p className="text-sm font-semibold text-fg truncate">
+                    {req.tenant_name}
+                    <span className="text-fg/40 font-normal"> · wants a call back</span>
+                  </p>
+                  <p className="text-xs text-fg/50 truncate">
+                    {req.property_name}
+                    {req.unit_name ? ` · ${req.unit_name}` : ''}
+                    <span className="text-fg/30"> · {new Date(req.created_at).toLocaleDateString()} {new Date(req.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                  </p>
+                </div>
+                <a
+                  href={`tel:${req.tenant_phone}`}
+                  className="text-sm font-mono font-semibold text-primary hover:underline shrink-0"
+                >
+                  {req.tenant_phone}
+                </a>
+                <div className="flex items-center gap-2 shrink-0">
+                  <a href={`tel:${req.tenant_phone}`} className="btn-outline !px-3 !py-1.5 !text-xs">
+                    <Phone size={12} />
+                    Call
+                  </a>
+                  {req.status === 'new' ? (
+                    <button onClick={() => handleMarkContacted(req.id)} className="btn-primary !px-3 !py-1.5 !text-xs">
+                      <Check size={12} />
+                      Mark contacted
+                    </button>
+                  ) : (
+                    <span className="text-[10px] font-bold uppercase tracking-wide text-primary bg-primary/10 px-2 py-1 rounded-full">
+                      Contacted
+                    </span>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       {/* Properties */}
       <div>
         <div className="flex items-center justify-between mb-4">
@@ -186,7 +260,7 @@ export const LandlordDashboard: React.FC = () => {
                   <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-nyumba-ink">
                     {property.image_url ? (
                       <>
-                        <img src={property.image_url} alt={property.name} className="w-full h-full object-cover" />
+                        <img src={resolveMediaUrl(property.image_url) ?? property.image_url} alt={property.name} className="w-full h-full object-cover" />
                         <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/70 via-transparent to-transparent" />
                       </>
                     ) : (

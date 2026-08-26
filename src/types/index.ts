@@ -135,3 +135,20 @@ export interface ContactInfoResponse {
   landlord_email?: string;
   landlord_profile: LandlordProfile;
 }
+
+export type CallRequestStatus = 'new' | 'contacted';
+
+export interface CallRequest {
+  id: string;
+  property_id: string;
+  unit_category_id?: string;
+  tenant_name: string;
+  tenant_phone: string;
+  status: CallRequestStatus;
+  created_at: string;
+}
+
+export interface CallRequestView extends CallRequest {
+  property_name: string;
+  unit_name?: string;
+}
