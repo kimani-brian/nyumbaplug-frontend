@@ -28,7 +28,7 @@ describe('PropertyDetailPage', () => {
     (apiModule.api.getPropertyDetail as any) = vi.fn().mockResolvedValue(mockDetail);
   });
 
-  it('renders property title and units', async () => {
+  it('renders property title without image badges', async () => {
     render(
       <MemoryRouter initialEntries={["/properties/p1"]}>
         <Routes>
@@ -39,7 +39,7 @@ describe('PropertyDetailPage', () => {
 
     const titles = await screen.findAllByText(/Lovely Home/i);
     expect(titles.length).toBeGreaterThan(0);
-    const matches = screen.getAllByText(/2 units available/i);
-    expect(matches.length).toBeGreaterThan(0);
+    expect(screen.queryByText(/2 units available/i)).not.toBeInTheDocument();
+    expect(screen.queryByText(/Verified Property Manager/i)).not.toBeInTheDocument();
   });
 });

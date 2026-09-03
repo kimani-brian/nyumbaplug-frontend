@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp, PhoneIncoming, Check, Phone } from 'lucide-react';
+import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp, PhoneIncoming, Check, Phone, Mail, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { VerificationBanner } from '../../components/landlord/VerificationBanner';
 import { ProfileForm } from '../../components/landlord/ProfileForm';
 import { AddPropertyModal } from '../../components/landlord/AddPropertyModal';
 import { CategoryManager } from '../../components/landlord/CategoryManager';
-import { Property, CallRequestView } from '../../types';
+import { Property, CallRequestView, MessageView } from '../../types';
 import { api } from '../../services/api';
 import { resolveMediaUrl } from '../../utils/image';
 
@@ -15,6 +14,9 @@ export const LandlordDashboard: React.FC = () => {
   const navigate = useNavigate();
   const [properties, setProperties] = useState<Property[]>([]);
   const [callRequests, setCallRequests] = useState<CallRequestView[]>([]);
+  const [messages, setMessages] = useState<MessageView[]>([]);
+  const [messagesOpen, setMessagesOpen] = useState(true);
+  const [callRequestsOpen, setCallRequestsOpen] = useState(true);
   const [isAddPropertyOpen, setIsAddPropertyOpen] = useState(false);
   const [editProperty, setEditProperty] = useState<Property | null>(null);
   const [manageCategoriesFor, setManageCategoriesFor] = useState<string | null>(null);
@@ -31,6 +33,7 @@ export const LandlordDashboard: React.FC = () => {
           const props = await api.getLandlordProperties();
           setProperties(props);
           api.getCallRequests().then(setCallRequests).catch(() => {});
+          api.getMessages().then(setMessages).catch(() => {});
         }
       }
     } catch {
@@ -41,6 +44,13 @@ export const LandlordDashboard: React.FC = () => {
   };
 
   useEffect(() => { loadData(); }, [user]);
+
+  useEffect(() => {
+    if (user?.role !== 'landlord') return;
+    const refreshMessages = () => api.getMessages().then(setMessages).catch(() => {});
+    const interval = window.setInterval(refreshMessages, 15000);
+    return () => window.clearInterval(interval);
+  }, [user]);
 
   const isVerified = landlordProfile?.verification_status === 'verified';
 
@@ -67,6 +77,7 @@ export const LandlordDashboard: React.FC = () => {
   };
 
   const newCallRequests = callRequests.filter(r => r.status === 'new');
+  const newMessages = messages.filter(m => m.status === 'unread');
 
   const handleMarkContacted = async (requestId: string) => {
     try {
@@ -74,6 +85,17 @@ export const LandlordDashboard: React.FC = () => {
       setCallRequests(prev => prev.map(r => (r.id === requestId ? { ...r, status: 'contacted' as const } : r)));
     } catch {
       // handle error
+    }
+  };
+
+  const handleMarkMessageRead = async (messageId: string) => {
+    try {
+      await api.markMessageRead(messageId);
+      setMessages(prev => prev.map(message => (
+        message.id === messageId ? { ...message, status: 'read' as const } : message
+      )));
+    } catch {
+      // Keep the message unread if the server could not save the change.
     }
   };
 
@@ -167,23 +189,101 @@ export const LandlordDashboard: React.FC = () => {
         ))}
       </div>
 
-      <VerificationBanner profile={landlordProfile} />
-
-      {/* Callback request notifications */}
-      {callRequests.length > 0 && (
-        <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
-          <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
-            <div className="flex items-center gap-2">
-              <PhoneIncoming size={16} className="text-primary" />
-              <h2 className="font-bold text-sm text-fg">Callback requests</h2>
-              {newCallRequests.length > 0 && (
-                <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
-                  {newCallRequests.length}
-                </span>
-              )}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+        {/* Tenant message notifications */}
+        {messages.length > 0 && (
+          <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
+              <div className="flex items-center gap-2">
+                <Mail size={16} className="text-primary" />
+                <h2 className="font-bold text-sm text-fg">Tenant messages</h2>
+                {newMessages.length > 0 && (
+                  <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                    {newMessages.length} new
+                  </span>
+                )}
+              </div>
+              <div className="flex items-center gap-1">
+                <button
+                  onClick={() => api.getMessages().then(setMessages).catch(() => {})}
+                  className="p-1.5 text-fg/40 hover:text-primary transition"
+                  title="Refresh messages"
+                  aria-label="Refresh messages"
+                >
+                  <RefreshCw size={14} />
+                </button>
+                <button
+                  onClick={() => setMessagesOpen(open => !open)}
+                  className="p-1.5 text-fg/40 hover:text-primary transition"
+                  title={messagesOpen ? 'Collapse messages' : 'Show messages'}
+                  aria-label={messagesOpen ? 'Collapse messages' : 'Show messages'}
+                  aria-expanded={messagesOpen}
+                >
+                  {messagesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                </button>
+              </div>
             </div>
+            {messagesOpen && <div className="divide-y divide-line max-h-96 overflow-y-auto">
+              {messages.map(msg => (
+                <div key={msg.id} className="flex flex-col gap-2 px-5 py-3.5">
+                  <div className="flex items-start gap-3">
+                    <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${msg.status === 'unread' ? 'bg-blue-500' : 'bg-emerald-400'}`} />
+                    <div className="min-w-0 flex-1">
+                      <p className="text-sm font-semibold text-fg">
+                        {msg.tenant_name}
+                        <span className="text-fg/40 font-normal"> · {msg.unit_name} at {msg.property_name}</span>
+                      </p>
+                      <p className="text-sm text-fg/70 mt-1 whitespace-pre-wrap break-words">{msg.message}</p>
+                      <p className="text-xs text-fg/40 mt-1">
+                        {new Date(msg.created_at).toLocaleDateString()} {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between gap-3 ml-5">
+                    <a href={`tel:${msg.tenant_phone}`} className="text-sm font-mono font-semibold text-primary hover:underline">
+                      {msg.tenant_phone}
+                    </a>
+                    {msg.status === 'unread' ? (
+                      <button onClick={() => handleMarkMessageRead(msg.id)} className="btn-outline !px-3 !py-1.5 !text-xs shrink-0">
+                        Mark as read
+                      </button>
+                    ) : (
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-primary bg-primary/10 px-2 py-1 rounded-full shrink-0">
+                        Read
+                      </span>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+            }
           </div>
-          <div className="divide-y divide-line">
+        )}
+
+        {/* Callback request notifications */}
+        {callRequests.length > 0 && (
+          <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
+            <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
+              <div className="flex items-center gap-2">
+                <PhoneIncoming size={16} className="text-primary" />
+                <h2 className="font-bold text-sm text-fg">Callback requests</h2>
+                {newCallRequests.length > 0 && (
+                  <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
+                    {newCallRequests.length}
+                  </span>
+                )}
+              </div>
+              <button
+                onClick={() => setCallRequestsOpen(open => !open)}
+                className="p-1.5 text-fg/40 hover:text-primary transition"
+                title={callRequestsOpen ? 'Collapse callback requests' : 'Show callback requests'}
+                aria-label={callRequestsOpen ? 'Collapse callback requests' : 'Show callback requests'}
+                aria-expanded={callRequestsOpen}
+              >
+                {callRequestsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+              </button>
+            </div>
+            {callRequestsOpen && <div className="divide-y divide-line max-h-96 overflow-y-auto">
             {callRequests.map(req => (
               <div key={req.id} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-5 py-3.5">
                 <div
@@ -225,9 +325,10 @@ export const LandlordDashboard: React.FC = () => {
                 </div>
               </div>
             ))}
+          </div>}
           </div>
-        </div>
-      )}
+        )}
+      </div>
 
       {/* Properties */}
       <div>
@@ -261,7 +362,6 @@ export const LandlordDashboard: React.FC = () => {
                     {property.image_url ? (
                       <>
                         <img src={resolveMediaUrl(property.image_url) ?? property.image_url} alt={property.name} className="w-full h-full object-cover" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/70 via-transparent to-transparent" />
                       </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">

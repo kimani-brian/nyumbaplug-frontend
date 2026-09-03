@@ -35,10 +35,10 @@ export const Navbar: React.FC = () => {
   }, [location.pathname]);
 
   const text = overHero ? 'text-white' : 'text-fg';
-  const muted = overHero ? 'text-white/70' : 'text-fg/60';
+  const muted = overHero ? 'text-white/90' : 'text-fg/60';
   const bg = solid
     ? 'bg-page/90 backdrop-blur-xl border-b border-line'
-    : 'bg-transparent border-b border-transparent';
+    : 'bg-nyumba-ink/75 backdrop-blur-md border-b border-white/10';
   const dashCls = overHero
     ? 'bg-white/15 text-white hover:bg-white/25 backdrop-blur'
     : 'bg-primary text-white hover:bg-primary-dark';
@@ -123,7 +123,7 @@ export const Navbar: React.FC = () => {
                   className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
                 >
                   <LayoutDashboard size={14} />
-                  Account
+                  Profile
                 </Link>
               )}
               {user.role === 'landlord' && (
@@ -136,7 +136,7 @@ export const Navbar: React.FC = () => {
                   }`}
                 >
                   <LayoutDashboard size={14} />
-                  Account
+                  Profile
                 </Link>
               )}
               <button
@@ -233,7 +233,7 @@ export const Navbar: React.FC = () => {
                     to="/account"
                     className="block text-center text-sm font-semibold py-2.5 rounded-full bg-page text-fg border border-line"
                   >
-                    My Account
+                    Profile
                   </Link>
                 )}
                 {user.role === 'tenant' && (
@@ -241,7 +241,7 @@ export const Navbar: React.FC = () => {
                     to="/account"
                     className="block text-center text-sm font-semibold py-2.5 rounded-full bg-primary text-white"
                   >
-                    My Account
+                    Profile
                   </Link>
                 )}
                 <button

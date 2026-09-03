@@ -152,3 +152,18 @@ export interface CallRequestView extends CallRequest {
   property_name: string;
   unit_name?: string;
 }
+
+export type MessageStatus = 'unread' | 'read' | 'replied';
+
+export interface MessageView {
+  id: string;
+  property_id: string;
+  unit_category_id: string;
+  tenant_name: string;
+  tenant_phone: string;
+  message: string;
+  status: MessageStatus;
+  created_at: string;
+  property_name: string;
+  unit_name: string;
+}

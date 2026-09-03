@@ -4,6 +4,21 @@ import { api, uploadFile } from '../../services/api';
 import { UnitCategory } from '../../types';
 import { resolveMediaUrl } from '../../utils/image';
 
+const CATEGORY_PRESETS = [
+  'Single Room',
+  'Bedsitter',
+  'Studio Apartment',
+  '1 Bedroom',
+  '2 Bedroom',
+  '3 Bedroom',
+  '4 Bedroom',
+  '5+ Bedroom',
+  'Maisonette',
+  'Apartment',
+  'Penthouse',
+  'Villa',
+];
+
 interface Props {
   propertyId: string;
   onClose: () => void;
@@ -16,6 +31,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
 
+  const [categoryType, setCategoryType] = useState('');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [rentAmount, setRentAmount] = useState('');
@@ -43,6 +59,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
   useEffect(() => { loadCategories(); }, [propertyId]);
 
   const resetForm = () => {
+    setCategoryType('');
     setName('');
     setDescription('');
     setRentAmount('');
@@ -55,6 +72,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
   };
 
   const openEdit = (cat: UnitCategory) => {
+    setCategoryType(CATEGORY_PRESETS.includes(cat.name) ? cat.name : 'custom');
     setName(cat.name);
     setDescription(cat.description || '');
     setRentAmount(String(cat.rent_amount));
@@ -243,15 +261,33 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                   {editingId ? 'Edit Category' : 'New Category'}
                 </h4>
                 <div>
-                  <label className="block text-xs font-semibold text-fg/80 mb-1">Name *</label>
-                  <input
-                    type="text"
+                  <label className="block text-xs font-semibold text-fg/80 mb-1">Unit type *</label>
+                  <select
                     required
-                    placeholder="e.g. 1-Bedroom, Studio, 2-Bedroom"
-                    value={name}
-                    onChange={e => setName(e.target.value)}
+                    size={5}
+                    value={categoryType}
+                    onChange={e => {
+                      const value = e.target.value;
+                      setCategoryType(value);
+                      if (value !== 'custom') setName(value);
+                      else setName('');
+                    }}
                     className="w-full text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
-                  />
+                  >
+                    <option value="" disabled>Select a unit type</option>
+                    {CATEGORY_PRESETS.map(option => <option key={option} value={option}>{option}</option>)}
+                    <option value="custom">Create category</option>
+                  </select>
+                  {categoryType === 'custom' && (
+                    <input
+                      type="text"
+                      required
+                      placeholder="Enter category name"
+                      value={name}
+                      onChange={e => setName(e.target.value)}
+                      className="w-full mt-2 text-sm border border-line rounded-lg p-2.5 bg-panel text-fg focus:ring-2 focus:ring-primary/20 focus:border-primary"
+                    />
+                  )}
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-fg/80 mb-1">Description</label>

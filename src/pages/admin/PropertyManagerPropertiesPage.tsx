@@ -44,7 +44,6 @@ export const PropertyManagerPropertiesPage: React.FC = () => {
               {p.image_url && (
                 <div className="relative aspect-[16/9] bg-nyumba-ink">
                   <img src={resolveMediaUrl(p.image_url) ?? p.image_url} alt={p.name} className="w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/70 via-transparent to-transparent" />
                 </div>
               )}
               <div className="p-4">

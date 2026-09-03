@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin, ShieldCheck } from 'lucide-react';
+import { MapPin } from 'lucide-react';
 import { Property } from '../../types';
 import { optimizeImageUrl, resolveMediaUrl } from '../../utils/image';
 
@@ -12,8 +12,6 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
   const categories = property.categories || [];
   const minRent = property.min_rent ??
     (categories.length > 0 ? Math.min(...categories.map(c => Number(c.rent_amount))) : 0);
-  const totalUnits = property.total_units ??
-    categories.reduce((sum, c) => sum + c.quantity_available, 0);
 
   return (
     <Link
@@ -33,14 +31,6 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
             <MapPin size={28} className="text-white/20" />
           </div>
         )}
-        {property.image_url && <div className="absolute inset-0 bg-gradient-to-t from-page/70 via-page/10 to-transparent" />}
-        <div className="absolute top-3 left-3 inline-flex items-center gap-1 bg-nyumba-ink/80 backdrop-blur text-white text-[10px] font-bold px-2.5 py-1 rounded-full shadow border border-white/10">
-          <ShieldCheck size={11} className="text-primary" />
-          Verified Property Manager
-        </div>
-        <div className="absolute bottom-3 right-3 bg-nyumba-ink/85 text-white text-xs font-bold px-2.5 py-1 rounded-full backdrop-blur">
-          {totalUnits} {totalUnits === 1 ? 'UNIT' : 'UNITS'}
-        </div>
       </div>
 
       <div className="p-5 flex flex-col flex-1">

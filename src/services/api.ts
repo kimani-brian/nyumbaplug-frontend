@@ -1,4 +1,4 @@
-import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, CustomerProfile, TenantProfile, PropertyManagerView, PropertyManagerDetail, CallRequestView } from '../types';
+import { Property, LandlordProfile, UnitCategory, PropertyReport, AdminAuditLog, ContactInfoResponse, User, CustomerView, CustomerProfile, TenantProfile, PropertyManagerView, PropertyManagerDetail, CallRequestView, MessageView } from '../types';
 
 const BASE = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8081/api/v1';
 
@@ -125,6 +125,15 @@ class ApiService {
 
   async markCallRequestContacted(requestId: string): Promise<{ message: string }> {
     return request<{ message: string }>('POST', `/landlord/call-requests/${requestId}/contacted`, {});
+  }
+
+  async getMessages(): Promise<MessageView[]> {
+    const res = await request<MessageView[] | null>('GET', '/landlord/messages');
+    return res ?? [];
+  }
+
+  async markMessageRead(messageId: string): Promise<{ message: string }> {
+    return request<{ message: string }>('POST', `/landlord/messages/${messageId}/read`, {});
   }
 
   async sendMessage(unitId: string, data: { tenant_name: string; tenant_phone: string; message: string }): Promise<{ message: string }> {

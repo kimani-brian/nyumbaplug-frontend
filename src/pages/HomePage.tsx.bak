@@ -1,16 +1,29 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
+  Check,
   ArrowRight,
   Quote,
   Star,
 } from 'lucide-react';
+import { Property } from '../types';
+import { api } from '../services/api';
+import { PropertyCard } from '../components/tenant/PropertyCard';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { Reveal } from '../components/common/Reveal';
 
 const HERO_IMG =
   'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop';
+const MANAGER_IMG =
+  'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1600&auto=format&fit=crop';
+
+const COUNTIES = [
+  { name: 'Nairobi', tag: 'Kilimani · Westlands · Ruaka', img: 'https://images.unsplash.com/photo-1570168007204-dfb528e6958d?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Mombasa', tag: 'Nyali · Bamburi · Tudor', img: 'https://images.unsplash.com/photo-1519457431-44ccd64a579b?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Kisumu', tag: 'Milimani · Kibos', img: 'https://images.unsplash.com/photo-1506280754576-f6fa8a873550?q=80&w=800&auto=format&fit=crop' },
+  { name: 'Nakuru', tag: 'Section 58 · Milimani', img: 'https://images.unsplash.com/photo-1449824913935-59a10b8d2000?q=80&w=800&auto=format&fit=crop' },
+];
 
 const HOW_IT_WORKS = [
   {
@@ -48,6 +61,17 @@ const TESTIMONIALS = [
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
+  const [featured, setFeatured] = useState<Property[]>([]);
+  const [featuredLoading, setFeaturedLoading] = useState(true);
+  const featuredRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    api
+      .getProperties({})
+      .then(setFeatured)
+      .catch(() => setFeatured([]))
+      .finally(() => setFeaturedLoading(false));
+  }, []);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -60,7 +84,9 @@ export const HomePage: React.FC = () => {
       <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-nyumba-ink">
         <div className="absolute inset-0">
           <img src={HERO_IMG} alt="Kenyan apartments" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0" />
+          <div className="absolute inset-0 bg-gradient-to-r from-nyumba-ink via-nyumba-ink/85 to-nyumba-navy/60" />
+          <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-nyumba-ink to-transparent" />
+          <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full bg-primary/20 blur-[120px]" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 w-full pt-24 pb-20">
@@ -69,6 +95,7 @@ export const HomePage: React.FC = () => {
 
             The smarter way to find your next home.
           </p>
+
 
           <h1 className="display text-white font-bold text-4xl sm:text-6xl lg:text-[4.25rem] leading-[1.02] max-w-3xl animate-fade-up" style={{ animationDelay: '0.05s' }}>
             Find a place you can trust.
@@ -114,7 +141,7 @@ export const HomePage: React.FC = () => {
           <div className="mt-8 flex flex-wrap items-center gap-3 animate-fade-up" style={{ animationDelay: '0.25s' }}>
             <Link
               to="/properties"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold rounded-full text-sm px-7 py-3 transition shadow-glow"
+              className="inline-flex items-centThe smarter way to find your next home.er gap-2 bg-primary hover:bg-primary-dark text-white font-bold text-sm px-7 py-3.5 rounded-full transition shadow-glow"
             >
               Start browsing
               <ArrowRight size={16} />
@@ -168,6 +195,86 @@ export const HomePage: React.FC = () => {
                 <div className="text-[11px] text-fg/50 uppercase tracking-wider mt-1">{s.label}</div>
               </div>
             ))}
+          </div>
+        </Reveal>
+      </section>
+
+      {/* ============ FEATURED LISTINGS ============ */}
+      <section className="section-pad container-px max-w-7xl mx-auto pt-0">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
+          <Reveal>
+            <SectionHeading
+              kicker="Featured"
+              title="Recently verified rentals"
+              description="Explore verified rental properties from trusted property managers across Kenya."
+              light
+            />
+          </Reveal>
+          <Reveal delay={150}>
+            <Link to="/properties" className="btn-outline shrink-0 !py-2.5">
+              View all units
+              <ArrowRight size={16} />
+            </Link>
+          </Reveal>
+        </div>
+
+        <div ref={featuredRef} className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {featuredLoading
+            ? [1, 2, 3].map(n => (
+                <div key={n} className="bg-panel-strong h-[360px] rounded-3xl animate-pulse border border-line" />
+              ))
+            : featured.slice(0, 3).map((p, i) => (
+                <Reveal key={p.id} delay={i * 120} className="h-full">
+                  <PropertyCard property={p} />
+                </Reveal>
+              ))}
+        </div>
+        {!featuredLoading && featured.length === 0 && (
+          <div className="text-center py-16 bg-panel rounded-3xl border border-line">
+            
+            <p className="text-fg/80 font-medium text-sm">No verified listings yet.</p>
+            <p className="text-xs text-fg/50 mt-1">New verified units appear here as property managers get approved.</p>
+          </div>
+        )}
+      </section>
+
+      {/* ============ AGENT CTA ============ */}
+      <section id="managers" className="max-w-7xl mx-auto container-px section-pad scroll-mt-20">
+        <Reveal>
+          <div className="grid grid-cols-1 lg:grid-cols-2 rounded-3xl overflow-hidden shadow-lift border border-line bg-panel">
+            <div className="relative min-h-[280px] overflow-hidden">
+              <img src={MANAGER_IMG} alt="Property manager" className="absolute inset-0 w-full h-full object-cover opacity-40" />
+              <div className="absolute -bottom-24 -left-24 w-[400px] h-[400px] rounded-full bg-primary/20 blur-[120px]" />
+            </div>
+            <div className="bg-panel p-8 sm:p-12 flex flex-col justify-center">
+              <p className="text-xs font-bold uppercase tracking-[0.2em] text-primary mb-3">
+                For property managers & landlords
+              </p>
+              <h2 className="display text-3xl sm:text-4xl leading-[1.1] text-fg font-bold">
+                List your property. Find the right tenants.
+              </h2>
+              <p className="mt-4 text-sm text-fg/60 leading-relaxed">
+                Reach more genuine managers by listing your properties on NyumbaPlug.
+                Create your property profile, showcase your available units, and receive enquiries from interested tenants.
+              </p>
+              <ul className="mt-6 space-y-2.5 text-sm text-fg/70">
+                {['Verified property manager profile', 'List and manage your properties', 'Connect directly with tenants'].map(t => (
+                  <li key={t} className="flex items-center gap-2">
+                    <Check size={16} strokeWidth={5} className="text-primary shrink-0" />
+                    {t}
+                  </li>
+                ))}
+              </ul>
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link to="/register" className="btn-primary">
+                  List your property
+                  <ArrowRight size={16} />
+                </Link>
+                <Link to="/#trust" className="btn-outline">
+                  Learn how it works
+                </Link>
+              </div>
+            </div>
           </div>
         </Reveal>
       </section>

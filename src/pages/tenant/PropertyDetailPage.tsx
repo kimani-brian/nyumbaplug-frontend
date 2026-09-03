@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { MapPin, Phone, ExternalLink, ShieldCheck, ChevronRight, Images, MessageSquare } from 'lucide-react';
+import { MapPin, Phone, ExternalLink, ChevronRight, Images, MessageSquare } from 'lucide-react';
 import { Property, UnitCategory } from '../../types';
 import { api } from '../../services/api';
 import { CallBackModal } from '../../components/common/CallBackModal';
@@ -64,7 +64,6 @@ export const PropertyDetailPage: React.FC = () => {
     ? `https://www.google.com/maps/dir/?api=1&destination=${property.map_coords}`
     : `https://www.google.com/maps/search/${encodeURIComponent(textQuery)}`;
 
-  const totalUnits = categories.reduce((sum, c) => sum + c.quantity_available, 0);
 
   return (
     <main className="max-w-6xl mx-auto px-5 sm:px-8 lg:px-10 py-8">
@@ -84,18 +83,7 @@ export const PropertyDetailPage: React.FC = () => {
         ) : (
           <div className="w-full h-full bg-nyumba-ink" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-nyumba-ink/95 via-nyumba-ink/40 to-transparent" />
-        <div className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]" />
         <div className="absolute inset-x-0 bottom-0 p-6 sm:p-8 pt-24">
-          <div className="flex flex-wrap items-center gap-2 mb-3">
-            <span className="inline-flex items-center gap-1 bg-white/95 text-primary-dark text-[11px] font-bold px-2.5 py-1 rounded-full">
-              <ShieldCheck size={12} />
-              Verified Property Manager
-            </span>
-            <span className="bg-white/10 text-white border border-white/20 text-[11px] font-bold px-2.5 py-1 rounded-full backdrop-blur">
-              {totalUnits} {totalUnits === 1 ? 'unit' : 'units'} available
-            </span>
-          </div>
           <h1 className="display text-white font-bold text-3xl sm:text-5xl leading-tight">
             {property.name}
           </h1>
@@ -109,10 +97,12 @@ export const PropertyDetailPage: React.FC = () => {
       <div className="grid grid-cols-1 gap-8 mt-8">
         {/* Main column */}
         <div className="space-y-8">
-          {property.description && (
-            <section>
-              <h2 className="display font-bold text-2xl text-fg mb-3">About this property</h2>
-              <p className="text-sm text-fg/70 leading-relaxed">{property.description}</p>
+           {property.description && (
+             <section>
+              <h2 className="display font-bold text-2xl text-fg mb-3">Description</h2>
+              <div className="bg-panel-strong border border-line rounded-2xl p-5">
+                <p className="text-sm text-fg/70 leading-relaxed">{property.description}</p>
+              </div>
             </section>
           )}
 

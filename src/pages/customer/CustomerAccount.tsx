@@ -75,8 +75,7 @@ export const CustomerAccount: React.FC = () => {
   return (
     <main className="max-w-3xl mx-auto px-5 sm:px-8 py-8 space-y-6">
       <div>
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary mb-1">My Account</p>
-        <h1 className="display font-semibold text-3xl text-fg">Customer profile</h1>
+        <h1 className="display font-semibold text-3xl text-fg">Profile</h1>
         <p className="text-sm text-fg/60 mt-1">Keep your contact details up to date so property managers can reach you about rentals.</p>
       </div>
 

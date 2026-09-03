@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff, ArrowRight, BadgeCheck } from 'lucide-react';
+import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Input } from '../../components/ui/Input';
 import logo from '../../assets/logo.png';
 
-const SIDE_IMG = 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?q=80&w=1200&auto=format&fit=crop';
+const SIDE_IMG =
+  'https://images.unsplash.com/photo-1613575831056-0acd5da8f085?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -120,24 +121,7 @@ export const LoginPage: React.FC = () => {
 
       {/* Right — editorial panel */}
       <div className="hidden lg:block relative bg-nyumba-ink">
-        <div className="absolute inset-0">
-          <img src={SIDE_IMG} alt="Verified rental" className="w-full h-full object-cover opacity-40" />
-        </div>
-        <div className="absolute inset-0">
-          <div className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]" />
-        </div>
-        <div className="absolute bottom-0 inset-x-0 p-10">
-          <div className="inline-flex items-center gap-1.5 bg-primary/20 backdrop-blur border border-primary/30 text-primary text-[11px] font-bold px-3 py-1.5 rounded-full mb-4">
-            <BadgeCheck size={13} />
-            Verified Kenya Rentals
-          </div>
-          <h2 className="display text-white font-bold text-3xl leading-tight max-w-md">
-            Every rental here is backed by a real, ID-verified property manager.
-          </h2>
-          <p className="text-white/60 text-sm mt-3 max-w-sm leading-relaxed">
-            Sign in to browse scam-checked listings, manage your properties, or run the verification console.
-          </p>
-        </div>
+        <img src={SIDE_IMG} alt="Rental home" className="w-full h-full object-cover" />
       </div>
     </div>
   );

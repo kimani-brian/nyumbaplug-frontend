@@ -7,6 +7,9 @@ import logo from '../../assets/logo.png';
 
 type RegisterRole = 'customer' | 'manager';
 
+const SIDE_IMG =
+  'https://images.unsplash.com/photo-1744782351841-9cc6b86a5add?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
+
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
@@ -189,7 +192,7 @@ export const RegisterPage: React.FC = () => {
             </button>
           </form>
 
-          <p className="text-xs text-fg/50 text-center mt-6">
+<p className="text-xs text-fg/50 text-center mt-6">
             Already have an account?{' '}
             <Link to="/login" className="inline-flex items-center gap-0.5 text-primary font-semibold hover:underline">
               Sign in
@@ -198,41 +201,12 @@ export const RegisterPage: React.FC = () => {
           </p>
         </div>
       </div>
-
-      {/* Right — editorial panel */}
+      {/* Right — image panel */}
       <div className="hidden lg:block relative bg-nyumba-ink">
-        <div className="absolute inset-0">
-          <img
-            src="https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?q=80&w=1200&auto=format&fit=crop"
-            alt="Rental home"
-            className="w-full h-full object-cover opacity-40"
-          />
-        </div>
-        <div className="absolute inset-0">
-          <div className="absolute -top-20 -right-20 w-[500px] h-[500px] rounded-full bg-primary/20 blur-[120px]" />
-        </div>
-        <div className="absolute bottom-0 inset-x-0 p-10">
-          <div className="inline-flex items-center gap-1.5 bg-primary/20 backdrop-blur border border-primary/30 text-primary text-[11px] font-bold px-3 py-1.5 rounded-full mb-4">
-            <ShieldCheckIcon />
-            Join the verified rental marketplace
-          </div>
-          <h2 className="display text-white font-bold text-3xl leading-tight max-w-md">
-            Tenants get safe listings. Property managers get serious enquiries.
-          </h2>
-          <ul className="mt-4 space-y-2 text-sm text-white/70">
-            <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-primary" /> ID-verified property managers only</li>
-            <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-primary" /> Scam-checked listings</li>
-            <li className="flex items-center gap-2"><BadgeCheck size={15} className="text-primary" /> Contact revealed only for vacant, verified units</li>
-          </ul>
-        </div>
+        <img src={SIDE_IMG} alt="Rental home" className="w-full h-full object-cover" />
       </div>
     </div>
   );
 };
 
-const ShieldCheckIcon = () => (
-  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" />
-    <path d="m9 12 2 2 4-4" />
-  </svg>
-);
+
