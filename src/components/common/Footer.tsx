@@ -1,9 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram } from 'lucide-react';
+import { InstagramIcon } from '../../utils/icons';
 import logo from '../../assets/logo.png';
 
-const linkCls = 'text-xs text-fg/50 hover:text-fg transition-colors';
+const linkCls = 'text-xs text-fg/60 hover:text-fg transition-colors';
 const headingCls = 'text-xs font-bold text-fg uppercase tracking-wider mb-3';
 
 const TikTokIcon: React.FC<{ size?: number; className?: string }> = ({ size = 18, className }) => (
@@ -43,8 +43,6 @@ export const Footer: React.FC = () => {
               </div>
             </div>
 
-        
-            
             <p className="text-xs text-fg/50 leading-relaxed max-w-[220px]">
               Every listing is managed by a verified property manager.
             </p>
@@ -56,7 +54,7 @@ export const Footer: React.FC = () => {
                 aria-label="NyumbaPlug on Instagram"
                 className="w-9 h-9 rounded-full bg-panel border border-line flex items-center justify-center text-fg/60 hover:text-primary hover:border-primary/40 transition-colors"
               >
-                <Instagram size={18} />
+                <InstagramIcon size={18} />
               </a>
               <a
                 href="https://www.tiktok.com/@nyumbahub254"

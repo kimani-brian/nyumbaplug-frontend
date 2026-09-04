@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, X, Loader2, CheckCircle2 } from 'lucide-react';
 import { api } from '../../services/api';
+import { CloseIcon, PhoneIcon, CheckCircleIcon, LoaderIcon } from '../../utils/icons';
 
 interface Props {
   isOpen: boolean;
@@ -60,28 +60,28 @@ export const CallBackModal: React.FC<Props> = ({ isOpen, onClose, propertyId, un
 return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
       <div
-        className="bg-panel rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in max-h-[90vh] overflow-y-auto"
+        className="bg-panel rounded-2xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in max-h-[90vh] overflow-y-auto"
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-          <X size={20} />
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition" aria-label="Close">
+          <CloseIcon size={20} />
         </button>
 
         {/* Property + manager phone - centered */}
         <div className="text-center mb-6">
           <div className="bg-primary text-white p-3 rounded-full inline-flex mb-4">
-            <Phone size={22} />
+            <PhoneIcon size={22} />
           </div>
           <h3 className="display font-bold text-lg text-fg leading-tight mb-2">{propertyName}</h3>
           {loadingContact ? (
             <p className="text-xs text-fg/40 inline-flex items-center justify-center gap-1.5">
-              <Loader2 size={12} className="animate-spin" /> Loading manager contact…
+              <LoaderIcon size={12} className="animate-spin" /> Loading manager contact…
             </p>
           ) : contactError ? (
             <p className="text-xs text-red-400">{contactError}</p>
           ) : (
             <a href={`tel:${phone}`} className="text-sm text-primary font-semibold inline-flex items-center justify-center gap-1.5 hover:underline">
-              <Phone size={14} />
+              <PhoneIcon size={14} />
               {phone}
             </a>
           )}
@@ -89,7 +89,7 @@ return (
 
         {submitted ? (
           <div className="text-center py-6">
-            <CheckCircle2 size={44} className="mx-auto text-primary mb-3" />
+            <CheckCircleIcon size={44} className="mx-auto text-primary mb-3" />
             <h4 className="font-bold text-fg">Request sent!</h4>
             <p className="text-sm text-fg/60 mt-1">The manager has been notified and will call you back shortly.</p>
             <button onClick={onClose} className="btn-outline w-full mt-5 !py-2.5">Done</button>
@@ -131,9 +131,9 @@ return (
                 <button
                   type="submit"
                   disabled={submitting || loadingContact}
-                  className="w-full btn-primary !py-3 !rounded-xl disabled:opacity-50"
+                  className="w-full btn-primary !py-3 !rounded-lg disabled:opacity-50"
                 >
-                  <Phone size={16} />
+                  <PhoneIcon size={16} />
                   {submitting ? 'Sending request…' : 'Request a call'}
                 </button>
               </form>

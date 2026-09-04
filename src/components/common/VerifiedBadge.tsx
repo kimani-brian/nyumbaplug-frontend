@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck } from 'lucide-react';
+import { ShieldCheckIcon } from '../../utils/icons';
 
 interface VerifiedBadgeProps {
   size?: 'sm' | 'md' | 'lg';
@@ -25,7 +25,7 @@ export const VerifiedBadge: React.FC<VerifiedBadgeProps> = ({ size = 'md', verif
       className={`inline-flex items-center rounded-full bg-primary text-white border border-primary/25 font-medium ${sizeClasses[size]} ${className}`}
       title="Verified by NyumbaPlug Admin Team via Government ID & Title Deeds"
     >
-      <ShieldCheck size={iconSizes[size]} className="fill-primary text-white shrink-0" />
+      <ShieldCheckIcon size={iconSizes[size]} filled className="shrink-0" />
       <span>Verified Landlord</span>
       {formattedDate && <span className="opacity-75 font-normal text-[0.85em]">since {formattedDate}</span>}
     </div>

@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { X, ChevronLeft, ChevronRight, Play, Images } from 'lucide-react';
 import { UnitCategory } from '../../types';
 import { optimizeImageUrl, resolveMediaUrl } from '../../utils/image';
+import {
+  CloseIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  PlayIcon,
+  ImageIcon,
+} from '../../utils/icons';
 
 type MediaItem = { type: 'photo'; url: string } | { type: 'video'; url: string };
 
@@ -61,11 +67,11 @@ export const MediaGalleryModal: React.FC<Props> = ({ category, onClose }) => {
   if (items.length === 0) {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
-        <div className="bg-panel rounded-3xl max-w-sm w-full p-8 relative shadow-lift border border-line animate-scale-in text-center" onClick={e => e.stopPropagation()}>
-          <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-            <X size={20} />
+        <div className="bg-panel rounded-2xl max-w-sm w-full p-8 relative shadow-lift border border-line animate-scale-in text-center" onClick={e => e.stopPropagation()}>
+          <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition" aria-label="Close">
+            <CloseIcon size={20} />
           </button>
-          <Images size={32} className="mx-auto text-fg/30 mb-3" />
+          <ImageIcon size={32} className="mx-auto text-fg/30 mb-3" />
           <p className="text-sm font-semibold text-fg">No pics or videos yet</p>
           <p className="text-xs text-fg/50 mt-1">The manager hasn't added media for this unit.</p>
         </div>
@@ -81,11 +87,11 @@ export const MediaGalleryModal: React.FC<Props> = ({ category, onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
       <div
-        className="bg-panel rounded-3xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 relative shadow-lift border border-line animate-scale-in"
+        className="bg-panel rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-5 sm:p-6 relative shadow-lift border border-line animate-scale-in"
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 z-10 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-          <X size={20} />
+        <button onClick={onClose} className="absolute top-4 right-4 z-10 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition" aria-label="Close">
+          <CloseIcon size={20} />
         </button>
 
         <h3 className="display font-bold text-lg text-fg pr-10">
@@ -120,14 +126,14 @@ export const MediaGalleryModal: React.FC<Props> = ({ category, onClose }) => {
                 aria-label="Previous"
                 className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-fg rounded-full p-2 shadow-soft transition"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeftIcon size={18} />
               </button>
               <button
                 onClick={() => step(1)}
                 aria-label="Next"
                 className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/90 hover:bg-white text-fg rounded-full p-2 shadow-soft transition"
               >
-                <ChevronRight size={18} />
+                <ChevronRightIcon size={18} />
               </button>
               <span className="absolute bottom-2 left-1/2 -translate-x-1/2 bg-nyumba-ink/70 text-white text-[11px] font-bold px-2.5 py-1 rounded-full">
                 {Math.min(index, items.length - 1) + 1} / {items.length}
@@ -149,7 +155,7 @@ export const MediaGalleryModal: React.FC<Props> = ({ category, onClose }) => {
                   <img src={optimizeImageUrl(resolveMediaUrl(item.url) || item.url, 200) || item.url} alt="" className="w-full h-full object-cover" />
                 ) : (
                   <span className="w-full h-full flex items-center justify-center bg-nyumba-ink text-white">
-                    <Play size={18} className="fill-white" />
+                    <PlayIcon size={18} filled />
                   </span>
                 )}
               </button>

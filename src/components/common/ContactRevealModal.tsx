@@ -1,7 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Phone, MessageSquare, ShieldAlert, ShieldX, X, Loader2 } from 'lucide-react';
 import { VerifiedBadge } from './VerifiedBadge';
 import { api } from '../../services/api';
+import {
+  CloseIcon,
+  PhoneIcon,
+  MessageIcon,
+  ShieldAlertIcon,
+  ShieldXIcon,
+  LoaderIcon,
+} from '../../utils/icons';
 
 interface Props {
   isOpen: boolean;
@@ -46,11 +53,11 @@ export const ContactRevealModal: React.FC<Props> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
       <div
-        className="bg-panel rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in"
+        className="bg-panel rounded-2xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in"
         onClick={e => e.stopPropagation()}
       >
-        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-          <X size={20} />
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition" aria-label="Close">
+          <CloseIcon size={20} />
         </button>
 
         <h3 className="text-xl font-bold text-fg mb-1">Contact — Unit {unitLabel}</h3>
@@ -68,7 +75,7 @@ export const ContactRevealModal: React.FC<Props> = ({
 
             {loading ? (
               <div className="flex items-center justify-center py-6 text-fg/40">
-                <Loader2 size={20} className="animate-spin mr-2" />
+                <LoaderIcon size={20} className="animate-spin mr-2" />
                 <span className="text-xs">Loading contact details...</span>
               </div>
             ) : fetchError ? (
@@ -85,18 +92,18 @@ export const ContactRevealModal: React.FC<Props> = ({
                 <div className="grid grid-cols-2 gap-3 pt-2">
                   <a
                     href={`tel:${phone}`}
-                    className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-xl transition"
+                    className="flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white font-medium py-3 rounded-lg transition"
                   >
-                    <Phone size={18} />
+                    <PhoneIcon size={18} />
                     <span>Call Now</span>
                   </a>
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE5B] text-white font-medium py-3 rounded-xl transition"
+                    className="flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#1EBE5B] text-white font-medium py-3 rounded-lg transition"
                   >
-                    <MessageSquare size={18} />
+                    <MessageIcon size={18} />
                     <span>WhatsApp</span>
                   </a>
                 </div>
@@ -109,7 +116,7 @@ export const ContactRevealModal: React.FC<Props> = ({
         {status === 'occupied' && (
           <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl space-y-3">
             <div className="flex items-start gap-3">
-              <ShieldAlert className="text-amber-400 shrink-0 mt-0.5" size={24} />
+              <ShieldAlertIcon className="text-amber-400 shrink-0 mt-0.5" size={24} />
               <div>
                 <h4 className="font-semibold text-amber-400">Contact Details Gated</h4>
                 <p className="text-sm text-amber-400/80 mt-1">
@@ -124,7 +131,7 @@ export const ContactRevealModal: React.FC<Props> = ({
         {status === 'unverified' && (
           <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-2xl space-y-3">
             <div className="flex items-start gap-3">
-              <ShieldX className="text-red-400 shrink-0 mt-0.5" size={24} />
+              <ShieldXIcon className="text-red-400 shrink-0 mt-0.5" size={24} />
               <div>
                 <h4 className="font-semibold text-red-400">Property Manager Verification Pending</h4>
                 <p className="text-sm text-red-400/80 mt-1">

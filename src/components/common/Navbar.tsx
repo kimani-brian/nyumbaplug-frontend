@@ -1,8 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { LogOut, Menu, X, LayoutDashboard, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
+import {
+  MenuIcon,
+  CloseIcon,
+  SunIcon,
+  MoonIcon,
+  LogoutIcon,
+} from '../../utils/icons';
 import logo from '../../assets/logo.png';
 
 const roleLabel = (role: string) => {
@@ -19,9 +25,10 @@ export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  const isHome = location.pathname === '/';
-  const overHero = isHome && !scrolled;
-  const solid = !overHero;
+  const solid = scrolled || location.pathname !== '/';
+  const text = 'text-fg';
+  const muted = 'text-fg/60';
+  const bg = `bg-page/90 backdrop-blur-xl ${solid ? 'shadow-soft border-b border-line' : 'border-b border-transparent'}`;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -34,15 +41,6 @@ export const Navbar: React.FC = () => {
     setMenuOpen(false);
   }, [location.pathname]);
 
-  const text = overHero ? 'text-white' : 'text-fg';
-  const muted = overHero ? 'text-white/90' : 'text-fg/60';
-  const bg = solid
-    ? 'bg-page/90 backdrop-blur-xl border-b border-line'
-    : 'bg-nyumba-ink/75 backdrop-blur-md border-b border-white/10';
-  const dashCls = overHero
-    ? 'bg-white/15 text-white hover:bg-white/25 backdrop-blur'
-    : 'bg-primary text-white hover:bg-primary-dark';
-
   const handleLogout = () => {
     logout();
     navigate('/');
@@ -51,12 +49,20 @@ export const Navbar: React.FC = () => {
   const navLink = (to: string, children: React.ReactNode) => (
     <Link
       to={to}
-      className={`text-sm font-medium ${muted} transition-colors ${
-        overHero ? 'hover:text-white' : 'hover:text-primary'
-      }`}
+      className={`text-sm font-medium ${muted} transition-colors hover:text-primary`}
     >
       {children}
     </Link>
+  );
+
+  const themeBtn = (
+    <button
+      onClick={toggleTheme}
+      className="p-2 rounded-full transition text-fg/60 hover:text-fg hover:bg-panel-strong"
+      aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+    >
+      {theme === 'dark' ? <SunIcon size={20} /> : <MoonIcon size={20} />}
+    </button>
   );
 
   return (
@@ -72,7 +78,7 @@ export const Navbar: React.FC = () => {
             <span className={`display font-bold text-lg leading-none tracking-tightest ${text}`}>
               Nyumba<span className="text-primary">Plug</span>
             </span>
-            <span className={`block text-[9px] font-bold uppercase tracking-[0.22em] mt-0.5 ${overHero ? 'text-white/70' : 'text-fg/50'}`}>
+            <span className={`block text-[9px] font-bold uppercase tracking-[0.22em] mt-0.5 ${muted}`}>
               Find.Verify.Move
             </span>
           </div>
@@ -86,113 +92,52 @@ export const Navbar: React.FC = () => {
 
           {loading ? null : user ? (
             <div className="flex items-center gap-2.5">
-              <button
-                onClick={toggleTheme}
-                className={`p-2 rounded-full transition ${overHero ? 'text-white/70 hover:text-white hover:bg-white/15' : 'text-fg/60 hover:text-fg hover:bg-panel-strong'}`}
-                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
-              <div className="flex items-center gap-2 pl-1">
-                <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold ${
-                    overHero
-                      ? 'bg-white/20 text-white border border-white/30'
-                      : 'bg-primary text-white'
-                  }`}
-                  title={user.email || 'User'}
-                >
-                  {(user.email || user.phone || '?').charAt(0).toUpperCase()}
-                </div>
-                <span className={`text-xs font-semibold ${muted}`}>
-                  {user.email?.split('@')[0] || roleLabel(user.role)}
-                </span>
-              </div>
-              {user.role !== 'tenant' && (
-                <Link
-                  to={user.role === 'admin' ? '/admin' : '/landlord'}
-                  className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
-                >
-                  <LayoutDashboard size={14} />
-                  {user.role === 'admin' ? 'Admin Panel' : 'Dashboard'}
-                </Link>
-              )}
-              {user.role === 'tenant' && (
-                <Link
-                  to="/account"
-                  className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${dashCls}`}
-                >
-                  <LayoutDashboard size={14} />
-                  Profile
-                </Link>
-              )}
-              {user.role === 'landlord' && (
-                <Link
-                  to="/account"
-                  className={`flex items-center gap-1.5 text-xs font-semibold px-3.5 py-2 rounded-full transition ${
-                    overHero
-                      ? 'bg-white/15 text-white hover:bg-white/25'
-                      : 'bg-page text-fg border border-line hover:bg-panel-strong'
-                  }`}
-                >
-                  <LayoutDashboard size={14} />
-                  Profile
-                </Link>
-              )}
+              {themeBtn}
+              <span className="text-sm font-medium text-fg/80">{roleLabel(user.role)}</span>
               <button
                 onClick={handleLogout}
-                className={`p-2 rounded-full transition ${overHero ? 'text-white/70 hover:text-white hover:bg-white/15' : 'text-fg/60 hover:text-red-400 hover:bg-panel-strong'}`}
-                title="Sign out"
+                className="inline-flex items-center gap-2 text-sm font-medium px-4 py-2 rounded-full border border-line text-fg/70 hover:text-fg hover:bg-panel-strong transition"
               >
-                <LogOut size={18} />
+                <LogoutIcon size={16} />
+                Sign out
               </button>
             </div>
           ) : (
-            <div className="flex items-center gap-2">
-              <button
-                onClick={toggleTheme}
-                className={`p-2 rounded-full transition ${overHero ? 'text-white/70 hover:text-white hover:bg-white/15' : 'text-fg/60 hover:text-fg hover:bg-panel-strong'}`}
-                title={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-              >
-                {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
-              </button>
+            <div className="flex items-center gap-2.5">
+              {themeBtn}
               <Link
                 to="/login"
-                className={`text-sm font-semibold px-4 py-2 rounded-full transition ${
-                  overHero ? 'text-white hover:bg-white/15' : 'text-fg hover:bg-panel-strong'
-                }`}
+                className="text-sm font-semibold px-4 py-2 rounded-full text-fg/80 hover:text-primary transition"
               >
                 Sign in
               </Link>
-              <Link to="/register" className="btn-primary !px-5 !py-2.5">
+              <Link
+                to="/register"
+                className="bg-primary hover:bg-primary-dark text-white text-sm font-semibold px-4 py-2 rounded-full transition shadow-glow"
+              >
                 Get started
               </Link>
             </div>
           )}
         </nav>
 
-        {/* Mobile toggle */}
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={toggleTheme}
-            className={`p-2 rounded-lg transition md:hidden ${overHero ? 'text-white/70 hover:text-white hover:bg-white/15' : 'text-fg/60 hover:text-fg hover:bg-panel-strong'}`}
-            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
-          >
-            {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
-          </button>
+        {/* Mobile icon row */}
+        <div className="md:hidden flex items-center gap-1.5">
+          {themeBtn}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
-            className={`md:hidden p-2 rounded-lg transition ${overHero ? 'text-white' : 'text-fg'}`}
+            className="p-2 rounded-lg transition text-fg"
             aria-label="Toggle menu"
+            aria-expanded={menuOpen}
           >
-            {menuOpen ? <X size={22} /> : <Menu size={22} />}
+            {menuOpen ? <CloseIcon size={22} /> : <MenuIcon size={22} />}
           </button>
         </div>
       </div>
 
       {/* Mobile menu */}
       {menuOpen && (
-        <div className={`md:hidden border-t ${overHero ? 'border-white/10 bg-nyumba-ink/95 backdrop-blur' : 'border-line bg-page/95 backdrop-blur'}`}>
+        <div className="md:hidden border-t border-line bg-page/95 backdrop-blur">
           <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 space-y-1">
             {[
               { to: '/properties', label: 'Browse rentals' },
@@ -202,7 +147,7 @@ export const Navbar: React.FC = () => {
               <Link
                 key={l.label}
                 to={l.to}
-                className={`block text-sm font-medium py-2.5 ${overHero ? 'text-white/80' : 'text-fg/80'}`}
+                className="block text-sm font-medium py-2.5 text-fg/80"
               >
                 {l.label}
               </Link>
@@ -210,7 +155,10 @@ export const Navbar: React.FC = () => {
 
             {!loading && !user && (
               <div className="pt-3 border-t border-line space-y-2">
-                <Link to="/login" className={`block text-center text-sm font-semibold py-2.5 rounded-full border ${overHero ? 'border-white/20 text-white bg-white/5 hover:bg-white/10' : 'border-line text-fg bg-panel hover:bg-panel-strong'}`}>
+                <Link
+                  to="/login"
+                  className="block text-center text-sm font-semibold py-2.5 rounded-lg border border-line text-fg bg-panel hover:bg-panel-strong"
+                >
                   Sign in
                 </Link>
                 <Link to="/register" className="block text-center btn-primary w-full">
@@ -223,7 +171,7 @@ export const Navbar: React.FC = () => {
                 {user.role !== 'tenant' && (
                   <Link
                     to={user.role === 'admin' ? '/admin' : '/landlord'}
-                    className="block text-center text-sm font-semibold py-2.5 rounded-full bg-primary text-white"
+                    className="block text-center text-sm font-semibold py-2.5 rounded-lg bg-primary text-white"
                   >
                     {user.role === 'admin' ? 'Admin Panel' : 'Dashboard'}
                   </Link>
@@ -231,7 +179,7 @@ export const Navbar: React.FC = () => {
                 {user.role === 'landlord' && (
                   <Link
                     to="/account"
-                    className="block text-center text-sm font-semibold py-2.5 rounded-full bg-page text-fg border border-line"
+                    className="block text-center text-sm font-semibold py-2.5 rounded-lg bg-page text-fg border border-line"
                   >
                     Profile
                   </Link>
@@ -239,14 +187,14 @@ export const Navbar: React.FC = () => {
                 {user.role === 'tenant' && (
                   <Link
                     to="/account"
-                    className="block text-center text-sm font-semibold py-2.5 rounded-full bg-primary text-white"
+                    className="block text-center text-sm font-semibold py-2.5 rounded-lg bg-primary text-white"
                   >
                     Profile
                   </Link>
                 )}
                 <button
                   onClick={handleLogout}
-                  className={`block w-full text-center text-sm font-semibold py-2.5 rounded-full border ${overHero ? 'border-white/20 text-white/80' : 'border-line text-fg/80'}`}
+                  className="block w-full text-center text-sm font-semibold py-2.5 rounded-lg border border-line text-fg/80"
                 >
                   Sign out
                 </button>
