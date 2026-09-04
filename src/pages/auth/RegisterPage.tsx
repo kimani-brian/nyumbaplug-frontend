@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { ArrowRight, Building2, BadgeCheck, Home, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Input } from '../../components/ui/Input';
+import { Icon } from '../../components/ui/Icon';
 import logo from '../../assets/logo.png';
 
 type RegisterRole = 'customer' | 'manager';
-
-const SIDE_IMG =
-  'https://images.unsplash.com/photo-1744782351841-9cc6b86a5add?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 export const RegisterPage: React.FC = () => {
   const { register } = useAuth();
@@ -41,22 +38,20 @@ export const RegisterPage: React.FC = () => {
     {
       key: 'customer' as RegisterRole,
       label: 'Customer',
-      icon: <Home size={18} />,
+      icon: <Icon name="home" size={18} />,
       blurb: 'Find your verified rental',
     },
     {
       key: 'manager' as RegisterRole,
       label: 'Property Manager',
-      icon: <Building2 size={18} />,
+      icon: <Icon name="apartment" size={18} />,
       blurb: 'List your properties',
     },
   ];
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-page">
-      {/* Left — form */}
-      <div className="flex items-center justify-center px-5 sm:px-10 py-16">
-        <div className="w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center bg-page px-5 sm:px-10 py-16">
+      <div className="w-full max-w-sm">
           <Link to="/" className="flex items-center gap-2 mb-10">
             <img
               src={logo}
@@ -169,14 +164,14 @@ export const RegisterPage: React.FC = () => {
                   aria-label="Toggle password visibility"
                   aria-pressed={showPwd}
                 >
-                  {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPwd ? <Icon name="visibility_off" size={16} /> : <Icon name="visibility" size={16} />}
                 </button>
               </div>
             </div>
 
             {role === 'manager' && (
               <p className="flex items-start gap-1.5 text-[11px] text-white/60 bg-primary/10 border border-primary/30 p-2.5 rounded-lg">
-                <BadgeCheck size={14} className="text-primary shrink-0 mt-0.5" />
+                <Icon name="verified" size={14} className="text-primary shrink-0 mt-0.5" />
                 After registering, you'll submit your national ID for verification before you can list properties.
               </p>
             )}
@@ -196,15 +191,10 @@ export const RegisterPage: React.FC = () => {
             Already have an account?{' '}
             <Link to="/login" className="inline-flex items-center gap-0.5 text-primary font-semibold hover:underline">
               Sign in
-              <ArrowRight size={12} />
+              <Icon name="arrow_forward" size={12} />
             </Link>
           </p>
         </div>
-      </div>
-      {/* Right — image panel */}
-      <div className="hidden lg:block relative bg-nyumba-ink">
-        <img src={SIDE_IMG} alt="Rental home" className="w-full h-full object-cover" />
-      </div>
     </div>
   );
 };

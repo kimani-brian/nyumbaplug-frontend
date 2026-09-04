@@ -93,14 +93,14 @@ export const LandlordAccount: React.FC = () => {
             <h2 className="font-semibold text-lg leading-tight">{profile?.full_name || profile?.page_name || 'Property Manager'}</h2>
             {profile?.page_name && profile.page_name !== profile.full_name && (
               <p className="text-xs text-fg/70 flex items-center gap-1.5 mt-0.5">
-                <Building2 size={12} className="text-nyumba-emerald" />
+                <Building2 size={12} className="text-primary" />
                 {profile.page_name}
               </p>
             )}
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
               {isVerified ? (
                 <>
-                  <ShieldCheck size={12} className="text-nyumba-emerald" />
+                  <ShieldCheck size={12} className="text-primary" />
                   Verified property manager
                 </>
               ) : (
@@ -111,7 +111,7 @@ export const LandlordAccount: React.FC = () => {
               )}
             </p>
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
-              <ShieldCheck size={12} className="text-nyumba-emerald" />
+              <ShieldCheck size={12} className="text-primary" />
               Member since {new Date(profile?.created_at || Date.now()).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}
             </p>
           </div>

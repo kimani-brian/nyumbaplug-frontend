@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { Input } from '../../components/ui/Input';
+import { Icon } from '../../components/ui/Icon';
 import logo from '../../assets/logo.png';
-
-const SIDE_IMG =
-  'https://images.unsplash.com/photo-1613575831056-0acd5da8f085?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D';
 
 export const LoginPage: React.FC = () => {
   const { login } = useAuth();
@@ -38,10 +35,8 @@ export const LoginPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2 bg-page">
-      {/* Left — form */}
-      <div className="flex items-center justify-center px-5 sm:px-10 py-16">
-        <div className="w-full max-w-sm">
+    <div className="min-h-screen flex items-center justify-center bg-page px-5 sm:px-10 py-16">
+      <div className="w-full max-w-sm">
           <Link to="/" className="flex items-center gap-2 mb-10">
             <img
               src={logo}
@@ -93,7 +88,7 @@ export const LoginPage: React.FC = () => {
                   aria-label="Toggle password visibility"
                   aria-pressed={showPwd}
                 >
-                  {showPwd ? <EyeOff size={16} /> : <Eye size={16} />}
+                  {showPwd ? <Icon name="visibility_off" size={16} /> : <Icon name="visibility" size={16} />}
                 </button>
               </div>
             </div>
@@ -113,16 +108,10 @@ export const LoginPage: React.FC = () => {
             No account?{' '}
             <Link to="/register" className="inline-flex items-center gap-0.5 text-primary font-semibold hover:underline">
               Register here
-              <ArrowRight size={12} />
+              <Icon name="arrow_forward" size={12} />
             </Link>
           </p>
         </div>
-      </div>
-
-      {/* Right — editorial panel */}
-      <div className="hidden lg:block relative bg-nyumba-ink">
-        <img src={SIDE_IMG} alt="Rental home" className="w-full h-full object-cover" />
-      </div>
     </div>
   );
 };

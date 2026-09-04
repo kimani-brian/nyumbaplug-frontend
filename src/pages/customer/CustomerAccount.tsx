@@ -87,7 +87,7 @@ export const CustomerAccount: React.FC = () => {
           <div>
             <h2 className="font-semibold text-lg leading-tight">{profile?.full_name || 'Customer'}</h2>
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
-              <ShieldCheck size={12} className="text-nyumba-emerald" />
+              <ShieldCheck size={12} className="text-primary" />
               Member since {new Date(profile?.created_at || Date.now()).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}
             </p>
           </div>

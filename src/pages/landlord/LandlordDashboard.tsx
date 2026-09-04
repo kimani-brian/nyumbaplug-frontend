@@ -380,7 +380,7 @@ export const LandlordDashboard: React.FC = () => {
                       <div className="flex items-center gap-2 shrink-0">
                         <button
                           onClick={() => setEditProperty(property)}
-                          className="p-2 text-fg/40 hover:text-nyumba-emerald hover:bg-panel-strong rounded-lg transition"
+                          className="p-2 text-fg/40 hover:text-primary hover:bg-panel-strong rounded-lg transition"
                           title="Edit property"
                         >
                           <Pencil size={15} />

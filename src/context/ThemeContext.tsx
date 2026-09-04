@@ -32,7 +32,7 @@ const getInitialTheme = (): Theme => {
 const applyTheme = (theme: Theme) => {
   document.documentElement.classList.toggle('dark', theme === 'dark');
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.setAttribute('content', theme === 'dark' ? '#080616' : '#F4F6FB');
+  if (meta) meta.setAttribute('content', theme === 'dark' ? '#202124' : '#F8F9FA');
 };
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

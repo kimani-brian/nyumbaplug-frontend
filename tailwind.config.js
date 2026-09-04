@@ -11,47 +11,48 @@ export default {
         'panel-strong': 'rgb(var(--panel-strong) / <alpha-value>)',
         fg: 'rgb(var(--fg) / <alpha-value>)',
         line: 'rgb(var(--line) / <alpha-value>)',
+        // Google Blue — primary actions, links, focus rings
         primary: {
-          DEFAULT: '#2F2FE4',
-          hover: '#2828CC',
-          dark: '#162E93',
-          deep: '#1A1953',
-          light: '#EEF0FC',
-          soft: '#F7F8FE',
+          DEFAULT: '#1A73E8',
+          hover: '#1967D2',
+          dark: '#174EA6',
+          deep: '#185ABC',
+          light: '#E8F0FE',
+          soft: '#F4F8FD',
         },
+        // Deprecated legacy aliases — kept so un-migrated components still
+        // resolve; each surface is repointed to semantic tokens as its phase
+        // lands (Phase 2 = shell/common, Phase 4 = hero/public, Phase 5 = dashboards).
         nyumba: {
-          // Primary bright blue — CTAs, verified trust, active states
-          emerald: '#2F2FE4',
-          emeraldDark: '#162E93',
-          emeraldLight: '#EEF0FC',
-          // Secondary / supporting accent
-          terracotta: '#162E93',
-          // Depth surfaces
-          navy: '#1A1953',
-          // Near-black premium backgrounds
-          ink: '#080616',
-          // Cool neutral surfaces
+          emerald: '#1A73E8',
+          emeraldDark: '#1967D2',
+          emeraldLight: '#E8F0FE',
+          terracotta: '#174EA6',
+          navy: '#174EA6',
+          ink: '#202124',
           cream: '#FFFFFF',
-          sand: '#F3F4FC',
-          line: '#E4E7F5',
+          sand: '#F1F3F4',
+          line: '#DADCE0',
         },
       },
       fontFamily: {
-        sans: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
-        display: ['"Plus Jakarta Sans"', 'Inter', 'system-ui', 'sans-serif'],
+        sans: ['Roboto', 'Arial', 'system-ui', 'sans-serif'],
+        display: ['Roboto', 'Arial', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        soft: '0 4px 24px -8px rgba(22, 46, 147, 0.08)',
-        lift: '0 16px 48px -16px rgba(22, 46, 147, 0.22)',
-        glow: '0 8px 32px -8px rgba(47, 47, 228, 0.35)',
+        // Google Material elevation scale (neutral)
+        soft: '0 1px 2px 0 rgba(60,64,67,.3), 0 1px 3px 1px rgba(60,64,67,.15)',
+        lift: '0 1px 3px 0 rgba(60,64,67,.3), 0 4px 8px 3px rgba(60,64,67,.15)',
+        // Blue-tinted elevation for primary buttons/CTAs
+        glow: '0 1px 2px 0 rgba(26,115,232,.3), 0 4px 8px 3px rgba(26,115,232,.15)',
       },
       letterSpacing: {
         tightest: '-0.03em',
       },
       borderRadius: {
-        xl: '1rem',
-        '2xl': '1.25rem',
-        '3xl': '1.75rem',
+        xl: '0.75rem',
+        '2xl': '1rem',
+        '3xl': '1.5rem',
       },
       keyframes: {
         'fade-up': {
@@ -84,13 +85,13 @@ export default {
         },
       },
       animation: {
-        'fade-up': 'fade-up 0.6s ease-out both',
-        'fade-down': 'fade-down 0.6s ease-out both',
-        'fade-left': 'fade-left 0.6s ease-out both',
-        'fade-right': 'fade-right 0.6s ease-out both',
-        'zoom-in': 'zoom-in 0.6s ease-out both',
-        'fade-in': 'fade-in 0.5s ease-out both',
-        'scale-in': 'scale-in 0.25s ease-out both',
+        'fade-up': 'fade-up 0.35s ease-out both',
+        'fade-down': 'fade-down 0.35s ease-out both',
+        'fade-left': 'fade-left 0.35s ease-out both',
+        'fade-right': 'fade-right 0.35s ease-out both',
+        'zoom-in': 'zoom-in 0.35s ease-out both',
+        'fade-in': 'fade-in 0.3s ease-out both',
+        'scale-in': 'scale-in 0.18s ease-out both',
       },
     },
   },
