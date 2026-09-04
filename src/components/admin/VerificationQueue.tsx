@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { CheckCircle, XCircle, FileText, ExternalLink, ShieldCheck } from 'lucide-react';
+import { ShieldCheckIcon, XCircleIcon, CheckCircleIcon, FileTextIcon, ExternalLinkIcon } from '../../utils/icons';
 import { LandlordProfile } from '../../types';
 import { api } from '../../services/api';
 
@@ -30,7 +30,7 @@ export const VerificationQueue: React.FC<Props> = ({ pendingList, onRefresh, onO
     <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
       <div className="p-5 bg-panel border-b border-line text-fg flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <ShieldCheck size={18} className="text-primary" />
+          <ShieldCheckIcon size={18} className="text-primary" />
           Property Manager Verification Queue
         </h3>
         <span className="text-xs bg-panel-strong text-fg/70 px-2.5 py-1 rounded-full font-mono">
@@ -39,7 +39,7 @@ export const VerificationQueue: React.FC<Props> = ({ pendingList, onRefresh, onO
       </div>
 
       {errorMsg && (
-        <div className="m-4 p-3 bg-red-500/10 border border-red-200 text-red-400 text-xs rounded-xl">
+        <div className="m-4 p-3 bg-red-500/10 border border-red-500/20 text-red-400 text-xs rounded-xl">
           {errorMsg}
         </div>
       )}
@@ -82,11 +82,11 @@ export const VerificationQueue: React.FC<Props> = ({ pendingList, onRefresh, onO
                     href={profile.id_document_url}
                     target="_blank"
                     rel="noreferrer"
-                    className="flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 border border-blue-200 px-2.5 py-1.5 rounded-lg hover:bg-blue-100"
+                    className="flex items-center gap-1.5 text-xs text-primary bg-primary-light border border-primary/20 px-2.5 py-1.5 rounded-lg hover:bg-primary/20 transition"
                   >
-                    <FileText size={14} />
+                    <FileTextIcon size={14} />
                     <span>View ID Doc</span>
-                    <ExternalLink size={12} />
+                    <ExternalLinkIcon size={12} />
                   </a>
                 ) : (
                   <span className="text-xs text-fg/40 italic">No document</span>
@@ -95,9 +95,9 @@ export const VerificationQueue: React.FC<Props> = ({ pendingList, onRefresh, onO
                 <button
                   onClick={() => handleApprove(profile.id)}
                   disabled={approving === profile.id}
-                  className="flex items-center gap-1 bg-primary hover:bg-primary-dark disabled:bg-slate-300 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
+                  className="flex items-center gap-1 bg-primary hover:bg-primary-dark disabled:bg-panel-strong disabled:text-fg/40 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
                 >
-                  <CheckCircle size={14} />
+                  <CheckCircleIcon size={14} />
                   <span>{approving === profile.id ? '...' : 'Approve'}</span>
                 </button>
 
@@ -105,7 +105,7 @@ export const VerificationQueue: React.FC<Props> = ({ pendingList, onRefresh, onO
                   onClick={() => onOpenRevoke(profile)}
                   className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
                 >
-                  <XCircle size={14} />
+                  <XCircleIcon size={14} />
                   <span>Reject</span>
                 </button>
               </div>

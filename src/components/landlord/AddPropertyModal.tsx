@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, Building, Upload, Pencil } from 'lucide-react';
+import { CloseIcon, BuildingIcon, UploadIcon, EditIcon } from '../../utils/icons';
 import { api, uploadFile } from '../../services/api';
 import { Property } from '../../types';
 
@@ -102,12 +102,12 @@ export const AddPropertyModal: React.FC<Props> = ({ isOpen, onClose, onSuccess, 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-panel rounded-3xl max-w-lg w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-          <X size={20} />
+      <div className="bg-panel rounded-2xl max-w-lg w-full p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition">
+          <CloseIcon />
         </button>
         <div className="flex items-center gap-2 mb-4">
-          {isEdit ? <Pencil className="text-primary" size={22} /> : <Building className="text-primary" size={22} />}
+          {isEdit ? <EditIcon className="text-primary" size={22} /> : <BuildingIcon className="text-primary" size={22} />}
           <h3 className="text-lg font-bold text-fg">{isEdit ? 'Edit Property' : 'Add New Property'}</h3>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -199,7 +199,7 @@ export const AddPropertyModal: React.FC<Props> = ({ isOpen, onClose, onSuccess, 
                 disabled={uploading}
                 className="px-3 py-2.5 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong transition"
               >
-                <Upload size={16} />
+                <UploadIcon size={16} />
               </button>
             </div>
           </div>

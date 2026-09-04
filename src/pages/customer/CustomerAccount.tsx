@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, Phone, MapPin, Mail, Loader2, Pencil, ShieldCheck } from 'lucide-react';
+import { UserIcon, PhoneIcon, MapPinIcon, MailIcon, LoaderIcon, EditIcon, ShieldCheckIcon } from '../../utils/icons';
 import { useAuth } from '../../context/AuthContext';
 import { TenantProfile } from '../../types';
 import { api } from '../../services/api';
@@ -87,7 +87,7 @@ export const CustomerAccount: React.FC = () => {
           <div>
             <h2 className="font-semibold text-lg leading-tight">{profile?.full_name || 'Customer'}</h2>
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
-              <ShieldCheck size={12} className="text-primary" />
+              <ShieldCheckIcon size={12} className="text-primary" />
               Member since {new Date(profile?.created_at || Date.now()).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}
             </p>
           </div>
@@ -99,7 +99,7 @@ export const CustomerAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Full Name</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <User size={16} className="text-fg/40 shrink-0" />
+                  <UserIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="text"
                     placeholder="e.g. Jane Wambui"
@@ -113,7 +113,7 @@ export const CustomerAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Phone Number</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <Phone size={16} className="text-fg/40 shrink-0" />
+                  <PhoneIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="tel"
                     placeholder="+254 7XX XXX XXX"
@@ -127,7 +127,7 @@ export const CustomerAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Preferred Location</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <MapPin size={16} className="text-fg/40 shrink-0" />
+                  <MapPinIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="text"
                     placeholder="e.g. Nairobi, Westlands"
@@ -148,7 +148,7 @@ export const CustomerAccount: React.FC = () => {
                 >
                   {submitting ? (
                     <>
-                      <Loader2 size={14} className="animate-spin" /> Saving...
+                      <LoaderIcon size={14} className="animate-spin" /> Saving...
                     </>
                   ) : (
                     'Save Changes'
@@ -173,28 +173,28 @@ export const CustomerAccount: React.FC = () => {
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Email</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <Mail size={14} className="text-fg/40" />
+                    <MailIcon size={14} className="text-fg/40" />
                     {user?.email || '—'}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Phone</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <Phone size={14} className="text-fg/40" />
+                    <PhoneIcon size={14} className="text-fg/40" />
                     {user?.phone || profile?.full_name ? user?.phone || '—' : '—'}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Preferred Location</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <MapPin size={14} className="text-fg/40" />
+                    <MapPinIcon size={14} className="text-fg/40" />
                     {profile?.location || '—'}
                   </span>
                 </div>
               </div>
 
               <button onClick={startEdit} className="btn-outline !py-2.5">
-                <Pencil size={14} />
+                <EditIcon size={14} />
                 Edit Profile
               </button>
             </div>

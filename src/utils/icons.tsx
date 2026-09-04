@@ -88,6 +88,9 @@ export const CredentialIcon = g('badge', 18);
 export const PersonOffIcon = g('person_off', 18);
 export const VerifiedIcon = g('verified', 18);
 export const SecurityIcon = g('security', 18);
+export const CheckIcon = g('check', 18);
+export const CallIncomingIcon = g('phone_callback', 18);
+export const LinkIcon = g('link', 18);
 
 // Re-export the base component for components that need a raw/generic icon.
 export { Icon };

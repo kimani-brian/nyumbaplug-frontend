@@ -1,5 +1,5 @@
 import React from 'react';
-import { ShieldCheck, Clock, AlertOctagon } from 'lucide-react';
+import { ShieldCheckIcon, ClockIcon, AlertOctagonIcon } from '../../utils/icons';
 import { LandlordProfile } from '../../types';
 
 interface Props {
@@ -12,7 +12,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
       <div className="bg-panel border border-primary/30 p-4 sm:p-5 rounded-2xl flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div className="flex items-center gap-3">
           <div className="bg-primary text-white p-2.5 rounded-xl shrink-0 shadow-glow">
-            <ShieldCheck size={22} />
+            <ShieldCheckIcon size={22} />
           </div>
           <div>
             <h3 className="font-bold text-fg text-sm">Property manager profile verified</h3>
@@ -35,7 +35,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
       <div className="bg-amber-500/10 border border-amber-500/30 p-4 sm:p-5 rounded-2xl">
         <div className="flex items-start gap-3">
           <div className="bg-amber-500 text-white p-2.5 rounded-xl shrink-0">
-            <Clock size={22} />
+            <ClockIcon size={22} />
           </div>
           <div className="flex-1">
             <h3 className="font-bold text-amber-400 text-sm">Verification under review</h3>
@@ -57,7 +57,7 @@ export const VerificationBanner: React.FC<Props> = ({ profile }) => {
     <div className="bg-red-500/10 border border-red-500/30 p-4 sm:p-5 rounded-2xl">
       <div className="flex items-start gap-3">
         <div className="bg-red-600 text-white p-2.5 rounded-xl shrink-0">
-          <AlertOctagon size={22} />
+          <AlertOctagonIcon size={22} />
         </div>
         <div>
           <h3 className="font-bold text-red-400 text-sm">Property manager profile revoked</h3>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Building2, ShieldCheck, Clock, AlertOctagon, Eye, XCircle, User, CheckCircle } from 'lucide-react';
+import { Building2Icon, ShieldCheckIcon, ClockIcon, AlertOctagonIcon, EyeIcon, XCircleIcon, UserIcon, CheckCircleIcon } from '../../utils/icons';
 import { PropertyManagerView } from '../../types';
 import { EmptyState } from '../common/EmptyState';
 
@@ -13,9 +13,9 @@ interface Props {
 
 const statusIcon = (status: string) => {
   switch (status) {
-    case 'verified': return <ShieldCheck size={14} className="text-primary" />;
-    case 'pending': return <Clock size={14} className="text-amber-600" />;
-    case 'revoked': return <AlertOctagon size={14} className="text-red-600" />;
+    case 'verified': return <ShieldCheckIcon size={14} className="text-primary" />;
+    case 'pending': return <ClockIcon size={14} className="text-amber-600" />;
+    case 'revoked': return <AlertOctagonIcon size={14} className="text-red-600" />;
     default: return null;
   }
 };
@@ -24,7 +24,7 @@ const statusBadge = (status: string) => {
   const styles: Record<string, string> = {
     verified: 'bg-primary text-white border-primary/30',
     pending: 'bg-amber-500/20 text-amber-400 border-amber-500/30',
-    revoked: 'bg-red-500/10 text-red-400 border-red-300',
+    revoked: 'bg-red-500/10 text-red-400 border-red-500/30',
   };
   return (
     <span className={`inline-flex items-center gap-1 text-[10px] px-2 py-0.5 rounded-full border font-semibold ${styles[status] || ''}`}>
@@ -39,7 +39,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
     <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
       <div className="p-5 bg-panel border-b border-line text-fg flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <Building2 size={18} className="text-primary" />
+          <Building2Icon size={18} className="text-primary" />
           All Property Managers
         </h3>
         <span className="text-xs bg-panel-strong text-fg/70 px-2.5 py-1 rounded-full font-mono">
@@ -70,7 +70,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                 <tr key={a.id} className="hover:bg-panel-strong transition">
                   <td className="p-3 text-fg font-medium">
                     <span className="flex items-center gap-1.5">
-                      <User size={14} className="text-fg/40 shrink-0" />
+                      <UserIcon size={14} className="text-fg/40 shrink-0" />
                       {a.full_name || '—'}
                     </span>
                   </td>
@@ -89,7 +89,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                           className="flex items-center gap-1 text-xs font-semibold text-fg/60 hover:text-fg transition"
                           title="View Profile"
                         >
-                          <User size={14} />
+                          <UserIcon size={14} />
                           Profile
                         </button>
                       )}
@@ -97,7 +97,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                           onClick={() => onViewProperties(a.id)}
                           className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary transition"
                         >
-                          <Eye size={14} />
+                          <EyeIcon size={14} />
                           Properties
                         </button>
                         {onVerifyManager && a.verification_status === 'revoked' && (
@@ -105,7 +105,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                             onClick={() => onVerifyManager(a.id)}
                             className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary transition"
                           >
-                            <CheckCircle size={14} />
+                            <CheckCircleIcon size={14} />
                             Verify
                           </button>
                         )}
@@ -114,7 +114,7 @@ export const PropertyManagersList: React.FC<Props> = ({ managers, onViewProperti
                           onClick={() => onOpenRevoke(a)}
                           className="flex items-center gap-1 text-xs font-semibold text-red-600 hover:text-red-400 transition"
                         >
-                          <XCircle size={14} />
+                          <XCircleIcon size={14} />
                           Revoke
                         </button>
                       )}

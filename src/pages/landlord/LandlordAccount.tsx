@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { User, Phone, Mail, Building2, Loader2, Pencil, ShieldCheck, Clock } from 'lucide-react';
+import { UserIcon, PhoneIcon, MailIcon, Building2Icon, LoaderIcon, EditIcon, ShieldCheckIcon, ClockIcon } from '../../utils/icons';
 import { useAuth } from '../../context/AuthContext';
 import { LandlordProfile } from '../../types';
 import { api } from '../../services/api';
@@ -93,25 +93,25 @@ export const LandlordAccount: React.FC = () => {
             <h2 className="font-semibold text-lg leading-tight">{profile?.full_name || profile?.page_name || 'Property Manager'}</h2>
             {profile?.page_name && profile.page_name !== profile.full_name && (
               <p className="text-xs text-fg/70 flex items-center gap-1.5 mt-0.5">
-                <Building2 size={12} className="text-primary" />
+                <Building2Icon size={12} className="text-primary" />
                 {profile.page_name}
               </p>
             )}
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
               {isVerified ? (
                 <>
-                  <ShieldCheck size={12} className="text-primary" />
+                  <ShieldCheckIcon size={12} className="text-primary" />
                   Verified property manager
                 </>
               ) : (
                 <>
-                  <Clock size={12} className="text-amber-400" />
+                  <ClockIcon size={12} className="text-amber-400" />
                   Awaiting verification
                 </>
               )}
             </p>
             <p className="text-xs text-fg/60 flex items-center gap-1.5 mt-0.5">
-              <ShieldCheck size={12} className="text-primary" />
+              <ShieldCheckIcon size={12} className="text-primary" />
               Member since {new Date(profile?.created_at || Date.now()).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })}
             </p>
           </div>
@@ -123,7 +123,7 @@ export const LandlordAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Full Name</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <User size={16} className="text-fg/40 shrink-0" />
+                  <UserIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="text"
                     placeholder="e.g. Jane Wambui"
@@ -137,7 +137,7 @@ export const LandlordAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Page Name</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <Building2 size={16} className="text-fg/40 shrink-0" />
+                  <Building2Icon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="text"
                     placeholder="e.g. Greenleaf Properties"
@@ -152,7 +152,7 @@ export const LandlordAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">Phone Number</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <Phone size={16} className="text-fg/40 shrink-0" />
+                  <PhoneIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="tel"
                     placeholder="+254 7XX XXX XXX"
@@ -166,7 +166,7 @@ export const LandlordAccount: React.FC = () => {
               <div>
                 <label className="block text-xs font-semibold text-fg/70 mb-1.5">ID Document URL</label>
                 <div className="flex items-center gap-2 px-3.5 py-3 border border-line rounded-xl bg-panel focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/10 transition">
-                  <Mail size={16} className="text-fg/40 shrink-0" />
+                  <MailIcon size={16} className="text-fg/40 shrink-0" />
                   <input
                     type="url"
                     placeholder="https://example.com/my-id.jpg"
@@ -187,7 +187,7 @@ export const LandlordAccount: React.FC = () => {
                 >
                   {submitting ? (
                     <>
-                      <Loader2 size={14} className="animate-spin" /> Saving...
+                      <LoaderIcon size={14} className="animate-spin" /> Saving...
                     </>
                   ) : (
                     'Save Changes'
@@ -212,21 +212,21 @@ export const LandlordAccount: React.FC = () => {
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Page Name</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <Building2 size={14} className="text-fg/40" />
+                    <Building2Icon size={14} className="text-fg/40" />
                     {profile?.page_name || '—'}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Email</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <Mail size={14} className="text-fg/40" />
+                    <MailIcon size={14} className="text-fg/40" />
                     {user?.email || '—'}
                   </span>
                 </div>
                 <div>
                   <span className="text-[10px] uppercase font-semibold text-fg/40 block mb-1">Phone</span>
                   <span className="text-fg flex items-center gap-1.5">
-                    <Phone size={14} className="text-fg/40" />
+                    <PhoneIcon size={14} className="text-fg/40" />
                     {user?.phone || '—'}
                   </span>
                 </div>
@@ -239,14 +239,14 @@ export const LandlordAccount: React.FC = () => {
                   <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-semibold ${
                     isVerified ? 'bg-primary text-white' : 'bg-amber-500/20 text-amber-400'
                   }`}>
-                    {isVerified ? <ShieldCheck size={14} /> : <Clock size={14} />}
+                    {isVerified ? <ShieldCheckIcon size={14} /> : <ClockIcon size={14} />}
                     {isVerified ? 'Verified' : 'Pending'}
                   </span>
                 </div>
               </div>
 
               <button onClick={startEdit} className="btn-outline !py-2.5">
-                <Pencil size={14} />
+                <EditIcon size={14} />
                 Edit Profile
               </button>
             </div>

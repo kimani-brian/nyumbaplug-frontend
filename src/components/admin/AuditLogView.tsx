@@ -1,5 +1,5 @@
 import React from 'react';
-import { History, Shield, AlertTriangle, CheckCircle2 } from 'lucide-react';
+import { HistoryIcon, ShieldIcon, AlertTriangleIcon, CheckCircleIcon } from '../../utils/icons';
 import { AdminAuditLog } from '../../types';
 
 interface Props {
@@ -11,7 +11,7 @@ export const AuditLogView: React.FC<Props> = ({ logs }) => {
     <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
       <div className="p-5 bg-panel border-b border-line text-fg flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <History size={18} className="text-primary" />
+          <HistoryIcon size={18} className="text-primary" />
           Audit Trail
         </h3>
       </div>
@@ -32,17 +32,17 @@ export const AuditLogView: React.FC<Props> = ({ logs }) => {
             <div key={log.id} className="p-4 text-xs flex items-start gap-3 hover:bg-panel-strong">
               {log.action === 'verify_landlord' && (
                 <div className="p-1.5 bg-primary text-white rounded-lg shrink-0">
-                  <Shield size={16} />
+                  <ShieldIcon size={16} />
                 </div>
               )}
               {log.action === 'revoke_landlord' && (
                 <div className="p-1.5 bg-red-500/20 text-red-400 rounded-lg shrink-0">
-                  <AlertTriangle size={16} />
+                  <AlertTriangleIcon size={16} />
                 </div>
               )}
               {log.action === 'resolve_report' && (
-                <div className="p-1.5 bg-blue-100 text-blue-800 rounded-lg shrink-0">
-                  <CheckCircle2 size={16} />
+                <div className="p-1.5 bg-primary-light text-primary rounded-lg shrink-0">
+                  <CheckCircleIcon size={16} />
                 </div>
               )}
 

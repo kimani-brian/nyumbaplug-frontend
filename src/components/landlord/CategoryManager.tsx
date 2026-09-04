@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Plus, Trash2, Minus, Plus as PlusIcon, Upload, Images, Play } from 'lucide-react';
+import { CloseIcon, PlusIcon, MinusIcon, TrashIcon, UploadIcon, PhotoLibraryIcon, PlayIcon } from '../../utils/icons';
 import { api, uploadFile } from '../../services/api';
 import { UnitCategory } from '../../types';
 import { resolveMediaUrl } from '../../utils/image';
@@ -184,9 +184,9 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-panel rounded-3xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
-        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-slate-100 transition">
-          <X size={20} />
+      <div className="bg-panel rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-7 relative shadow-lift border border-line animate-scale-in" onClick={e => e.stopPropagation()}>
+        <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition">
+          <CloseIcon />
         </button>
         <h3 className="text-lg font-bold text-fg mb-4">Manage Categories</h3>
 
@@ -209,13 +209,13 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       <div className="flex items-center gap-1.5 mt-1.5">
                         {cat.photos?.length > 0 && (
                           <span className="inline-flex items-center gap-1 bg-panel-strong text-fg/60 text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                            <Images size={10} />
+                            <PhotoLibraryIcon size={10} />
                             {cat.photos.length} pic{cat.photos.length === 1 ? '' : 's'}
                           </span>
                         )}
                         {cat.video_url && (
                           <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-1.5 py-0.5 rounded-full">
-                            <Play size={10} className="fill-primary" />
+                            <PlayIcon size={10} className="fill-primary" />
                             Video
                           </span>
                         )}
@@ -228,14 +228,14 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                         onClick={() => handleAdjust(cat.id, -1)}
                         className="p-0.5 text-fg/40 hover:text-fg/80"
                       >
-                        <Minus size={14} />
+                        <MinusIcon />
                       </button>
                       <span className="text-xs font-bold w-6 text-center">{cat.quantity_available}</span>
                       <button
                         onClick={() => handleAdjust(cat.id, 1)}
                         className="p-0.5 text-fg/40 hover:text-fg/80"
                       >
-                        <PlusIcon size={14} />
+                        <PlusIcon />
                       </button>
                     </div>
                     <button
@@ -248,7 +248,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       onClick={() => handleDelete(cat.id)}
                       className="p-1 text-red-400 hover:text-red-600"
                     >
-                      <Trash2 size={14} />
+                      <TrashIcon size={14} />
                     </button>
                   </div>
                 </div>
@@ -338,7 +338,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                           onClick={() => handleRemovePhoto(i)}
                           className="absolute -top-1.5 -right-1.5 bg-red-500 text-white rounded-full p-0.5 opacity-0 group-hover:opacity-100 transition"
                         >
-                          <X size={12} />
+                          <CloseIcon size={12} />
                         </button>
                       </div>
                     ))}
@@ -365,23 +365,23 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                       htmlFor="cat-photo-upload"
                       className={`inline-flex items-center gap-1.5 px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploading ? 'opacity-50 pointer-events-none' : ''}`}
                     >
-                      <Images size={14} />
+                      <PhotoLibraryIcon />
                       {uploading ? 'Uploading…' : 'Upload pics'}
                     </label>
                     <label
                       htmlFor="cat-video-upload"
                       className={`inline-flex items-center gap-1.5 px-3 py-2 border border-line rounded-lg text-xs font-medium text-fg/60 hover:bg-panel-strong cursor-pointer ${uploadingVideo ? 'opacity-50 pointer-events-none' : ''}`}
                     >
-                      <Upload size={14} />
+                      <UploadIcon />
                       {uploadingVideo ? 'Uploading…' : 'Upload video'}
                     </label>
                     <span className="text-[10px] text-fg/30">or paste links below · videos max 50MB</span>
                     {videoUrl && (
                       <span className="inline-flex items-center gap-1 bg-primary/10 text-primary text-[10px] font-bold px-2 py-1 rounded-full">
-                        <Play size={10} className="fill-primary" />
+                        <PlayIcon size={10} className="fill-primary" />
                         Video ready
                         <button type="button" onClick={() => setVideoUrl('')} className="text-fg/40 hover:text-red-500 ml-0.5">
-                          <X size={11} />
+                          <CloseIcon size={11} />
                         </button>
                       </span>
                     )}
@@ -435,7 +435,7 @@ export const CategoryManager: React.FC<Props> = ({ propertyId, onClose, onSucces
                 onClick={() => setShowForm(true)}
                 className="w-full flex items-center justify-center gap-2 border-2 border-dashed border-line rounded-lg py-3 text-sm text-fg/50 hover:border-primary hover:text-primary transition"
               >
-                <Plus size={16} />
+                <PlusIcon size={16} />
                 Add Category
               </button>
             )}

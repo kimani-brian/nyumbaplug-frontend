@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, Users, Building2, Flag, History, Clock, AlertTriangle, FileCheck } from 'lucide-react';
+import { ShieldIcon, UsersIcon, Building2Icon, FlagIcon, HistoryIcon, ClockIcon, AlertTriangleIcon, FileCheckIcon } from '../../utils/icons';
 import { VerificationQueue } from '../../components/admin/VerificationQueue';
 import { RevokeModal } from '../../components/admin/RevokeModal';
 import { AuditLogView } from '../../components/admin/AuditLogView';
@@ -61,18 +61,18 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const tabs: { key: Tab; label: string; icon: React.ReactNode; count?: number; alert?: boolean }[] = [
-    { key: 'verifications', label: 'Verifications', icon: <Shield size={15} />, count: pending.length, alert: pending.length > 0 },
-    { key: 'managers', label: 'Property Managers', icon: <Building2 size={15} />, count: managers.length },
-    { key: 'customers', label: 'Customers', icon: <Users size={15} />, count: customers.length },
-    { key: 'reports', label: 'Reports', icon: <Flag size={15} />, count: reports.filter(r => !r.resolved).length, alert: reports.some(r => !r.resolved) },
-    { key: 'audit', label: 'Audit Log', icon: <History size={15} /> },
+    { key: 'verifications', label: 'Verifications', icon: <ShieldIcon size={15} />, count: pending.length, alert: pending.length > 0 },
+    { key: 'managers', label: 'Property Managers', icon: <Building2Icon size={15} />, count: managers.length },
+    { key: 'customers', label: 'Customers', icon: <UsersIcon size={15} />, count: customers.length },
+    { key: 'reports', label: 'Reports', icon: <FlagIcon size={15} />, count: reports.filter(r => !r.resolved).length, alert: reports.some(r => !r.resolved) },
+    { key: 'audit', label: 'Audit Log', icon: <HistoryIcon size={15} /> },
   ];
 
   const stats = [
-    { label: 'Pending verifications', value: pending.length, icon: <Clock size={16} className="text-amber-600" />, tint: 'bg-amber-50 border-amber-200' },
-    { label: 'Verified property managers', value: managers.filter(m => m.verification_status === 'verified').length, icon: <FileCheck size={16} className="text-primary" />, tint: 'bg-primary-light border-primary/20' },
-    { label: 'Open reports', value: reports.filter(r => !r.resolved).length, icon: <AlertTriangle size={16} className="text-red-600" />, tint: 'bg-red-50 border-red-200' },
-    { label: 'Total customers', value: customers.length, icon: <Users size={16} className="text-primary" />, tint: 'bg-slate-100 border-slate-200' },
+    { label: 'Pending verifications', value: pending.length, icon: <ClockIcon size={16} className="text-amber-400" />, tint: 'bg-amber-500/10 border-amber-500/30' },
+    { label: 'Verified property managers', value: managers.filter(m => m.verification_status === 'verified').length, icon: <FileCheckIcon size={16} className="text-primary" />, tint: 'bg-primary-light border-primary/20' },
+    { label: 'Open reports', value: reports.filter(r => !r.resolved).length, icon: <AlertTriangleIcon size={16} className="text-red-400" />, tint: 'bg-red-500/10 border-red-500/20' },
+    { label: 'Total customers', value: customers.length, icon: <UsersIcon size={16} className="text-primary" />, tint: 'bg-panel-strong border-line' },
   ];
 
   const activeTab = tabs.find(t => t.key === tab)!;
@@ -90,7 +90,7 @@ export const AdminDashboard: React.FC = () => {
           onClick={loadData}
           className="btn-outline !py-2 self-start sm:self-auto"
         >
-          <History size={14} />
+          <HistoryIcon size={14} />
           Refresh
         </button>
       </div>

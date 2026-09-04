@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, MapPin } from 'lucide-react';
+import { ArrowBack, MapPinIcon } from '../../utils/icons';
 import { Property } from '../../types';
 import { resolveMediaUrl } from '../../utils/image';
 import { api } from '../../services/api';
@@ -25,7 +25,7 @@ export const PropertyManagerPropertiesPage: React.FC = () => {
         to="/admin"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-fg/60 hover:text-fg mb-6"
       >
-        <ArrowLeft size={16} />
+        <ArrowBack size={16} />
         Back to Admin Console
       </Link>
 
@@ -40,16 +40,16 @@ export const PropertyManagerPropertiesPage: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {properties.map(p => (
-            <div key={p.id} className="bg-panel border border-line rounded-3xl overflow-hidden shadow-soft transition-all duration-300 hover:shadow-lift hover:-translate-y-1">
+            <div key={p.id} className="bg-panel border border-line rounded-2xl overflow-hidden shadow-soft transition-all duration-300 hover:shadow-lift hover:-translate-y-1">
               {p.image_url && (
-                <div className="relative aspect-[16/9] bg-nyumba-ink">
+                <div className="relative aspect-[16/9] bg-panel-strong">
                   <img src={resolveMediaUrl(p.image_url) ?? p.image_url} alt={p.name} className="w-full h-full object-cover" />
                 </div>
               )}
               <div className="p-4">
                 <h3 className="font-bold text-fg">{p.name}</h3>
                 <p className="flex items-center gap-1 text-xs text-fg/50 mt-1">
-                  <MapPin size={14} className="text-fg/40 shrink-0" />
+                  <MapPinIcon size={14} className="text-fg/40 shrink-0" />
                   {p.location}{p.county ? `, ${p.county}` : ''}
                 </p>
                 {p.description && (

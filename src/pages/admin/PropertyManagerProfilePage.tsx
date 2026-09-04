@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Building2, ShieldCheck, Clock, AlertOctagon, FileText, ExternalLink, Eye, XCircle, Mail, Phone } from 'lucide-react';
+import { ArrowBack, Building2Icon, ShieldCheckIcon, ClockIcon, AlertOctagonIcon, FileTextIcon, ExternalLinkIcon, EyeIcon, XCircleIcon, MailIcon, PhoneIcon } from '../../utils/icons';
 import { PropertyManagerDetail } from '../../types';
 import { api } from '../../services/api';
 import { RevokeModal } from '../../components/admin/RevokeModal';
@@ -45,9 +45,9 @@ export const PropertyManagerProfilePage: React.FC = () => {
       revoked: 'bg-red-500/20 text-red-400',
     };
     const icons: Record<string, React.ReactNode> = {
-      verified: <ShieldCheck size={14} />,
-      pending: <Clock size={14} />,
-      revoked: <AlertOctagon size={14} />,
+      verified: <ShieldCheckIcon size={14} />,
+      pending: <ClockIcon size={14} />,
+      revoked: <AlertOctagonIcon size={14} />,
     };
     return (
       <span className={`inline-flex items-center gap-1 text-xs px-2.5 py-1 rounded-full font-semibold ${styles[status] || ''}`}>
@@ -62,14 +62,14 @@ export const PropertyManagerProfilePage: React.FC = () => {
         to="/admin"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-fg/60 hover:text-fg mb-6"
       >
-        <ArrowLeft size={16} />
+        <ArrowBack size={16} />
         Back to Admin Console
       </Link>
 
-      <div className="bg-panel rounded-3xl border border-line shadow-soft overflow-hidden">
-        <div className="p-5 bg-nyumba-ink text-white flex items-center justify-between">
+      <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
+        <div className="p-5 bg-panel-strong border-b border-line flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <Building2 size={20} className="text-primary" />
+            <Building2Icon size={20} className="text-primary" />
             <h1 className="text-lg font-bold">{profile.full_name || 'Property Manager Profile'}</h1>
           </div>
           {statusBadge(profile.verification_status)}
@@ -94,14 +94,14 @@ export const PropertyManagerProfilePage: React.FC = () => {
             <div>
               <span className="text-[10px] uppercase font-semibold text-fg/40 block">Email</span>
               <span className="text-fg flex items-center gap-1">
-                <Mail size={13} className="text-fg/40" />
+                <MailIcon size={13} className="text-fg/40" />
                 {profile.email || '—'}
               </span>
             </div>
             <div>
               <span className="text-[10px] uppercase font-semibold text-fg/40 block">Phone</span>
               <span className="text-fg flex items-center gap-1">
-                <Phone size={13} className="text-fg/40" />
+                <PhoneIcon size={13} className="text-fg/40" />
                 {profile.phone || '—'}
               </span>
             </div>
@@ -134,7 +134,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
           </div>
 
           {profile.revoke_reason && (
-            <div className="p-3 bg-red-500/10 border border-red-200 rounded-lg text-xs text-red-400">
+            <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-lg text-xs text-red-400">
               <strong>Revoke Reason:</strong> {profile.revoke_reason}
             </div>
           )}
@@ -144,11 +144,11 @@ export const PropertyManagerProfilePage: React.FC = () => {
               href={profile.id_document_url}
               target="_blank"
               rel="noreferrer"
-              className="inline-flex items-center gap-1.5 text-xs text-blue-600 bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg hover:bg-blue-100"
+              className="inline-flex items-center gap-1.5 text-xs text-primary bg-primary-light border border-primary/20 px-3 py-1.5 rounded-lg hover:bg-primary/20 transition"
             >
-              <FileText size={14} />
+              <FileTextIcon size={14} />
               <span>View ID Document</span>
-              <ExternalLink size={12} />
+              <ExternalLinkIcon size={12} />
             </a>
           )}
         </div>
@@ -159,7 +159,7 @@ export const PropertyManagerProfilePage: React.FC = () => {
           onClick={() => navigate(`/admin/property-managers/${landlordId}/properties`)}
           className="flex items-center gap-1.5 text-xs font-semibold text-primary bg-panel-strong border border-primary/20 px-3 py-2 rounded-lg hover:bg-primary/20 transition"
         >
-          <Eye size={14} />
+          <EyeIcon size={14} />
           View Properties
         </button>
         {profile.verification_status === 'revoked' && (
@@ -176,16 +176,16 @@ export const PropertyManagerProfilePage: React.FC = () => {
             }}
             className="flex items-center gap-1.5 text-xs font-semibold text-primary bg-panel-strong border border-primary/20 px-3 py-2 rounded-lg hover:bg-primary/20 transition"
           >
-            <ShieldCheck size={14} />
+            <ShieldCheckIcon size={14} />
             Verify Property Manager
           </button>
         )}
         {profile.verification_status !== 'revoked' && (
           <button
             onClick={() => setShowRevoke(true)}
-            className="flex items-center gap-1.5 text-xs font-semibold text-red-600 bg-red-500/10 border border-red-200 px-3 py-2 rounded-lg hover:bg-red-500/20 transition"
+            className="flex items-center gap-1.5 text-xs font-semibold text-red-400 bg-red-500/10 border border-red-500/20 px-3 py-2 rounded-lg hover:bg-red-500/20 transition"
           >
-            <XCircle size={14} />
+            <XCircleIcon size={14} />
             Revoke Property Manager
           </button>
         )}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Plus, Trash2, Pencil, User, ShieldCheck, Building2, Boxes, TrendingUp, PhoneIncoming, Check, Phone, Mail, RefreshCw, ChevronDown, ChevronUp } from 'lucide-react';
+import { PlusIcon, TrashIcon, EditIcon, UserIcon, ShieldCheckIcon, Building2Icon, BoxesIcon, TrendingUpIcon, CallIncomingIcon, CheckIcon, PhoneIcon, MailIcon, RefreshIcon, ChevronDownIcon, ChevronUpIcon } from '../../utils/icons';
 import { useAuth } from '../../context/AuthContext';
 import { ProfileForm } from '../../components/landlord/ProfileForm';
 import { AddPropertyModal } from '../../components/landlord/AddPropertyModal';
@@ -120,9 +120,9 @@ export const LandlordDashboard: React.FC = () => {
   }
 
   const stats = [
-    { label: 'Properties', value: properties.length, icon: <Building2 size={16} className="text-primary" />, tint: '' },
-    { label: 'Total units', value: totalUnits, icon: <Boxes size={16} className="text-primary" />, tint: '' },
-    { label: 'Available now', value: availableUnits, icon: <TrendingUp size={16} className="text-primary" />, tint: '' },
+    { label: 'Properties', value: properties.length, icon: <Building2Icon size={16} className="text-primary" />, tint: '' },
+    { label: 'Total units', value: totalUnits, icon: <BoxesIcon size={16} className="text-primary" />, tint: '' },
+    { label: 'Available now', value: availableUnits, icon: <TrendingUpIcon size={16} className="text-primary" />, tint: '' },
   ];
 
   return (
@@ -148,7 +148,7 @@ export const LandlordDashboard: React.FC = () => {
             <p className="text-xs text-fg/60 mt-0.5">
               {isVerified ? (
                 <span className="inline-flex items-center gap-1 text-primary font-semibold">
-                  <ShieldCheck size={12} /> Verified Property Manager
+                  <ShieldCheckIcon size={12} /> Verified Property Manager
                 </span>
               ) : (
                 'Awaiting verification'
@@ -162,7 +162,7 @@ export const LandlordDashboard: React.FC = () => {
             onClick={() => navigate('/account')}
             className="btn-outline !py-2.5"
           >
-            <User size={14} />
+            <UserIcon size={14} />
             Edit profile
           </button>
           <button
@@ -170,7 +170,7 @@ export const LandlordDashboard: React.FC = () => {
             onClick={() => setIsAddPropertyOpen(true)}
             className="btn-primary !py-2.5 disabled:opacity-40"
           >
-            <Plus size={16} />
+            <PlusIcon size={16} />
             Add Property
           </button>
         </div>
@@ -195,7 +195,7 @@ export const LandlordDashboard: React.FC = () => {
           <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
               <div className="flex items-center gap-2">
-                <Mail size={16} className="text-primary" />
+                <MailIcon size={16} className="text-primary" />
                 <h2 className="font-bold text-sm text-fg">Tenant messages</h2>
                 {newMessages.length > 0 && (
                   <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
@@ -210,7 +210,7 @@ export const LandlordDashboard: React.FC = () => {
                   title="Refresh messages"
                   aria-label="Refresh messages"
                 >
-                  <RefreshCw size={14} />
+                  <RefreshIcon size={14} />
                 </button>
                 <button
                   onClick={() => setMessagesOpen(open => !open)}
@@ -219,7 +219,7 @@ export const LandlordDashboard: React.FC = () => {
                   aria-label={messagesOpen ? 'Collapse messages' : 'Show messages'}
                   aria-expanded={messagesOpen}
                 >
-                  {messagesOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  {messagesOpen ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
                 </button>
               </div>
             </div>
@@ -227,7 +227,7 @@ export const LandlordDashboard: React.FC = () => {
               {messages.map(msg => (
                 <div key={msg.id} className="flex flex-col gap-2 px-5 py-3.5">
                   <div className="flex items-start gap-3">
-                    <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${msg.status === 'unread' ? 'bg-blue-500' : 'bg-emerald-400'}`} />
+                    <div className={`w-2 h-2 mt-1.5 rounded-full shrink-0 ${msg.status === 'unread' ? 'bg-primary' : 'bg-panel-strong'}`} />
                     <div className="min-w-0 flex-1">
                       <p className="text-sm font-semibold text-fg">
                         {msg.tenant_name}
@@ -265,7 +265,7 @@ export const LandlordDashboard: React.FC = () => {
           <div className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
             <div className="flex items-center justify-between px-5 py-3.5 border-b border-line bg-panel-strong/50">
               <div className="flex items-center gap-2">
-                <PhoneIncoming size={16} className="text-primary" />
+                <CallIncomingIcon size={16} className="text-primary" />
                 <h2 className="font-bold text-sm text-fg">Callback requests</h2>
                 {newCallRequests.length > 0 && (
                   <span className="bg-red-500 text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full min-w-[18px] text-center">
@@ -280,14 +280,14 @@ export const LandlordDashboard: React.FC = () => {
                 aria-label={callRequestsOpen ? 'Collapse callback requests' : 'Show callback requests'}
                 aria-expanded={callRequestsOpen}
               >
-                {callRequestsOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                {callRequestsOpen ? <ChevronUpIcon size={16} /> : <ChevronDownIcon size={16} />}
               </button>
             </div>
             {callRequestsOpen && <div className="divide-y divide-line max-h-96 overflow-y-auto">
             {callRequests.map(req => (
               <div key={req.id} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 px-5 py-3.5">
                 <div
-                  className={`w-2 h-2 rounded-full shrink-0 ${req.status === 'new' ? 'bg-blue-500' : 'bg-emerald-400'}`}
+                  className={`w-2 h-2 rounded-full shrink-0 ${req.status === 'new' ? 'bg-primary' : 'bg-panel-strong'}`}
                   title={req.status === 'new' ? 'New' : 'Contacted'}
                 />
                 <div className="min-w-0 flex-1">
@@ -309,12 +309,12 @@ export const LandlordDashboard: React.FC = () => {
                 </a>
                 <div className="flex items-center gap-2 shrink-0">
                   <a href={`tel:${req.tenant_phone}`} className="btn-outline !px-3 !py-1.5 !text-xs">
-                    <Phone size={12} />
+                    <PhoneIcon size={12} />
                     Call
                   </a>
                   {req.status === 'new' ? (
                     <button onClick={() => handleMarkContacted(req.id)} className="btn-primary !px-3 !py-1.5 !text-xs">
-                      <Check size={12} />
+                      <CheckIcon size={12} />
                       Mark contacted
                     </button>
                   ) : (
@@ -341,7 +341,7 @@ export const LandlordDashboard: React.FC = () => {
         {properties.length === 0 ? (
           <div className="text-center py-16 bg-panel rounded-2xl border border-line">
             <div className="bg-panel-strong w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Building2 size={22} className="text-fg/40" />
+              <Building2Icon size={22} className="text-fg/40" />
             </div>
             <p className="text-fg/80 font-semibold text-sm">
               {isVerified ? 'No properties yet' : 'Properties will appear once verified'}
@@ -358,14 +358,14 @@ export const LandlordDashboard: React.FC = () => {
               <div key={property.id} className="bg-panel border border-line rounded-2xl shadow-soft overflow-hidden">
                 <div className="flex flex-col sm:flex-row">
                   {/* Image */}
-                  <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-nyumba-ink">
+                  <div className="sm:w-64 shrink-0 relative aspect-[16/10] sm:aspect-auto bg-panel-strong">
                     {property.image_url ? (
                       <>
                         <img src={resolveMediaUrl(property.image_url) ?? property.image_url} alt={property.name} className="w-full h-full object-cover" />
                       </>
                     ) : (
                       <div className="w-full h-full flex items-center justify-center">
-                        <Building2 size={28} className="text-white/30" />
+                        <Building2Icon size={28} className="text-fg/20" />
                       </div>
                     )}
                   </div>
@@ -383,22 +383,22 @@ export const LandlordDashboard: React.FC = () => {
                           className="p-2 text-fg/40 hover:text-primary hover:bg-panel-strong rounded-lg transition"
                           title="Edit property"
                         >
-                          <Pencil size={15} />
+                          <EditIcon size={15} />
                         </button>
                         <button
                           onClick={() => handleDeleteProperty(property.id)}
                           disabled={deleting === property.id}
-                          className="p-2 text-fg/50 hover:text-red-600 hover:bg-red-50 rounded-lg transition"
+                          className="p-2 text-fg/50 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition"
                           title="Delete property"
                         >
-                          <Trash2 size={15} />
+                          <TrashIcon size={15} />
                         </button>
                         {isVerified && (
                           <button
                             onClick={() => setManageCategoriesFor(property.id)}
                             className="btn-dark !px-4 !py-2"
                           >
-                            <Boxes size={14} />
+                            <BoxesIcon size={14} />
                             Manage categories
                           </button>
                         )}

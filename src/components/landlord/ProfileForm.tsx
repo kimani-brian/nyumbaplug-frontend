@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { User, Phone, Link, Building2, Loader2 } from 'lucide-react';
+import { UserIcon, PhoneIcon, LinkIcon, Building2Icon, LoaderIcon } from '../../utils/icons';
 import { api } from '../../services/api';
 import { LandlordProfile } from '../../types';
 
@@ -60,10 +60,10 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
   };
 
   return (
-    <div className="bg-panel rounded-3xl border border-line shadow-soft max-w-lg mx-auto p-8">
+    <div className="bg-panel rounded-2xl border border-line shadow-soft max-w-lg mx-auto p-8">
       <div className="text-center mb-6">
         <div className="bg-primary p-2 rounded-2xl inline-flex text-white mb-3 shadow-glow">
-          <User size={28} />
+          <UserIcon size={28} />
         </div>
         <h2 className="text-xl font-bold text-fg">{isEdit ? 'Edit Profile' : 'Complete Your Property Manager Profile'}</h2>
         <p className="text-xs text-fg/50 mt-1">
@@ -75,7 +75,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
         <div>
           <label className="block text-xs font-semibold text-fg/70 mb-1">Full Name</label>
           <div className="flex items-center gap-2 px-3 py-2.5 border border-line rounded-lg bg-panel focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
-            <User size={16} className="text-fg/40 shrink-0" />
+            <UserIcon size={16} className="text-fg/40 shrink-0" />
             <input
               type="text"
               placeholder="e.g. Jane Wambui"
@@ -89,7 +89,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
         <div>
           <label className="block text-xs font-semibold text-fg/70 mb-1">Page Name</label>
           <div className="flex items-center gap-2 px-3 py-2.5 border border-line rounded-lg bg-panel focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
-            <Building2 size={16} className="text-fg/40 shrink-0" />
+            <Building2Icon size={16} className="text-fg/40 shrink-0" />
             <input
               type="text"
               placeholder="e.g. Greenleaf Properties"
@@ -104,7 +104,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
         <div>
           <label className="block text-xs font-semibold text-fg/70 mb-1">Phone Number</label>
           <div className="flex items-center gap-2 px-3 py-2.5 border border-line rounded-lg bg-panel focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
-            <Phone size={16} className="text-fg/40 shrink-0" />
+            <PhoneIcon size={16} className="text-fg/40 shrink-0" />
             <input
               type="tel"
               placeholder="+254 7XX XXX XXX"
@@ -118,7 +118,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
         <div>
           <label className="block text-xs font-semibold text-fg/70 mb-1">ID Document URL</label>
           <div className="flex items-center gap-2 px-3 py-2.5 border border-line rounded-lg bg-panel focus-within:ring-2 focus-within:ring-primary/20 focus-within:border-primary">
-            <Link size={16} className="text-fg/40 shrink-0" />
+            <LinkIcon size={16} className="text-fg/40 shrink-0" />
             <input
               type="url"
               placeholder="https://example.com/my-id.jpg"
@@ -138,7 +138,7 @@ export const ProfileForm: React.FC<Props> = ({ onSuccess, profile, initialPhone 
         >
           {submitting ? (
             <>
-              <Loader2 size={16} className="animate-spin" />
+              <LoaderIcon size={16} className="animate-spin" />
               {isEdit ? 'Saving...' : 'Submitting...'}
             </>
           ) : (

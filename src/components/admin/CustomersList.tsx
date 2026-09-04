@@ -1,5 +1,5 @@
 import React from 'react';
-import { Users, User, Eye } from 'lucide-react';
+import { UsersIcon, UserIcon, EyeIcon } from '../../utils/icons';
 import { CustomerView } from '../../types';
 import { EmptyState } from '../common/EmptyState';
 
@@ -13,7 +13,7 @@ export const CustomersList: React.FC<Props> = ({ customers, onViewProfile }) => 
     <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
       <div className="p-5 bg-panel border-b border-line text-fg flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <Users size={18} className="text-primary" />
+          <UsersIcon size={18} className="text-primary" />
           Registered Customers
         </h3>
         <span className="text-xs bg-panel-strong text-fg/70 px-2.5 py-1 rounded-full font-mono">
@@ -41,7 +41,7 @@ export const CustomersList: React.FC<Props> = ({ customers, onViewProfile }) => 
                 <tr key={c.id} className="hover:bg-panel-strong transition">
                   <td className="p-3 text-fg font-medium">
                     <span className="flex items-center gap-1.5">
-                      <User size={14} className="text-fg/40 shrink-0" />
+                      <UserIcon size={14} className="text-fg/40 shrink-0" />
                       {c.full_name || '—'}
                     </span>
                   </td>
@@ -55,7 +55,7 @@ export const CustomersList: React.FC<Props> = ({ customers, onViewProfile }) => 
                         onClick={() => onViewProfile(c.id)}
                         className="flex items-center gap-1 text-xs font-semibold text-primary hover:text-primary transition"
                       >
-                        <Eye size={14} /> Profile
+                        <EyeIcon size={14} /> Profile
                       </button>
                     </td>
                   )}

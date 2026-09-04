@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { AlertTriangle, X } from 'lucide-react';
+import { AlertTriangleIcon, CloseIcon } from '../../utils/icons';
 import { LandlordProfile, PropertyManagerView } from '../../types';
 import { api } from '../../services/api';
 
@@ -33,13 +33,13 @@ export const RevokeModal: React.FC<Props> = ({ isOpen, onClose, landlord, onSucc
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-nyumba-ink/60 backdrop-blur-sm p-4" onClick={onClose}>
-      <div className="bg-panel rounded-3xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-red-500/20 animate-scale-in" onClick={e => e.stopPropagation()}>
+      <div className="bg-panel rounded-2xl max-w-md w-full p-6 sm:p-7 relative shadow-lift border border-red-500/20 animate-scale-in" onClick={e => e.stopPropagation()}>
         <button onClick={onClose} className="absolute top-4 right-4 text-fg/40 hover:text-fg/80 p-1.5 rounded-full hover:bg-panel-strong transition">
-          <X size={20} />
+          <CloseIcon />
         </button>
 
-        <div className="flex items-center gap-2 text-red-600 mb-3">
-          <AlertTriangle size={24} />
+        <div className="flex items-center gap-2 text-red-400 mb-3">
+          <AlertTriangleIcon size={24} />
           <h3 className="text-lg font-bold text-fg">Revoke Property Manager Profile</h3>
         </div>
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { ArrowLeft, Users, Mail, Phone, MapPin, CalendarDays } from 'lucide-react';
+import { ArrowBack, UsersIcon, MailIcon, PhoneIcon, MapPinIcon, CalendarIcon } from '../../utils/icons';
 import { CustomerProfile } from '../../types';
 import { api } from '../../services/api';
 
@@ -56,7 +56,7 @@ export const CustomerProfilePage: React.FC = () => {
         to="/admin"
         className="inline-flex items-center gap-1.5 text-xs font-semibold text-fg/60 hover:text-primary transition"
       >
-        <ArrowLeft size={16} />
+        <ArrowBack size={16} />
         Back to Admin Console
       </Link>
 
@@ -67,7 +67,7 @@ export const CustomerProfilePage: React.FC = () => {
           </div>
           <div>
             <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-fg/50 mb-1 flex items-center gap-1.5">
-              <Users size={12} /> Customer Profile
+              <UsersIcon size={12} /> Customer Profile
             </p>
             <h1 className="font-semibold text-xl leading-tight">{profile.full_name || 'Unnamed Customer'}</h1>
           </div>
@@ -75,11 +75,11 @@ export const CustomerProfilePage: React.FC = () => {
 
         <div className="p-5 sm:p-6 space-y-5">
           <div className="grid sm:grid-cols-2 gap-5">
-            {detail(<Mail size={16} />, 'Email', profile.email)}
-            {detail(<Phone size={16} />, 'Phone', profile.phone)}
-            {detail(<MapPin size={16} />, 'Preferred Location', profile.location || profile.profile.location)}
+            {detail(<MailIcon size={16} />, 'Email', profile.email)}
+            {detail(<PhoneIcon size={16} />, 'Phone', profile.phone)}
+            {detail(<MapPinIcon size={16} />, 'Preferred Location', profile.location || profile.profile.location)}
             {detail(
-              <CalendarDays size={16} />,
+              <CalendarIcon size={16} />,
               'Registered',
               new Date(profile.created_at).toLocaleDateString('en-KE', { day: 'numeric', month: 'short', year: 'numeric' })
             )}

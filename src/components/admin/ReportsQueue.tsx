@@ -1,5 +1,5 @@
 import React from 'react';
-import { Flag, CheckCircle, ShieldAlert, UserX } from 'lucide-react';
+import { FlagIcon, CheckCircleIcon, ShieldAlertIcon, PersonOffIcon } from '../../utils/icons';
 import { PropertyReport } from '../../types';
 import { EmptyState } from '../common/EmptyState';
 
@@ -17,7 +17,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
     <div className="bg-panel rounded-2xl border border-line shadow-soft overflow-hidden">
       <div className="p-5 bg-panel border-b border-line flex items-center justify-between">
         <h3 className="font-bold text-sm flex items-center gap-2">
-          <Flag size={18} className="text-red-400" />
+          <FlagIcon size={18} className="text-red-400" />
           Scam Reports Queue
         </h3>
         <span className="text-xs bg-panel-strong text-fg/80 px-2.5 py-1 rounded-full font-mono">
@@ -53,7 +53,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
 
               <div className="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-line">
                 <div className="flex items-center gap-2 text-xs text-fg/50 min-w-0">
-                  <UserX size={13} className="text-fg/40 shrink-0" />
+                  <PersonOffIcon size={13} className="text-fg/40 shrink-0" />
                   <span className="line-clamp-1">
                     Property Manager: <strong className="text-fg">{rep.landlord_name || 'Unknown'}</strong>
                   </span>
@@ -69,7 +69,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
                       onClick={() => onRevokeManager(rep)}
                       className="flex items-center gap-1 bg-red-600 hover:bg-red-700 text-white text-xs font-semibold px-3 py-1.5 rounded-lg transition"
                     >
-                      <ShieldAlert size={12} />
+                      <ShieldAlertIcon size={12} />
                       Revoke property manager's listings
                     </button>
                   )}
@@ -77,7 +77,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
                     onClick={() => onResolve(rep.id)}
                     className="flex items-center gap-1 bg-panel-strong hover:bg-panel-strong text-fg text-xs font-medium px-3 py-1.5 rounded-lg transition"
                   >
-                    <CheckCircle size={12} />
+                    <CheckCircleIcon size={12} />
                     Resolve
                   </button>
                 </div>
@@ -92,7 +92,7 @@ export const ReportsQueue: React.FC<Props> = ({ reports, onResolve, onRevokeMana
               <div className="mt-2 space-y-2">
                 {resolved.map(rep => (
                   <div key={rep.id} className="flex items-center gap-2 text-xs text-fg/50">
-                    <CheckCircle size={12} className="text-primary shrink-0" />
+                    <CheckCircleIcon size={12} className="text-primary shrink-0" />
                     <span className="line-clamp-1">
                       {rep.property_name || 'Property'} — {rep.reason}
                       {rep.landlord_name ? ` (${rep.landlord_name})` : ''}
