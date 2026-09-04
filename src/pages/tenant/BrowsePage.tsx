@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Search, ShieldCheck, RotateCcw } from 'lucide-react';
+import { SearchIcon, ShieldCheckIcon, RestartAltIcon } from '../../utils/icons';
 import { Property } from '../../types';
 import { api } from '../../services/api';
 import { PropertyCard } from '../../components/tenant/PropertyCard';
@@ -91,7 +91,7 @@ export const BrowsePage: React.FC = () => {
           {/* Search row */}
           <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-3xl">
             <div className="flex-1 flex items-center gap-2 px-4 py-2 bg-panel-strong rounded-full border border-line focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10">
-              <Search size={18} className="text-fg/40 shrink-0" />
+              <SearchIcon size={18} className="text-fg/40 shrink-0" />
               <input
                 type="text"
                 placeholder="Search by estate, location, county, unit type…"
@@ -102,7 +102,7 @@ export const BrowsePage: React.FC = () => {
               />
             </div>
             <button onClick={applySearch} className="btn-primary">
-              <Search size={16} />
+              <SearchIcon size={16} />
               Search
             </button>
           </div>
@@ -132,7 +132,7 @@ export const BrowsePage: React.FC = () => {
               onClick={resetAll}
               className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full text-xs font-semibold text-fg/50 hover:text-primary border border-transparent hover:border-line transition"
             >
-              <RotateCcw size={12} />
+              <RestartAltIcon size={12} />
               Reset
             </button>
           </div>
@@ -151,7 +151,7 @@ export const BrowsePage: React.FC = () => {
             )}
           </p>
           <span className="inline-flex items-center gap-1.5 text-[11px] text-primary font-semibold">
-            <ShieldCheck size={13} />
+            <ShieldCheckIcon size={13} />
             All listings verified
           </span>
         </div>
@@ -159,20 +159,20 @@ export const BrowsePage: React.FC = () => {
         {loading ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[1, 2, 3, 4, 5, 6].map(n => (
-              <div key={n} className="bg-panel-strong h-[360px] rounded-3xl animate-pulse border border-line" />
+              <div key={n} className="bg-panel-strong h-[360px] rounded-2xl animate-pulse border border-line" />
             ))}
           </div>
         ) : properties.length === 0 ? (
-          <div className="text-center py-20 bg-panel rounded-3xl border border-line">
-            <div className="bg-panel-strong w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-4">
-              <Search size={22} className="text-fg/40" />
+          <div className="text-center py-20 bg-panel rounded-2xl border border-line">
+            <div className="bg-panel-strong w-14 h-14 rounded-2xl flex items-center justify-center mx-auto mb-4">
+              <SearchIcon size={22} className="text-fg/40" />
             </div>
             <p className="text-fg/80 font-semibold text-sm">No verified listings found</p>
             <p className="text-xs text-fg/50 mt-1 max-w-sm mx-auto">
               Try different search terms, a broader price range, or clear your filters.
             </p>
             <button onClick={resetAll} className="btn-outline mt-6 !py-2.5">
-              <RotateCcw size={14} />
+              <RestartAltIcon size={14} />
               Clear all filters
             </button>
           </div>

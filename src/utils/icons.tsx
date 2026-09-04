@@ -64,6 +64,12 @@ export const ChevronDownIcon = g('expand_more', 18);
 export const ChevronUpIcon = g('expand_less', 18);
 export const ExternalLinkIcon = g('open_in_new', 18);
 export const FileTextIcon = g('description', 18);
+export const QuoteIcon = g('format_quote', 20);
+export const StarIcon = g('star', 14);
+export const PhotoLibraryIcon = g('photo_library', 18);
+export const RestartAltIcon = g('restart_alt', 16);
+
+// Re-export the base component for components that need a raw/generic icon.
 export const HistoryIcon = g('history', 18);
 export const FlagIcon = g('flag', 18);
 export const FileCheckIcon = g('fact_check', 18);

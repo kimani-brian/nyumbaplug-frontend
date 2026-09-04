@@ -1,8 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { MapPin } from 'lucide-react';
 import { Property } from '../../types';
 import { optimizeImageUrl, resolveMediaUrl } from '../../utils/image';
+import { MapPinIcon, ArrowForward } from '../../utils/icons';
 
 interface Props {
   property: Property;
@@ -16,9 +16,9 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
   return (
     <Link
       to={`/properties/${property.id}`}
-      className="group bg-panel border border-line rounded-3xl overflow-hidden shadow-soft hover:shadow-lift transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
+      className="group bg-panel border border-line rounded-2xl overflow-hidden shadow-soft hover:shadow-lift transition-all duration-300 flex flex-col h-full hover:-translate-y-1"
     >
-      <div className="relative aspect-[16/10] bg-nyumba-ink overflow-hidden">
+      <div className="relative aspect-[16/10] bg-panel-strong overflow-hidden">
         {property.image_url ? (
           <img
             src={optimizeImageUrl(resolveMediaUrl(property.image_url)) ?? property.image_url}
@@ -27,8 +27,8 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         ) : (
-          <div className="w-full h-full bg-nyumba-ink flex items-center justify-center">
-            <MapPin size={28} className="text-white/20" />
+          <div className="w-full h-full bg-panel-strong flex items-center justify-center">
+            <MapPinIcon size={28} className="text-fg/20" />
           </div>
         )}
       </div>
@@ -38,7 +38,7 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
           {property.name}
         </h3>
         <p className="flex items-center gap-1 text-xs text-fg/50 mb-3">
-          <MapPin size={14} className="text-fg/40 shrink-0" />
+          <MapPinIcon size={14} className="text-fg/40 shrink-0" />
           <span className="line-clamp-1">{property.location}{property.county ? `, ${property.county}` : ''}</span>
         </p>
         <p className="text-xs text-fg/60 line-clamp-2 mb-4 flex-1">{property.description}</p>
@@ -51,8 +51,9 @@ export const PropertyCard: React.FC<Props> = ({ property }) => {
               <span className="text-xs font-normal text-fg/40">/mo</span>
             </span>
           </div>
-          <span className="text-xs font-semibold text-fg/70 group-hover:text-primary transition">
-            View units →
+          <span className="inline-flex items-center gap-1 text-xs font-semibold text-fg/70 group-hover:text-primary transition">
+            View units
+            <ArrowForward size={12} />
           </span>
         </div>
       </div>

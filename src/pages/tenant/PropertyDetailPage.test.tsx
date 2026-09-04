@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { vi } from 'vitest';
 import { PropertyDetailPage } from './PropertyDetailPage';
@@ -41,5 +41,34 @@ describe('PropertyDetailPage', () => {
     expect(titles.length).toBeGreaterThan(0);
     expect(screen.queryByText(/2 units available/i)).not.toBeInTheDocument();
     expect(screen.queryByText(/Verified Property Manager/i)).not.toBeInTheDocument();
+  });
+
+  it('renders the sticky contact rail and report button', async () => {
+    render(
+      <MemoryRouter initialEntries={["/properties/p1"]}>
+        <Routes>
+          <Route path="/properties/:id" element={<PropertyDetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    expect(await screen.findByText(/Ready to view\?/i)).toBeInTheDocument();
+    expect(screen.getByText(/Verified listing/i)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: /report this property/i })).toBeInTheDocument();
+  });
+
+  it('opens the report modal from the side rail', async () => {
+    render(
+      <MemoryRouter initialEntries={["/properties/p1"]}>
+        <Routes>
+          <Route path="/properties/:id" element={<PropertyDetailPage />} />
+        </Routes>
+      </MemoryRouter>
+    );
+
+    await screen.findByText(/Ready to view\?/i);
+    fireEvent.click(screen.getByRole('button', { name: /report this property/i }));
+
+    expect(await screen.findByText(/Report Property or Scam/i)).toBeInTheDocument();
   });
 });

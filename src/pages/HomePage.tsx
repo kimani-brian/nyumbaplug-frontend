@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Search,
-  ArrowRight,
-  Quote,
-  Star,
-} from 'lucide-react';
+  SearchIcon,
+  ArrowForward,
+  StarIcon,
+  QuoteIcon,
+  VerifiedIcon,
+  ShieldIcon,
+  LockIcon,
+} from '../utils/icons';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { Reveal } from '../components/common/Reveal';
-
-const HERO_IMG =
-  'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2000&auto=format&fit=crop';
 
 const HOW_IT_WORKS = [
   {
@@ -20,8 +20,8 @@ const HOW_IT_WORKS = [
   },
   {
     step: '02',
-    title: 'Verified property managers',
-    body: 'Property managers are reviewed and verified before their properties are listed on NyumbaPlug.',
+    title: 'Scam-checked listings',
+    body: 'Every listing is reviewed before it goes live, and tenants can report suspicious activity in one tap.',
   },
   {
     step: '03',
@@ -57,24 +57,33 @@ export const HomePage: React.FC = () => {
   return (
     <div>
       {/* ============ HERO ============ */}
-      <section className="relative min-h-[88vh] flex items-center overflow-hidden bg-nyumba-ink">
-        <div className="absolute inset-0">
-          <img src={HERO_IMG} alt="Kenyan apartments" className="w-full h-full object-cover opacity-40" />
-          <div className="absolute inset-0" />
-        </div>
+      <section className="relative overflow-hidden bg-page">
+        {/* Decorative blue halos (Google Material, no photo overlay) */}
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute -top-32 -right-24 w-[30rem] h-[30rem] rounded-full bg-primary/10 blur-3xl hidden sm:block"
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute top-40 -left-32 w-[24rem] h-[24rem] rounded-full bg-primary/5 blur-3xl hidden sm:block"
+        />
 
-        <div className="relative max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 w-full pt-24 pb-20">
+        <div className="relative max-w-7xl mx-auto container-px pt-16 sm:pt-24 pb-16 sm:pb-24">
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-6 animate-fade-up">
-
-
             The smarter way to find your next home.
           </p>
 
-          <h1 className="display text-white font-bold text-4xl sm:text-6xl lg:text-[4.25rem] leading-[1.02] max-w-3xl animate-fade-up" style={{ animationDelay: '0.05s' }}>
-            Find a place you can trust.
+          <h1
+            className="display text-fg font-bold text-4xl sm:text-6xl lg:text-[4.25rem] leading-[1.02] max-w-3xl animate-fade-up"
+            style={{ animationDelay: '0.05s' }}
+          >
+            Find a place you can <span className="text-primary">trust.</span>
           </h1>
 
-          <p className="text-white/70 text-sm sm:text-lg mt-5 max-w-xl leading-relaxed animate-fade-up" style={{ animationDelay: '0.1s' }}>
+          <p
+            className="text-fg/60 text-sm sm:text-lg mt-5 max-w-xl leading-relaxed animate-fade-up"
+            style={{ animationDelay: '0.1s' }}
+          >
             Verified units from verified property managers across Kenya. Browse genuine homes, confirm
             availability, and connect directly with the people managing them.
           </p>
@@ -82,47 +91,55 @@ export const HomePage: React.FC = () => {
           {/* Search */}
           <form
             onSubmit={handleSearch}
-            className="mt-8 max-w-2xl bg-white rounded-2xl shadow-lift p-2 flex items-center gap-2 animate-fade-up"
+            className="mt-8 max-w-2xl bg-panel border border-line rounded-lg shadow-soft hover:shadow-lift p-2 flex items-center gap-2 animate-fade-up focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10 transition"
             style={{ animationDelay: '0.15s' }}
           >
             <div className="flex-1 flex items-center gap-2 px-3">
-              <Search size={18} className="text-nyumba-ink/40 shrink-0" />
+              <SearchIcon size={18} className="text-fg/40 shrink-0" />
               <input
                 type="text"
+                aria-label="Search properties"
                 placeholder="Search by estate, location, county, unit type…"
                 value={query}
                 onChange={e => setQuery(e.target.value)}
-                className="w-full bg-transparent text-sm text-nyumba-ink placeholder:text-nyumba-ink/40 focus:outline-none py-2"
+                className="w-full bg-transparent text-sm text-fg placeholder:text-fg/40 focus:outline-none py-2"
               />
             </div>
             <button type="submit" className="btn-primary !px-5 !py-2.5 shrink-0">
-              <Search size={16} />
+              <SearchIcon size={16} />
               Search
             </button>
           </form>
 
           {/* Trust chips */}
-          <div className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-white/70 animate-fade-up" style={{ animationDelay: '0.2s' }}>
-            <span>Verified property managers</span>
-            <span>Scam checked listings</span>
-            <span>
+          <div
+            className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-fg/60 animate-fade-up"
+            style={{ animationDelay: '0.2s' }}
+          >
+            <span className="inline-flex items-center gap-1.5">
+              <VerifiedIcon size={14} className="text-primary" />
+              Verified property managers
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <ShieldIcon size={14} className="text-primary" />
+              Scam checked listings
+            </span>
+            <span className="inline-flex items-center gap-1.5">
+              <LockIcon size={14} className="text-primary" />
               Contact only for vacant, verified units
             </span>
           </div>
 
           {/* CTA buttons */}
-          <div className="mt-8 flex flex-wrap items-center gap-3 animate-fade-up" style={{ animationDelay: '0.25s' }}>
-            <Link
-              to="/properties"
-              className="inline-flex items-center gap-2 bg-primary hover:bg-primary-dark text-white font-bold rounded-full text-sm px-7 py-3 transition shadow-glow"
-            >
+          <div
+            className="mt-8 flex flex-wrap items-center gap-3 animate-fade-up"
+            style={{ animationDelay: '0.25s' }}
+          >
+            <Link to="/properties" className="btn-primary">
               Start browsing
-              <ArrowRight size={16} />
+              <ArrowForward size={16} />
             </Link>
-            <Link
-              to="/register"
-              className="inline-flex items-center gap-2 bg-white/10 backdrop-blur border border-white/25 text-white hover:bg-white/20 font-semibold text-sm px-7 py-3.5 rounded-full transition"
-            >
+            <Link to="/register" className="btn-outline">
               Register property
             </Link>
           </div>
@@ -136,14 +153,13 @@ export const HomePage: React.FC = () => {
             kicker="Why NyumbaPlug"
             title="A better way to rent in Kenya."
             description="We make it easier to find genuine properties, deal with trusted managers, and avoid common scams."
-            light
           />
         </Reveal>
 
         <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-5">
           {HOW_IT_WORKS.map(item => (
             <Reveal key={item.step} delay={0}>
-              <div className="bg-panel border border-line rounded-3xl p-7 shadow-soft hover:shadow-lift transition-all hover:-translate-y-1 relative overflow-hidden group h-full">
+              <div className="bg-panel border border-line rounded-2xl p-7 shadow-soft hover:shadow-lift transition-all hover:-translate-y-1 relative overflow-hidden group h-full">
                 <span className="absolute -top-4 -right-2 display text-8xl text-fg/10 font-bold select-none">
                   {item.step}
                 </span>
@@ -156,7 +172,7 @@ export const HomePage: React.FC = () => {
 
         {/* Stats band */}
         <Reveal delay={100}>
-          <div className="mt-10 bg-panel border border-line rounded-3xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+          <div className="mt-10 bg-panel border border-line rounded-2xl px-6 py-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
               { value: 'Verified managers', label: 'Trusted property managers on the platform' },
               { value: '47', label: 'Counties covered' },
@@ -179,18 +195,19 @@ export const HomePage: React.FC = () => {
             <SectionHeading
               kicker="Real stories"
               title="Trusted by tenants & property managers"
-              light
               align="center"
             />
           </Reveal>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
             {TESTIMONIALS.map((t, i) => (
               <Reveal key={t.name} delay={i * 150}>
-                <figure className="bg-panel border border-line rounded-3xl p-7 hover:border-primary/40 transition-colors h-full">
+                <figure className="bg-panel border border-line rounded-2xl p-7 hover:border-primary/40 transition-colors h-full">
                   <div className="flex items-center gap-1 text-primary mb-4">
-                    {[...Array(5)].map((_, i) => <Star key={i} size={14} fill="currentColor" />)}
+                    {[...Array(5)].map((_, s) => (
+                      <StarIcon key={s} size={14} filled />
+                    ))}
                   </div>
-                  <Quote size={20} className="text-primary/40 mb-3" />
+                  <QuoteIcon size={20} className="text-primary/40 mb-3" />
                   <blockquote className="text-sm text-fg/85 leading-relaxed">{t.quote}</blockquote>
                   <figcaption className="mt-5 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
@@ -211,7 +228,7 @@ export const HomePage: React.FC = () => {
       {/* ============ FINAL CTA ============ */}
       <section className="section-pad container-px max-w-7xl mx-auto">
         <Reveal direction="zoom">
-          <div className="rounded-3xl border border-line bg-panel p-10 sm:p-16 text-center">
+          <div className="rounded-2xl border border-line bg-panel p-10 sm:p-16 text-center">
             <div className="relative">
               <h2 className="display text-3xl sm:text-5xl font-bold text-fg leading-[1.1] max-w-2xl mx-auto">
                 Your next home is verified and waiting.
@@ -220,17 +237,11 @@ export const HomePage: React.FC = () => {
                 Search thousands of scam-checked rentals from ID-verified property managers across Kenya.
               </p>
               <div className="mt-8 flex flex-wrap justify-center gap-3">
-                <Link
-                  to="/properties"
-                  className="inline-flex items-center gap-2 text-sm font-bold rounded-full bg-primary text-white hover:bg-primary-dark px-7 py-3 transition shadow-glow"
-                >
+                <Link to="/properties" className="btn-primary">
                   Start browsing
-                  <ArrowRight size={16} />
+                  <ArrowForward size={16} />
                 </Link>
-                <Link
-                  to="/register"
-                  className="inline-flex items-center gap-2 text-sm font-semibold rounded-full border border-white/40 text-fg hover:bg-panel-strong px-7 py-3 transition"
-                >
+                <Link to="/register" className="btn-outline">
                   List your property
                 </Link>
               </div>
