@@ -17,7 +17,11 @@ export const Input: React.FC<InputProps> = ({ label, error, className, id, ...re
       <input
         id={id}
         aria-invalid={Boolean(error)}
-        className={clsx('w-full px-4 py-3 border border-line rounded-xl bg-panel text-fg placeholder:text-fg/40 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition', className)}
+        className={clsx(
+          'w-full px-3.5 py-3 border border-line rounded-lg bg-panel text-fg placeholder:text-fg/40',
+          'hover:border-fg/25 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 transition',
+          className
+        )}
         {...rest}
       />
       {error && (
