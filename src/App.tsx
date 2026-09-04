@@ -6,17 +6,23 @@ import { Footer } from './components/common/Footer';
 import { BrowsePage } from './pages/tenant/BrowsePage';
 import { HomePage } from './pages/HomePage';
 
+// Public shell stays eager; everything behind auth or navigation is code-split
+// so the initial bundle only carries what a first-time visitor needs.
 const PropertyDetailPage = lazy(() => import('./pages/tenant/PropertyDetailPage').then(module => ({ default: module.PropertyDetailPage })));
-import { LandlordDashboard } from './pages/landlord/LandlordDashboard';
-import { LandlordAccount } from './pages/landlord/LandlordAccount';
-import { CustomerAccount } from './pages/customer/CustomerAccount';
-import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { PropertyManagerPropertiesPage } from './pages/admin/PropertyManagerPropertiesPage';
-import { PropertyManagerProfilePage } from './pages/admin/PropertyManagerProfilePage';
-import { CustomerProfilePage } from './pages/admin/CustomerProfilePage';
-import { LoginPage } from './pages/auth/LoginPage';
-import { RegisterPage } from './pages/auth/RegisterPage';
-import { VerifyEmailPage } from './pages/auth/VerifyEmailPage';
+const LandlordDashboard = lazy(() => import('./pages/landlord/LandlordDashboard').then(module => ({ default: module.LandlordDashboard })));
+const LandlordAccount = lazy(() => import('./pages/landlord/LandlordAccount').then(module => ({ default: module.LandlordAccount })));
+const CustomerAccount = lazy(() => import('./pages/customer/CustomerAccount').then(module => ({ default: module.CustomerAccount })));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard').then(module => ({ default: module.AdminDashboard })));
+const PropertyManagerPropertiesPage = lazy(() => import('./pages/admin/PropertyManagerPropertiesPage').then(module => ({ default: module.PropertyManagerPropertiesPage })));
+const PropertyManagerProfilePage = lazy(() => import('./pages/admin/PropertyManagerProfilePage').then(module => ({ default: module.PropertyManagerProfilePage })));
+const CustomerProfilePage = lazy(() => import('./pages/admin/CustomerProfilePage').then(module => ({ default: module.CustomerProfilePage })));
+const LoginPage = lazy(() => import('./pages/auth/LoginPage').then(module => ({ default: module.LoginPage })));
+const RegisterPage = lazy(() => import('./pages/auth/RegisterPage').then(module => ({ default: module.RegisterPage })));
+const VerifyEmailPage = lazy(() => import('./pages/auth/VerifyEmailPage').then(module => ({ default: module.VerifyEmailPage })));
+
+const PageFallback: React.FC = () => <div className="p-8 text-center text-sm text-fg/50">Loading…</div>;
+
+const suspend = (node: React.ReactNode) => <Suspense fallback={<PageFallback />}>{node}</Suspense>;
 
 const ProtectedRoute: React.FC<{ children: React.ReactNode; allowedRole: 'admin' | 'landlord' | 'tenant' | ('admin' | 'landlord' | 'tenant')[] }> = ({
   children,
@@ -44,13 +50,13 @@ const AppRoutes: React.FC = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify" element={<VerifyEmailPage />} />
-      <Route path="/properties/:id" element={<Suspense fallback={<div className="p-8 text-center text-sm text-fg/50">Loading property…</div>}><PropertyDetailPage /></Suspense>} />
+      <Route path="/properties/:id" element={suspend(<PropertyDetailPage />)} />
 
       <Route
         path="/landlord"
         element={
           <ProtectedRoute allowedRole="landlord">
-            <LandlordDashboard />
+            {suspend(<LandlordDashboard />)}
           </ProtectedRoute>
         }
       />
@@ -59,7 +65,7 @@ const AppRoutes: React.FC = () => {
         path="/account"
         element={
           <ProtectedRoute allowedRole={['tenant', 'landlord']}>
-            <AccountPage />
+            {suspend(<AccountPage />)}
           </ProtectedRoute>
         }
       />
@@ -68,7 +74,7 @@ const AppRoutes: React.FC = () => {
         path="/admin"
         element={
           <ProtectedRoute allowedRole="admin">
-            <AdminDashboard />
+            {suspend(<AdminDashboard />)}
           </ProtectedRoute>
         }
       />
@@ -76,7 +82,7 @@ const AppRoutes: React.FC = () => {
         path="/admin/property-managers/:landlordId/properties"
         element={
           <ProtectedRoute allowedRole="admin">
-            <PropertyManagerPropertiesPage />
+            {suspend(<PropertyManagerPropertiesPage />)}
           </ProtectedRoute>
         }
       />
@@ -84,7 +90,7 @@ const AppRoutes: React.FC = () => {
         path="/admin/property-managers/:landlordId/profile"
         element={
           <ProtectedRoute allowedRole="admin">
-            <PropertyManagerProfilePage />
+            {suspend(<PropertyManagerProfilePage />)}
           </ProtectedRoute>
         }
       />
@@ -92,7 +98,7 @@ const AppRoutes: React.FC = () => {
         path="/admin/customers/:customerId/profile"
         element={
           <ProtectedRoute allowedRole="admin">
-            <CustomerProfilePage />
+            {suspend(<CustomerProfilePage />)}
           </ProtectedRoute>
         }
       />
