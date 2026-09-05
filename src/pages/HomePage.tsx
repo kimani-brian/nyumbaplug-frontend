@@ -181,7 +181,7 @@ export const HomePage: React.FC = () => {
             ].map((s, i) => (
               <div key={i} className="text-fg">
                 <div className="display font-bold text-2xl">{s.value}</div>
-                <div className="text-[11px] text-fg/50 uppercase tracking-wider mt-1">{s.label}</div>
+                <div className="text-[11px] text-fg/50 tracking-wider mt-1">{s.label}</div>
               </div>
             ))}
           </div>
