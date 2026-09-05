@@ -38,7 +38,7 @@ export const Footer: React.FC = () => {
                 </span>
 
                 <p className="text-xs text-fg/50 leading-relaxed tracking-wider">
-                  Find Verify.Move.
+                  Find.Verify.Move.
                 </p>
               </div>
             </div>
