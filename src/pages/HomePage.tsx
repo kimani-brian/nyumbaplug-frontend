@@ -74,7 +74,7 @@ export const HomePage: React.FC = () => {
   return (
     <div>
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden flex min-h-screen flex-col">
+      <section className="relative overflow-hidden flex min-h-[calc(100vh-3rem)] flex-col">
         {/* Background image */}
         <div
           aria-hidden="true"
@@ -87,7 +87,7 @@ export const HomePage: React.FC = () => {
         {/* Readability scrim */}
         <div aria-hidden="true" className="absolute inset-0 bg-black/55" />
 
-        <div className="relative flex-1 max-w-7xl mx-auto container-px pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col justify-center w-full">
+        <div className="relative flex-1 max-w-7xl mx-auto container-px pt-24 sm:pt-32 pb-12 sm:pb-16 flex flex-col justify-center w-full">
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-6 animate-fade-up">
             The smarter way to find your next home.
           </p>
