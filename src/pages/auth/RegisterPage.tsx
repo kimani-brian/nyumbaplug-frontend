@@ -185,7 +185,7 @@ export const RegisterPage: React.FC = () => {
               <Icon name="progress_activity" size={15} className="animate-spin" /> Creating account…
             </span>
           ) : (
-            'Create account & verify'
+            'Create account'
           )}
         </Button>
       </form>

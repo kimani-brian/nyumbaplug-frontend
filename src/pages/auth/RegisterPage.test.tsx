@@ -24,7 +24,7 @@ describe('RegisterPage', () => {
     const nameInput = screen.getByPlaceholderText(/Jane Doe/i);
     const emailInput = screen.getByPlaceholderText(/you@example.com/i);
     const passwordInput = screen.getByPlaceholderText(/At least 6 characters/i);
-    const submit = screen.getByRole('button', { name: /create account & verify/i });
+    const submit = screen.getByRole('button', { name: /create account/i });
 
     fireEvent.change(nameInput, { target: { value: 'Jane Doe' } });
     fireEvent.change(emailInput, { target: { value: 'new@user.com' } });

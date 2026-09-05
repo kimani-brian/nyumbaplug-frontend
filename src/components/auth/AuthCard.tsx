@@ -40,7 +40,7 @@ export const AuthCard: React.FC<AuthCardProps> = ({ title, subtitle, children, f
                 Nyumba<span className="text-primary">Plug</span>
               </span>
               <span className="block text-[9px] font-bold uppercase tracking-[0.22em] mt-0.5 text-fg/50">
-                Verified Kenya Rentals
+                Find.Verify.Move.
               </span>
             </div>
           </Link>

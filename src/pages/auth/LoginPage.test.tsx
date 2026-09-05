@@ -64,6 +64,6 @@ describe('LoginPage', () => {
     );
 
     expect(screen.getByRole('heading', { name: /welcome back/i })).toBeInTheDocument();
-    expect(screen.getByText(/Verified Kenya Rentals/i)).toBeInTheDocument();
+    expect(screen.getByText(/Find.Verify.Move./i)).toBeInTheDocument();
   });
 });
