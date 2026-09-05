@@ -11,29 +11,19 @@ interface AuthCardProps {
 
 /**
  * Shared Google-style auth shell (Login / Register / Verify).
- * Centered white-surface card on the page background with a subtle
- * blue halo, brand mark, title/subtitle and a bottom footer row.
+ * Centered white-surface card on the page background with a
+ * brand mark, title/subtitle and a bottom footer row.
  */
 export const AuthCard: React.FC<AuthCardProps> = ({ title, subtitle, children, footer }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-page px-4 sm:px-6 py-12 relative overflow-hidden">
-      {/* subtle blue decor, hidden on small screens to avoid overflow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -top-40 right-[-10rem] w-[28rem] h-[28rem] rounded-full bg-primary/10 blur-3xl hidden sm:block"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -bottom-40 left-[-10rem] w-[24rem] h-[24rem] rounded-full bg-primary/5 blur-3xl hidden sm:block"
-      />
-
       <div className="relative w-full max-w-md">
         <div className="bg-panel border border-line rounded-2xl shadow-lift p-6 sm:p-10">
           <Link to="/" className="flex items-center justify-center gap-2.5 mb-8">
             <img
               src={logo}
               alt="NyumbaPlug logo"
-              className="w-11 h-11 rounded-xl object-contain shadow-glow"
+              className="w-11 h-11 rounded-xl object-contain"
             />
             <div>
               <span className="display font-bold text-lg leading-none tracking-tightest text-fg">
