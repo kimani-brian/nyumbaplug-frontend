@@ -166,13 +166,6 @@ export const RegisterPage: React.FC = () => {
           </div>
         </div>
 
-        {role === 'manager' && (
-          <p className="flex items-start gap-1.5 text-[11px] text-fg/60 bg-primary-light border border-primary/20 p-2.5 rounded-lg">
-            <Icon name="verified" size={14} className="text-primary shrink-0 mt-0.5" />
-            After registering, you'll submit your national ID for verification before you can list properties.
-          </p>
-        )}
-
         {error && (
           <p role="alert" className="text-xs text-red-500 bg-red-500/10 border border-red-500/20 p-2.5 rounded-lg">
             {error}
