@@ -5,9 +5,8 @@ import {
   ArrowForward,
   StarIcon,
   QuoteIcon,
-  VerifiedIcon,
-  ShieldIcon,
-  LockIcon,
+  SendIcon,
+  CredentialIcon,
 } from '../utils/icons';
 import { SectionHeading } from '../components/common/SectionHeading';
 import { Reveal } from '../components/common/Reveal';
@@ -45,6 +44,24 @@ const TESTIMONIALS = [
   },
 ];
 
+const TENANT_STEPS = [
+  {
+    title: 'Search verified rentals',
+    body: 'Filter by estate, county, unit type and budget. Only vacant, verified listings are promoted, so every result you see is ready to view.',
+    icon: <SearchIcon size={20} />,
+  },
+  {
+    title: 'Review the property manager',
+    body: 'Every listing belongs to a government ID verified manager with a review and reporting history you can check before you reach out.',
+    icon: <CredentialIcon size={20} />,
+  },
+  {
+    title: 'Connect directly',
+    body: 'Contact details unlock only for vacant, verified units, so you deal straight with the person managing the home, with no middlemen involved.',
+    icon: <SendIcon size={20} />,
+  },
+];
+
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
@@ -57,31 +74,33 @@ export const HomePage: React.FC = () => {
   return (
     <div>
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-page">
-        {/* Decorative blue halos (Google Material, no photo overlay) */}
+      <section className="relative overflow-hidden flex min-h-screen flex-col">
+        {/* Background image */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -top-32 -right-24 w-[30rem] h-[30rem] rounded-full bg-primary/10 blur-3xl hidden sm:block"
+          className="absolute inset-0 bg-cover bg-center"
+          style={{
+            backgroundImage:
+              'url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1600&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")',
+          }}
         />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute top-40 -left-32 w-[24rem] h-[24rem] rounded-full bg-primary/5 blur-3xl hidden sm:block"
-        />
+        {/* Readability scrim */}
+        <div aria-hidden="true" className="absolute inset-0 bg-black/55" />
 
-        <div className="relative max-w-7xl mx-auto container-px pt-16 sm:pt-24 pb-16 sm:pb-24">
+        <div className="relative flex-1 max-w-7xl mx-auto container-px pt-28 sm:pt-36 pb-16 sm:pb-24 flex flex-col justify-center w-full">
           <p className="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-6 animate-fade-up">
             The smarter way to find your next home.
           </p>
 
           <h1
-            className="display text-fg font-bold text-4xl sm:text-6xl lg:text-[4.25rem] leading-[1.02] max-w-3xl animate-fade-up"
+            className="display text-white font-bold text-4xl sm:text-6xl lg:text-[4.25rem] leading-[1.02] max-w-3xl animate-fade-up"
             style={{ animationDelay: '0.05s' }}
           >
-            Find a place you can <span className="text-primary">trust.</span>
+            Find a place you can trust.
           </h1>
 
           <p
-            className="text-fg/60 text-sm sm:text-lg mt-5 max-w-xl leading-relaxed animate-fade-up"
+            className="text-white/85 text-sm sm:text-lg mt-5 max-w-xl leading-relaxed animate-fade-up"
             style={{ animationDelay: '0.1s' }}
           >
             Verified units from verified property managers across Kenya. Browse genuine homes, confirm
@@ -110,25 +129,6 @@ export const HomePage: React.FC = () => {
               Search
             </button>
           </form>
-
-          {/* Trust chips */}
-          <div
-            className="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3 text-xs text-fg/60 animate-fade-up"
-            style={{ animationDelay: '0.2s' }}
-          >
-            <span className="inline-flex items-center gap-1.5">
-              <VerifiedIcon size={14} className="text-primary" />
-              Verified property managers
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <ShieldIcon size={14} className="text-primary" />
-              Scam checked listings
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <LockIcon size={14} className="text-primary" />
-              Contact only for vacant, verified units
-            </span>
-          </div>
 
           {/* CTA buttons */}
           <div
@@ -195,7 +195,6 @@ export const HomePage: React.FC = () => {
             <SectionHeading
               kicker="Real stories"
               title="Trusted by tenants & property managers"
-              align="center"
             />
           </Reveal>
           <div className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -222,6 +221,31 @@ export const HomePage: React.FC = () => {
               </Reveal>
             ))}
           </div>
+        </div>
+      </section>
+
+      {/* ============ HOW IT WORKS ============ */}
+      <section id="how-it-works" className="section-pad container-px max-w-7xl mx-auto scroll-mt-20">
+        <Reveal>
+          <SectionHeading
+            kicker="How it works"
+            title="From search to signed lease in three steps."
+            description="A hassle free rental journey, designed around verified listings and direct communication with trusted property managers."
+          />
+        </Reveal>
+
+        <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-5">
+          {TENANT_STEPS.map((s, i) => (
+            <Reveal key={s.title} delay={i * 100}>
+              <div className="relative bg-panel border border-line rounded-2xl p-7 shadow-soft h-full overflow-hidden">
+                <div className="relative mb-5 w-11 h-11 rounded-xl bg-panel border border-line text-primary flex items-center justify-center">
+                  {s.icon}
+                </div>
+                <h3 className="relative display font-bold text-lg text-fg mb-2">{s.title}</h3>
+                <p className="relative text-sm text-fg/60 leading-relaxed">{s.body}</p>
+              </div>
+            </Reveal>
+          ))}
         </div>
       </section>
 

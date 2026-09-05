@@ -72,7 +72,7 @@ export const Navbar: React.FC = () => {
           <img
             src={logo}
             alt="NyumbaPlug logo"
-            className="w-12 h-12 rounded-xl object-contain shadow-glow transition-transform group-hover:scale-105"
+            className="w-12 h-12 rounded-xl object-contain transition-transform group-hover:scale-105"
           />
           <div>
             <span className={`display font-bold text-lg leading-none tracking-tightest ${text}`}>
@@ -87,7 +87,7 @@ export const Navbar: React.FC = () => {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-7">
           {navLink('/properties', 'Units')}
-          {navLink('/#trust', 'How it works')}
+          {navLink('/#how-it-works', 'How it works')}
           {navLink('/#managers', 'Property Managers')}
 
           {loading ? null : user ? (
@@ -141,7 +141,7 @@ export const Navbar: React.FC = () => {
           <div className="max-w-7xl mx-auto px-5 sm:px-8 py-4 space-y-1">
             {[
               { to: '/properties', label: 'Browse rentals' },
-              { to: '/#trust', label: 'How it works' },
+              { to: '/#how-it-works', label: 'How it works' },
               { to: '/#managers', label: 'For property managers' },
             ].map(l => (
               <Link

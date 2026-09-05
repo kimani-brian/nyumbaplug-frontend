@@ -29,7 +29,7 @@ export const Footer: React.FC = () => {
               <img
                 src={logo}
                 alt="NyumbaPlug logo"
-                className="w-11 h-11 rounded-lg object-contain shadow-glow"
+                className="w-11 h-11 rounded-lg object-contain"
               />
 
               <div className="flex flex-col">

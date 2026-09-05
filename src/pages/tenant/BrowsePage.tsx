@@ -4,7 +4,6 @@ import { SearchIcon, ShieldCheckIcon, RestartAltIcon } from '../../utils/icons';
 import { Property } from '../../types';
 import { api } from '../../services/api';
 import { PropertyCard } from '../../components/tenant/PropertyCard';
-import { SectionHeading } from '../../components/common/SectionHeading';
 import { Reveal } from '../../components/common/Reveal';
 
 const PRICE_RANGES: { label: string; min?: number; max?: number }[] = [
@@ -70,24 +69,11 @@ export const BrowsePage: React.FC = () => {
     fetchProperties({ q: '', county: '' });
   };
 
-  const heading = county
-    ? `Verified rentals in ${county}`
-    : query
-      ? `Results for "${query}"`
-      : 'Browse verified rentals';
-
   return (
     <div className="min-h-screen">
       {/* Header */}
       <div className="border-b border-line">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 py-8 sm:py-10">
-          <SectionHeading
-            kicker="Search"
-            title={heading}
-            description="Every listing below is linked to a government ID-verified property manager. Contact is only shown for vacant, verified units."
-            light
-          />
-
           {/* Search row */}
           <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-3 max-w-3xl">
             <div className="flex-1 flex items-center gap-2 px-4 py-2 bg-panel-strong rounded-full border border-line focus-within:border-primary focus-within:ring-4 focus-within:ring-primary/10">
