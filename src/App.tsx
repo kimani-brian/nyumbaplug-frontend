@@ -47,9 +47,9 @@ const AppRoutes: React.FC = () => {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/properties" element={<BrowsePage />} />
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/register" element={<RegisterPage />} />
-      <Route path="/verify" element={<VerifyEmailPage />} />
+      <Route path="/login" element={suspend(<LoginPage />)} />
+      <Route path="/register" element={suspend(<RegisterPage />)} />
+      <Route path="/verify" element={suspend(<VerifyEmailPage />)} />
       <Route path="/properties/:id" element={suspend(<PropertyDetailPage />)} />
 
       <Route
